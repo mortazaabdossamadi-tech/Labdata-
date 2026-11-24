@@ -1,0 +1,3791 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دفتر آزمایش — نسخه ۴</title>
+<style>
+:root{--ink:#241f45;--pk:#b8336a;--bg:#f4f3f7;--card:#fbfafd;--line:#e3e0ec;--mut:#6b6787;--ok:#1c9d7c;--bad:#b5361c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 Vazirmatn,Tahoma,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+.app{display:grid;grid-template-columns:270px 1fr;min-height:100vh}
+aside{background:#ebe8f2;padding:18px 14px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:10px}
+aside h2{margin:0 4px 4px;font-size:19px;font-weight:900}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;transition:background .15s,opacity .15s}
+.btn:hover{background:#f6f4fa}
+.btn.p{background:var(--pk);border-color:var(--pk);color:#fff}
+.btn.p:hover{background:#a02a5b}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff;font-weight:700}
+.btn.ok:hover{background:#158266}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.danger:hover{background:#942a14}
+.btn:disabled{opacity:.5;cursor:default}
+.pl{display:flex;flex-direction:column;gap:4px}
+.pi{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:12px;cursor:pointer;border:0;background:none;text-align:right;width:100%}
+.pi.on{background:var(--card);box-shadow:0 1px 2px #241f4514}
+.pi b{display:block}
+.pi small{color:var(--mut)}
+.av{width:34px;height:34px;border-radius:50%;background:#dcd7e8;display:grid;place-items:center;font-weight:900;flex:none}
+.on .av{background:var(--pk);color:#fff}
+.bd{margin-inline-start:auto;background:var(--bad);color:#fff;border-radius:99px;padding:0 7px;font-size:12px;font-weight:700}
+.ft{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px;font-size:13px}
+.ft .btn{padding:4px 10px}
+main{padding:22px 28px 80px;min-width:0;overflow-x:hidden;max-width:1180px}
+h1{margin:0;font-size:34px;font-weight:900;line-height:1.2}
+.meta{color:var(--mut);display:flex;gap:12px;flex-wrap:wrap;margin:4px 0 12px;align-items:center}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--line)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.row select,.row input[type=search]{border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 9px}
+.sum{background:var(--ink);color:#f4f3f7;border-radius:14px;padding:9px 14px;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}
+.sum span.t{background:#ffffff1c;border-radius:6px;padding:0 7px;font:12px monospace;direction:ltr}
+.nav{display:flex;flex-wrap:wrap;gap:6px}
+.nav a{padding:2px 11px;border-radius:99px;background:#fff;border:1px solid var(--line);text-decoration:none;color:inherit;font-size:13px}
+.nav a:hover{border-color:var(--pk);color:var(--pk)}
+.sec{margin-top:18px;scroll-margin-top:210px}
+.sh{display:flex;align-items:center;gap:8px;font-weight:900;font-size:16px;margin-bottom:8px}
+.dot{width:12px;height:12px;border-radius:4px}
+.sh small{color:var(--mut);font-weight:400}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:9px}
+.c{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:9px 11px;display:flex;flex-direction:column;gap:6px}
+.c.f{border-color:#bfe7db}
+.qk{display:flex;flex-wrap:wrap;gap:4px}
+.qk button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:3px 9px;font-size:12px;cursor:pointer;line-height:1.5}
+.qk button.on{background:#e3f5ef;border-color:var(--ok);color:#12654f;font-weight:800}
+.qk button.on.b{background:#fdeae6;border-color:var(--bad);color:var(--bad)}
+#qstat{font-size:12px;color:var(--mut);margin-top:8px;line-height:1.9}
+.c.bad{border-color:#e9a898;background:#fdf3f0}
+.n{display:flex;justify-content:space-between;gap:6px;align-items:center}
+.n i{font:12px monospace;color:var(--mut);direction:ltr}
+.n .st{border:0;background:none;cursor:pointer;color:#c9c4d8;font-size:17px;line-height:1;padding:0 2px}
+.n .st.on{color:#e0a000}
+.in{display:flex;gap:5px;direction:ltr}
+.in input{flex:1;min-width:0;text-align:center;font:600 19px monospace;border:1px solid var(--line);border-radius:10px;padding:5px;background:#fff}
+.in input:focus{outline:2px solid var(--pk);border-color:transparent}
+.c.err .in input{border-color:var(--bad);background:#fff0ee}
+.in button{width:42px;border:1px solid var(--line);border-radius:10px;background:#f1eef7;font-size:22px;cursor:pointer;user-select:none;touch-action:manipulation}
+.in button:active{background:#e0d9ef}
+.in button.x{width:30px;font-size:15px;color:var(--mut);visibility:hidden}
+.c.f .in button.x{visibility:visible}
+.m{display:flex;flex-wrap:wrap;gap:3px 10px;font-size:12px;color:var(--mut);direction:ltr;justify-content:flex-end;min-height:19px}
+.m .fl{background:var(--bad);color:#fff;border-radius:5px;padding:0 6px;font-weight:700}
+.m .pv{direction:rtl}
+.empty{padding:40px 10px;color:var(--mut);text-align:center}
+
+/* ورودی فایل مخفیِ دسترس‌پذیر (بدون display:none برای جلوگیری از بلاک مرورگرها) */
+.sr-file{position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0;pointer-events:none}
+
+/* دیالوگ‌ها و حالت جایگزین ایمن */
+dialog{border:0;border-radius:18px;padding:22px;width:min(520px,95vw);max-height:92vh;overflow:auto;background:var(--bg);color:var(--ink);box-shadow:0 20px 50px #15102b40}
+dialog::backdrop{background:#0006}
+dialog.dlg-fb{position:fixed;inset:auto;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:1001;display:block}
+#dlgBackdrop{position:fixed;inset:0;background:#0006;z-index:1000;display:none}
+#dlgBackdrop.on{display:block}
+dialog label{display:block;margin:9px 0 3px;font-size:13px;color:var(--mut)}
+dialog input,dialog select,dialog textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:7px 10px;background:#fff}
+dialog input:focus,dialog select:focus,dialog textarea:focus{outline:2px solid var(--pk);border-color:transparent}
+dialog .row{margin-top:14px}
+
+/* پنجره کلید API */
+.krow{display:flex;gap:6px;align-items:stretch}
+.krow input,.krow select{flex:1;min-width:0}
+.krow .eye-btn{width:44px;flex:none;padding:0;font-size:17px}
+.kbadge{margin-top:6px;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px}
+.kbadge.vx{background:#e4f7ef;color:#116b51;border:1px solid #9fdcc4}
+.kbadge.ai{background:#e7f4ff;color:#11538c;border:1px solid #b5dbfa}
+.kbadge.warn{background:#fff4d6;color:#7a5000;border:1px solid #efd081}
+.kbadge.unk{background:#f0edf7;color:var(--mut);border:1px solid var(--line)}
+#ks{font-size:13px;margin-top:10px;line-height:1.65;border-radius:11px;display:none;padding:9px 12px;white-space:pre-line}
+#ks.show{display:block}
+#ks.ok{background:#e3f8ef;border:1px solid #96dfc3;color:#116b51;font-weight:700}
+#ks.err{background:#fdecea;border:1px solid #f2b7ae;color:#8f2511}
+#ks.info{background:#ece9f6;border:1px solid #d5cfe8;color:var(--ink)}
+pre.raw-err{margin:7px 0 0;padding:8px 10px;border-radius:9px;background:#241f45;color:#ffd8d0;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;direction:ltr;text-align:left;white-space:pre-wrap;word-break:break-word;overflow:auto;max-height:160px}
+
+#toast{position:fixed;bottom:14px;left:14px;background:var(--ink);color:#fff;border-radius:10px;padding:7px 14px;font-size:13px;opacity:0;transition:.25s;pointer-events:none;z-index:2000;max-width:90vw}
+#toast.on{opacity:1}
+
+.tabs{display:flex;gap:6px;margin:14px 0 0;border-bottom:2px solid var(--ink)}
+.tab{border:1px solid var(--line);border-bottom:0;background:#fff;border-radius:12px 12px 0 0;padding:7px 20px;cursor:pointer;font-weight:700}
+.tab.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.cmp .g{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.cmp .c{padding:6px 8px;gap:3px;border-radius:10px}
+.cmp .in button{display:none}
+.cmp .in input{font-size:17px;padding:3px}
+.cmp .nm,.cmp .m .un{display:none}
+.cmp .n i{font:700 13px Vazirmatn,Tahoma,sans-serif;color:var(--ink)}
+.cmp .m{min-height:0;font-size:11px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.hf{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px 12px}
+.hf.vt{grid-template-columns:repeat(auto-fill,minmax(105px,1fr))}
+.hf label{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--mut);min-width:0}
+.hf label.w{grid-column:1/-1}
+.hf input,.hf textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:7px 10px;background:#fff;color:var(--ink);font-size:15px;resize:vertical}
+.hf.vt input{text-align:center;font:600 16px monospace}
+.hf textarea{field-sizing:content;min-height:2.6em}
+.hf input:focus,.hf textarea:focus{outline:2px solid var(--pk);border-color:transparent}
+.tl{display:flex;flex-direction:column;gap:6px}
+.tli{display:flex;flex-direction:column;gap:2px;text-align:right;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer}
+.tli.on{border-color:var(--pk)}
+.tli span{font:12px monospace;color:var(--mut)}
+.tli small{color:var(--mut)}
+.qp{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;direction:ltr;min-height:8px}
+.qp span{border-radius:8px;padding:2px 9px;font:13px monospace;background:#e7f5ef;color:#14684f}
+.qp span.w{background:#fff3d6;color:#7a5600}
+.qp span.nx{background:#fdecea;color:var(--bad);direction:rtl;font-family:Vazirmatn,Tahoma,sans-serif;white-space:pre-wrap;word-break:break-word;text-align:right;max-width:100%}
+.qp span.nx pre.raw-err{font-size:11px;margin-top:5px;padding:5px 7px}
+#qt{min-height:110px;font-family:monospace}
+
+/* باکس Drag & Drop و کارت پیش‌نمایش عکس‌ها */
+.dropzone{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin-top:10px;padding:18px 14px;border:2px dashed #b9aecf;border-radius:14px;background:#fff;color:var(--ink);text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+.dropzone:hover,.dropzone.drag{border-color:var(--pk);background:#fdf3f7}
+.dropzone b{font-size:14px}
+.dropzone small{font-size:12px;color:var(--mut)}
+.qthumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px}
+.qthumbs:empty{display:none}
+.qthumb{background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px;display:flex;flex-direction:column;gap:5px;min-width:0}
+.qthumb img{width:100%;height:105px;object-fit:cover;border-radius:8px;background:#ece9f4;display:block}
+.qthumb-name{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;direction:ltr;text-align:left}
+.qthumb-meta{font-size:11px;color:var(--mut);direction:ltr;text-align:left}
+.qthumb-st{font-size:11px;font-weight:700;border-radius:7px;padding:3px 7px;text-align:center}
+.qthumb-st.busy{background:#ece9f6;color:var(--ink)}
+.qthumb-st.done{background:#e3f8ef;color:#116b51}
+.qthumb-st.warn{background:#fff3d6;color:#7a5600}
+.qthumb-st.err{background:#fdecea;color:var(--bad)}
+
+@media(max-width:820px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  aside{position:static;height:auto;min-width:0}
+  .pl{flex-direction:row;overflow:auto;padding-bottom:4px}
+  .pi{width:auto;white-space:nowrap}
+  .ft{margin:0}
+  main{padding:14px 12px 80px}
+  h1{font-size:26px}
+  .g{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bar{position:static}
+  .sec{scroll-margin-top:10px}
+}
+@media(max-width:480px){
+  .g{grid-template-columns:minmax(0,1fr)}
+}
+@media print{
+  aside,.bar .row,.nav,.in button,.tabs,.st{display:none!important}
+  .bar{position:static}
+  .c{break-inside:avoid}
+}
+
+/* ===== تب سیر آزمایشات (جدول + نمودار) ===== */
+.trbar{display:flex;flex-direction:column;gap:9px;padding:12px 0 10px}
+.trbar .row{margin:0}
+.trbar input[type=search],.trbar select{border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 9px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.seg button{border:0;background:none;padding:6px 16px;cursor:pointer;font-weight:700}
+.seg button.on{background:var(--ink);color:#fff}
+.tck{display:inline-flex;gap:5px;align-items:center;font-size:13px;cursor:pointer}
+.trs{margin-inline-start:auto;font-size:12px;color:var(--mut)}
+.trw{overflow:auto;max-height:74vh;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.trt{border-collapse:separate;border-spacing:0;min-width:100%;font-size:14px}
+.trt th,.trt td{padding:6px 10px;border-bottom:1px solid var(--line);white-space:nowrap;text-align:center}
+.trt thead th{position:sticky;top:0;background:#ebe8f2;z-index:2;font-size:12px;font-weight:700;direction:ltr}
+.trt th.s{position:sticky;right:0;background:var(--card);z-index:1;text-align:right;min-width:150px;max-width:200px;white-space:normal;border-left:1px solid var(--line)}
+.trt thead th.s{z-index:3;background:#ebe8f2;direction:rtl}
+.trn{border:0;background:none;text-align:right;cursor:pointer;display:block;width:100%;padding:0}
+.trn b{display:block;font-size:14px}
+.trn small{display:block;color:var(--mut);font-size:11px;font-weight:400;direction:rtl}
+.trn:hover b{color:var(--pk)}
+.trt td.h{background:#fdebe7;color:var(--bad);font-weight:700}
+.trt td.l{background:#e8f0fd;color:#1f55b0;font-weight:700}
+.trt td.e{color:#cfcadc}
+.trt td i{font-style:normal;font-size:10px;margin-inline-start:3px;opacity:.75}
+.trt td.sp{min-width:104px}
+.trt td.sp small{display:block;font-size:11px;color:var(--mut)}
+.trt tr.cg td{background:#f1eef7;font-weight:900;text-align:right;padding:5px 10px}
+.cgl{position:sticky;right:10px;display:inline-flex;gap:7px;align-items:center}
+.spk{display:block;margin:0 auto;direction:ltr}
+.trtools{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:2px 0 8px}
+.trchips{display:flex;flex-wrap:wrap;gap:6px;max-height:132px;overflow:auto;padding:2px 0}
+.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:2px 11px;font:600 12px monospace;cursor:pointer;direction:ltr}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.bad:not(.on){border-color:#e9a898;color:var(--bad)}
+.trleg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--mut);margin:6px 0 0}
+.trleg span{display:inline-flex;align-items:center;gap:5px}
+.trleg i{display:inline-block;width:11px;height:11px;border-radius:3px}
+.trg{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px;margin-top:10px}
+.trc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 12px;min-width:0}
+.trc.bad{border-color:#e9a898}
+.trc.big{grid-column:1/-1}
+.trh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.trh b{font-size:16px}
+.trh i{font:12px monospace;color:var(--mut);direction:ltr;margin-inline-start:6px}
+.trh small{display:block;color:var(--mut);font-size:12px}
+.trv{font:700 24px monospace;direction:ltr;text-align:left;white-space:nowrap}
+.trv small{display:block;font:12px Vazirmatn,Tahoma,sans-serif;color:var(--mut);text-align:left}
+.trsvg{width:100%;height:auto;display:block;margin-top:6px;direction:ltr}
+@media(max-width:820px){.trg{grid-template-columns:minmax(0,1fr)}.trs{margin-inline-start:0}}
+@media print{
+  .trbar,.trchips,.trtools{display:none!important}
+  .trw{max-height:none;overflow:visible}
+  .trc{break-inside:avoid}
+}
+
+/* ===== ذخیره خودکار ===== */
+.asb{font-size:12px;color:var(--mut);border-top:1px solid #d6d1e4;padding-top:10px;display:flex;flex-direction:column;gap:6px;line-height:1.6}
+.asb b{color:var(--ink)}
+.asb .btn{padding:4px 10px;font-size:12px;align-self:flex-start}
+.asd{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-inline-end:6px}
+.asd.w{background:#e0a000}
+@media(max-width:820px){
+  .tabs{gap:4px}
+  .tab{padding:7px 10px;font-size:13px;white-space:nowrap;flex:1 1 auto}
+}
+
+/* ===== تب اسناد و تصاویر ===== */
+.dcq{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.dcq:empty{display:none}
+.dcqi{display:flex;gap:8px;align-items:flex-start;padding:7px 11px;border-radius:10px;background:#ece9f6;font-size:13px}
+.dcqi.ok{background:#e3f8ef;color:#116b51}
+.dcqi.err{background:#fdecea;color:var(--bad)}
+.dcc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 12px;margin-top:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.dch{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.dcf{flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px}
+.dcimg{width:84px;height:84px;object-fit:cover;border-radius:10px;border:1px solid var(--line);cursor:zoom-in;background:#ece9f4;flex:none}
+.dcimg.big{width:100%;max-width:420px;height:auto;object-fit:contain;cursor:zoom-out}
+.dcc label{font-size:13px;color:var(--mut);display:flex;flex-direction:column;gap:3px}
+.dcc input,.dcc select,.dcc textarea{border:1px solid var(--line);border-radius:10px;padding:6px 9px;background:#fff;color:var(--ink);font-size:14px;width:100%}
+.dcc .row select{width:auto}
+.dcc textarea{resize:vertical;field-sizing:content;min-height:2.6em;max-height:340px;overflow:auto}
+.dcc input:focus,.dcc textarea:focus,.dcc select:focus{outline:2px solid var(--pk);border-color:transparent}
+.sec .row input[type=search]{min-width:200px}
+@media print{.dcc .row,.dropzone{display:none!important}.dcc textarea{max-height:none}}
+.aic{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 14px;margin-top:10px}
+.aic b{display:block;margin-bottom:4px}
+.aic p{margin:0;line-height:1.9}
+.aic ul{margin:0;padding-inline-start:20px;line-height:1.85}
+.aic li{margin-bottom:2px}
+@media print{.aic{break-inside:avoid}}
+</style>
+</head>
+<body>
+<!-- ورودی‌های فایل بومی و پایدار خارج از #main تا در بازرسم صفحه قطع نشوند -->
+<input type="file" id="qimgTop" class="sr-file" accept="image/*" multiple>
+<input type="file" id="qimgDrop" class="sr-file" accept="image/*" multiple>
+<input type="file" id="qimgCam" class="sr-file" accept="image/*" capture="environment">
+<input type="file" id="file" class="sr-file" accept=".json">
+<input type="file" id="dcIn" class="sr-file" accept="image/*" multiple>
+<input type="file" id="dcCam" class="sr-file" accept="image/*" capture="environment">
+
+<div class="app">
+  <!-- نوار کناری بیماران و ابزارها -->
+  <aside>
+    <h2>🧪 دفتر آزمایش</h2>
+    <div style="margin:-6px 4px 2px;font-size:12px;color:var(--mut)">نسخه ۴ · عکس، کلیه، شرح حال، اسناد</div>
+    <button type="button" class="btn p" id="newP">+ بیمار جدید</button>
+    <button type="button" class="btn" id="kb" data-a="qkey">🔑 کلید API ✓</button>
+    <div class="pl" id="pl"></div>
+    <div class="ft">
+      <button type="button" class="btn" id="exp">پشتیبان‌گیری</button>
+      <label class="btn" for="file" style="margin:0">بازیابی</label>
+      <button type="button" class="btn" id="dlHtml" data-a="dlhtml">💾 دانلود فایل HTML</button>
+    </div>
+    <div class="asb" id="asBox"></div>
+  </aside>
+  <!-- بدنه اصلی برنامه -->
+  <main id="main"></main>
+</div>
+
+<!-- پس‌زمینه جایگزین دیالوگ در مرورگرهای بدون showModal -->
+<div id="dlgBackdrop"></div>
+
+<!-- پنجره بیمار جدید / ویرایش پرونده -->
+<dialog id="pd">
+  <form id="pf" novalidate>
+    <h3 id="pt" style="margin:0 0 4px">بیمار جدید</h3>
+    <label for="pName">نام و نام خانوادگی</label>
+    <input id="pName" name="name" required autocomplete="off">
+    <div class="row" style="margin:0">
+      <div style="flex:1"><label for="pFile">شماره پرونده</label><input id="pFile" name="file" dir="ltr" autocomplete="off"></div>
+      <div style="flex:1"><label for="pBy">سال تولد (شمسی)</label><input id="pBy" name="by" inputmode="numeric" placeholder="۱۳۶۵" autocomplete="off"></div>
+    </div>
+    <div class="row" style="margin:0">
+      <div style="flex:1"><label for="pSex">جنسیت</label><select id="pSex" name="sex"><option value="f">زن</option><option value="m">مرد</option></select></div>
+      <div style="flex:1"><label for="pBlood">گروه خونی</label><select id="pBlood" name="blood"><option value="">نامشخص</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+    </div>
+    <label for="pNote">تشخیص / یادداشت</label>
+    <textarea id="pNote" name="note" rows="2"></textarea>
+    <div class="row">
+      <button type="submit" class="btn p" id="pSave">ذخیره</button>
+      <button type="button" class="btn" id="pCancel">انصراف</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- پنجره کلید Gemini API و کشف خودکار مدل -->
+<dialog id="kd">
+  <h3 style="margin:0 0 6px">🔑 کلید Gemini API</h3>
+  <div style="font-size:13px;color:var(--mut)">پشتیبانی از کلیدهای Gemini / Vertex Express (<code dir="ltr">AQ....</code>) و Google AI Studio (<code dir="ltr">AIza...</code>). کلید پیش‌فرض تنظیم شده و فقط در همین مرورگر ذخیره می‌ماند.</div>
+
+  <label for="kk">کلید API</label>
+  <div class="krow">
+    <input id="kk" type="password" dir="ltr" autocomplete="off" spellcheck="false" placeholder="AQ.... یا AIza...">
+    <button type="button" class="btn eye-btn" id="ktog" data-a="ktog" title="نمایش / مخفی کردن کلید" aria-label="نمایش یا مخفی کردن کلید">👁️</button>
+  </div>
+  <div id="kbadge" class="kbadge" hidden></div>
+
+  <label for="km">مدل (انتخاب از لیست یا تایپ دستی)</label>
+  <div class="krow">
+    <input id="km" dir="ltr" autocomplete="off" spellcheck="false" value="gemini-3-flash-preview" placeholder="gemini-3-flash-preview">
+  </div>
+  <div class="krow" style="margin-top:6px;flex-wrap:wrap">
+    <select id="kmSel" dir="ltr" aria-label="انتخاب سریع مدل">
+      <option value="gemini-3-flash-preview">gemini-3-flash-preview</option>
+      <option value="gemini-3.1-flash-lite-preview">gemini-3.1-flash-lite-preview</option>
+      <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview</option>
+      <option value="gemini-2.5-flash">gemini-2.5-flash</option>
+      <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite</option>
+      <option value="gemini-2.0-flash">gemini-2.0-flash</option>
+    </select>
+    <button type="button" class="btn" id="klistBtn" data-a="klist" style="white-space:nowrap">🔍 دریافت لیست مدل‌های فعال اکانت من</button>
+  </div>
+
+  <label style="display:flex;gap:7px;align-items:flex-start;margin-top:10px;color:var(--ink)">
+    <input type="checkbox" id="kauto" style="width:auto;margin-top:5px" checked>
+    <span>تعویض خودکار مدل: قبل از رسیدن به سقف سهمیه (یا با خطای ۴۲۹) به مدل سبک‌تر می‌رود.
+    <small style="display:block;color:var(--mut)">سقف هر مدل از روی خطاهای قبلی یاد گرفته می‌شود؛ گوگل سقف باقی‌مانده را اعلام نمی‌کند.</small></span>
+  </label>
+
+  <div id="ks"></div>
+  <pre id="kraw" class="raw-err" dir="ltr" hidden></pre>
+
+  <div class="row">
+    <button type="button" class="btn ok" id="ktestBtn" data-a="ktest">🧪 تست و انتخاب خودکار مدل</button>
+    <button type="button" class="btn p" data-a="ksave">ذخیره</button>
+    <button type="button" class="btn" data-a="kreset">🔄 بازگردانی کلید پیش‌فرض</button>
+    <button type="button" class="btn" data-a="kdel">پاک کردن کلید</button>
+    <button type="button" class="btn" data-a="kclose">بستن</button>
+  </div>
+</dialog>
+
+<!-- پنجره ورود متنی سریع و خواندن عکس آزمایش -->
+<dialog id="qd">
+  <h3 style="margin:0 0 6px">⚡ ورود سریع و خواندن عکس آزمایش</h3>
+  <div style="font-size:13px;color:var(--mut)">عکس برگه آزمایش را انتخاب کن، بکش و رها کن، یا با <kbd>Ctrl+V</kbd> بچسبان تا مقادیر خودکار استخراج شوند.</div>
+
+  <label class="dropzone" id="qdrop" for="qimgDrop">
+    <b>📷 برای انتخاب عکس از گالری یا فایل اینجا کلیک کنید</b>
+    <small>یا عکس را اینجا بکشید و رها کنید (Drag &amp; Drop) یا Ctrl+V بزنید (چند عکس هم می‌شود)</small>
+  </label>
+
+  <div class="row" style="margin:10px 0 0">
+    <label class="btn" for="qimgCam" style="margin:0">📸 گرفتن عکس با دوربین</label>
+    <button type="button" class="btn" data-a="qpaste">📋 چسباندن عکس (Ctrl+V)</button>
+  </div>
+  <div id="qst" style="font-size:13px;color:var(--mut);margin-top:8px"></div>
+  <div class="qthumbs" id="qthumbs"></div>
+
+  <div style="margin-top:8px;font-size:13px;display:flex;flex-wrap:wrap;gap:4px 14px">
+    <label style="display:inline-flex;gap:5px;align-items:center;margin:0;color:var(--ink)"><input type="checkbox" id="qauto" style="width:auto" checked> بعد از تحلیل، خودکار ثبت کن</label>
+    <label style="display:inline-flex;gap:5px;align-items:center;margin:0;color:var(--ink)"><input type="checkbox" id="qdate" style="width:auto" checked> تاریخ را از روی برگه بخوان</label>
+  </div>
+  <div style="font-size:12px;color:var(--mut);margin-top:6px">عکس مستقیم به API گوگل فرستاده می‌شود؛ بهتر است نام و مشخصات بیمار در عکس پوشانده شود.</div>
+
+  <label for="qt">یا متن بنویس — مثال: wbc 7.2 hb 11.4 plt 250 na 138 k 4.1 inr 1.2 trop 8</label>
+  <textarea id="qt" rows="5" dir="ltr" spellcheck="false" autocomplete="off"></textarea>
+  <div class="qp" id="qp"></div>
+  <div class="row">
+    <button type="button" class="btn p" id="qa" data-a="qapply">ثبت در تاریخ <span id="qdt"></span></button>
+    <button type="button" class="btn" id="qun" data-a="qundo" hidden>↩ برگرداندن آخرین ثبت</button>
+    <button type="button" class="btn" data-a="qclose">بستن</button>
+  </div>
+</dialog>
+
+<!-- پنجره تعریف آزمایش جدید (جایگزین prompt مرورگر) -->
+<dialog id="td">
+  <form id="tf" novalidate>
+    <h3 style="margin:0 0 6px">+ تعریف آزمایش جدید</h3>
+    <label for="tName">نام آزمایش</label>
+    <input id="tName" name="name" required autocomplete="off">
+    <div class="row" style="margin:0">
+      <div style="flex:1"><label for="tCode">کد (اختیاری)</label><input id="tCode" name="code" dir="ltr" autocomplete="off"></div>
+      <div style="flex:1"><label for="tCat">دسته‌بندی</label><select id="tCat" name="cat"></select></div>
+    </div>
+    <div class="row" style="margin:0">
+      <div style="flex:1"><label for="tUnit">واحد (اختیاری)</label><input id="tUnit" name="unit" dir="ltr" autocomplete="off"></div>
+      <div style="flex:1"><label for="tLo">حد پایین نرمال (خالی = ندارد)</label><input id="tLo" name="lo" dir="ltr" inputmode="decimal" autocomplete="off"></div>
+      <div style="flex:1"><label for="tHi">حد بالای نرمال (خالی = ندارد)</label><input id="tHi" name="hi" dir="ltr" inputmode="decimal" autocomplete="off"></div>
+    </div>
+    <div class="row">
+      <button type="submit" class="btn p">افزودن آزمایش</button>
+      <button type="button" class="btn" id="tCancel">انصراف</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- پنجره تأیید حذف پرونده بیمار (جایگزین confirm مرورگر) -->
+<dialog id="cd">
+  <h3 style="margin:0 0 6px;color:var(--bad)">حذف پرونده بیمار</h3>
+  <div id="cdMsg" style="font-size:14px;line-height:1.7">این پرونده و همه‌ی جواب‌هایش حذف شود؟ قابل برگشت نیست.</div>
+  <div class="row">
+    <button type="button" class="btn danger" id="cdOk">بله، حذف شود</button>
+    <button type="button" class="btn" id="cdCancel">انصراف</button>
+  </div>
+</dialog>
+
+<div id="toast"></div>
+
+<script>
+/* =========================================================================
+   ۱. ابزارهای پایه و لایه ذخیره‌سازی مقاوم (localStorage + پشتیبان MEM Map)
+   ========================================================================= */
+const P = 'lab-notebook:';
+const Q = s => document.querySelector(s);
+const MEM = new Map();
+let storageWarned = false;
+
+function ld(k, d) {
+  const full = P + k;
+  try {
+    const v = localStorage.getItem(full);
+    if (v != null) {
+      MEM.set(full, v);
+      return JSON.parse(v);
+    }
+  } catch (e) { /* افت خودکار به حافظه داخلی در محیط‌های محدود */ }
+  if (MEM.has(full)) {
+    try { return JSON.parse(MEM.get(full)); } catch (e) { return d; }
+  }
+  return d;
+}
+
+function sv(k, v) {
+  const full = P + k;
+  let raw;
+  try { raw = JSON.stringify(v); } catch (e) { return; }
+  MEM.set(full, raw);
+  try {
+    localStorage.setItem(full, raw);
+  } catch (e) {
+    if (!storageWarned) {
+      storageWarned = true;
+      toast('⚠ حافظه مرورگر محدود است؛ داده‌ها تا بستن این صفحه در حافظه موقت می‌مانند.');
+    }
+  }
+  try { asTouch(k); } catch (e) {}
+}
+
+function rm(k) {
+  const full = P + k;
+  MEM.delete(full);
+  try { localStorage.removeItem(full); } catch (e) {}
+  try { asTouch(k); } catch (e) {}
+}
+
+const uid = () => Math.random().toString(36).slice(2, 9);
+const fa = s => String(s).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+const en = s => String(s ?? '')
+  .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+  .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+  .replace(/[٫،,]/g, '.')
+  .trim();
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+function toast(m) {
+  const t = Q('#toast');
+  if (!t) return;
+  t.textContent = m;
+  t.classList.add('on');
+  clearTimeout(toast.h);
+  toast.h = setTimeout(() => t.classList.remove('on'), 2600);
+}
+
+/* =========================================================================
+   ۲. مدیریت ایمن دیالوگ‌ها (جلوگیری از InvalidStateError + بستن با کلیک بیرون)
+   ========================================================================= */
+const openFallbacks = new Set();
+function syncBackdrop() {
+  const bd = Q('#dlgBackdrop');
+  if (bd) bd.classList.toggle('on', openFallbacks.size > 0);
+}
+
+function openDlg(el) {
+  if (!el) return;
+  if (el.open || el.classList.contains('dlg-fb')) return;
+  try {
+    if (typeof el.showModal === 'function') {
+      el.showModal();
+      return;
+    }
+    throw new Error('no showModal');
+  } catch (e) {
+    el.setAttribute('open', '');
+    el.classList.add('dlg-fb');
+    openFallbacks.add(el);
+    syncBackdrop();
+  }
+}
+
+function closeDlg(el) {
+  if (!el) return;
+  try {
+    if (typeof el.close === 'function' && el.open && !el.classList.contains('dlg-fb')) {
+      el.close();
+    }
+  } catch (e) {}
+  el.removeAttribute('open');
+  el.classList.remove('dlg-fb');
+  openFallbacks.delete(el);
+  syncBackdrop();
+}
+
+/* بستن دیالوگ با کلیک روی پس‌زمینه (هم در حالت بومی و هم در حالت جایگزین) */
+Q('#dlgBackdrop').addEventListener('click', () => [...openFallbacks].forEach(closeDlg));
+document.querySelectorAll('dialog').forEach(dlg => {
+  dlg.addEventListener('click', e => {
+    if (e.target !== dlg || dlg.classList.contains('dlg-fb')) return;
+    const r = dlg.getBoundingClientRect();
+    const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+    if (!inside) closeDlg(dlg);
+  });
+  dlg.addEventListener('cancel', () => {
+    openFallbacks.delete(dlg);
+    dlg.classList.remove('dlg-fb');
+    syncBackdrop();
+  });
+});
+
+/* =========================================================================
+   ۳. تقویم شمسی ایمن با تشخیص دقیق سال کبیسه (اسفند ۲۹ یا ۳۰ روزه)
+   ========================================================================= */
+const MN = 'فروردین اردیبهشت خرداد تیر مرداد شهریور مهر آبان آذر دی بهمن اسفند'.split(' ');
+let jf = null;
+try {
+  jf = new Intl.DateTimeFormat('en-u-ca-persian-nu-latn', { timeZone: 'UTC', year: 'numeric', month: 'numeric', day: 'numeric' });
+} catch (e) { jf = null; }
+
+const today = () => {
+  const e = new Date();
+  return e.getFullYear() + '-' + String(e.getMonth() + 1).padStart(2, '0') + '-' + String(e.getDate()).padStart(2, '0');
+};
+
+function isValidIso(s) {
+  if (typeof s !== 'string') return false;
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return false;
+  const y = +m[1], mo = +m[2], d = +m[3];
+  const dt = new Date(Date.UTC(y, mo - 1, d));
+  return dt.getUTCFullYear() === y && dt.getUTCMonth() === mo - 1 && dt.getUTCDate() === d;
+}
+
+function g2jMath(gy, gm, gd) {
+  const dm = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+  const gy2 = gm > 2 ? gy + 1 : gy;
+  let days = 355666 + (365 * gy) + ~~((gy2 + 3) / 4) - ~~((gy2 + 99) / 100) + ~~((gy2 + 399) / 400) + gd + dm[gm - 1];
+  let jy = -1595 + (33 * ~~(days / 12053));
+  days %= 12053;
+  jy += 4 * ~~(days / 1461);
+  days %= 1461;
+  if (days > 365) { jy += ~~((days - 1) / 365); days = (days - 1) % 365; }
+  const jm = days < 186 ? 1 + ~~(days / 31) : 7 + ~~((days - 186) / 30);
+  const jd = 1 + (days < 186 ? days % 31 : (days - 186) % 30);
+  return [jy, jm, jd];
+}
+
+function i2j(s) {
+  const safe = isValidIso(s) ? s : today();
+  if (jf) {
+    try {
+      const p = {};
+      jf.formatToParts(new Date(safe + 'T00:00:00Z')).forEach(x => { p[x.type] = +x.value; });
+      if (p.year && p.year < 1600 && p.month >= 1 && p.month <= 12 && p.day >= 1 && p.day <= 31) {
+        return [p.year, p.month, p.day];
+      }
+    } catch (e) {}
+  }
+  const [gy, gm, gd] = safe.split('-').map(Number);
+  return g2jMath(gy, gm, gd);
+}
+
+const jDoy = (m, d) => (m <= 6 ? (m - 1) * 31 : 186 + (m - 7) * 30) + d;
+
+/* تبدیل دقیق شمسی به میلادی؛ برای تاریخ نامعتبر (مثل اسفند ۳۰ در سال غیرکبیسه) null برمی‌گرداند */
+function j2iExact(y, m, d) {
+  if (!Number.isInteger(y) || !Number.isInteger(m) || !Number.isInteger(d)) return null;
+  if (y < 1200 || y > 1600 || m < 1 || m > 12 || d < 1 || d > (m <= 6 ? 31 : 30)) return null;
+  let t = Date.UTC(y + 621, 2, 21) + (jDoy(m, d) - 1) * 864e5;
+  for (let i = 0; i < 16; i++) {
+    const s = new Date(t).toISOString().slice(0, 10);
+    const [jy, jm, jd] = i2j(s);
+    if (jy === y && jm === m && jd === d) return s;
+    let df = (jy - y) * 365 + (jDoy(jm, jd) - jDoy(m, d));
+    if (df === 0) {
+      df = (jy > y || (jy === y && (jm > m || (jm === m && jd > d)))) ? 1 : -1;
+    }
+    t -= (Math.abs(df) > 4 ? Math.trunc(df) : Math.sign(df)) * 864e5;
+  }
+  return null;
+}
+
+function j2i(y, m, d) {
+  const maxD = Math.min(Math.max(1, +d || 1), m <= 6 ? 31 : 30);
+  for (let day = maxD; day >= 1; day--) {
+    const iso = j2iExact(+y, +m, day);
+    if (iso) return iso;
+  }
+  return today();
+}
+
+function jalaliMonthDays(y, m) {
+  if (m <= 6) return 31;
+  if (m <= 11) return 30;
+  return j2iExact(y, 12, 30) ? 30 : 29;
+}
+
+function fd(s, short) {
+  if (!s || !isValidIso(s)) return '';
+  const [y, m, d] = i2j(s);
+  return short
+    ? fa(y + '/' + String(m).padStart(2, '0') + '/' + String(d).padStart(2, '0'))
+    : fa(d) + ' ' + (MN[m - 1] || '') + ' ' + fa(y);
+}
+
+/* =========================================================================
+   ۴. فهرست کامل ۱۳ دسته و تمام آزمایش‌های پایه (دقیقاً مطابق نسخه ۳)
+   دسته|شناسه|نام|کد|واحد|حد پایین|حد بالا|گام فلش|پایین‌خانم|بالاخانم
+   ========================================================================= */
+const CATS = {
+  hem: ['خون‌شناسی (CBC)', '#8f6fd0'],
+  coag: ['انعقاد', '#5fa8d8'],
+  elec: ['الکترولیت‌ها و مواد معدنی', '#3f9b5a'],
+  renal: ['کلیه', '#2a8f9d'],
+  ua: ['آنالیز ادرار (U/A)', '#c28a1e'],
+  liver: ['کبد و صفرا', '#d6a21e'],
+  cardiac: ['قلب', '#c9372c'],
+  lipid: ['چربی خون', '#e07b39'],
+  glu: ['قند', '#8b8e98'],
+  thy: ['تیروئید', '#7a5cc0'],
+  vit: ['ویتامین، آهن و هورمون', '#b8336a'],
+  inf: ['التهاب و عفونت', '#a0603c'],
+  hep: ['هپاتیت‌ها', '#c2693a'],
+  hiv: ['HIV / ایدز', '#9a2f4f'],
+  abg: ['گازهای خون (ABG)', '#4f7fd9'],
+  other: ['سایر', '#6b6787']
+};
+
+const BASE = `hem|wbc|گلبول سفید|WBC|×10³/µL|4|10|.1
+hem|rbc|گلبول قرمز|RBC|×10⁶/µL|4.5|5.9|.1|4.1|5.1
+hem|hb|هموگلوبین|Hb|g/dL|13.5|17.5|.1|12|15.5
+hem|hct|هماتوکریت|HCT|%|41|53|.1|36|46
+hem|mcv|حجم متوسط گلبول|MCV|fL|80|100|1
+hem|mch|MCH|MCH|pg|27|33|.1
+hem|rdw|RDW|RDW|%|11.5|14.5|.1
+hem|plt|پلاکت|PLT|×10³/µL|150|450|5
+hem|neut|نوتروفیل|Neut|%|40|75|1
+hem|lymph|لنفوسیت|Lymph|%|20|45|1
+hem|ret|رتیکولوسیت|Retic|%|.5|2.5|.1
+hem|esr|سدیمان|ESR|mm/h|0|20|1
+coag|pt|زمان پروترومبین|PT|s|11|13.5|.1
+coag|inr|نسبت بین‌المللی|INR||.8|1.2|.1
+coag|ptt|زمان ترومبوپلاستین|PTT|s|25|35|1
+coag|fib|فیبرینوژن|Fibrinogen|mg/dL|200|400|10
+coag|dd|دی‌دایمر|D-dimer|ng/mL|0|500|50
+elec|na|سدیم|Na|mmol/L|135|145|1
+elec|k|پتاسیم|K|mmol/L|3.5|5.1|.1
+elec|cl|کلر|Cl|mmol/L|98|107|1
+elec|bic|بی‌کربنات سرم|HCO₃|mmol/L|22|29|1
+elec|ca|کلسیم|Ca|mg/dL|8.6|10.3|.1
+elec|mg|منیزیم|Mg|mg/dL|1.7|2.2|.1
+elec|phos|فسفر|Phos|mg/dL|2.5|4.5|.1
+elec|ag|آنیون گپ|AG|mmol/L|8|16|1
+renal|urea|اوره|Urea|mg/dL|15|45|1
+renal|bun|BUN|BUN|mg/dL|7|20|1
+renal|cr|کراتینین|Cr|mg/dL|.7|1.3|.1|.6|1.1
+renal|ua|اسید اوریک (سرم)|Uric Acid|mg/dL|3.5|7.2|.1
+renal|egfr|eGFR|eGFR|mL/min|90||1
+renal|crcl|کلیرانس کراتینین|CrCl|mL/min|90||1
+renal|bcr|نسبت BUN به کراتینین|BUN/Cr||10|20|1
+renal|cysc|سیستاتین C|Cys-C|mg/L|.5|1|.01
+renal|sosm|اسمولالیته سرم|S.Osm|mOsm/kg|275|295|1
+renal|uosm|اسمولالیته ادرار|U.Osm|mOsm/kg|50|1200|10
+renal|una|سدیم ادرار|U.Na|mmol/L|||1
+renal|uk|پتاسیم ادرار|U.K|mmol/L|||1
+renal|ucr|کراتینین ادرار|U.Cr|mg/dL|||1
+renal|uprot|پروتئین ادرار (تصادفی)|U.Prot|mg/dL|0|15|1
+renal|upcr|نسبت پروتئین به کراتینین ادرار|UPCR|mg/g|0|150|10
+renal|uacr|نسبت آلبومین به کراتینین ادرار|UACR|mg/g|0|30|5
+renal|p24|پروتئین ادرار ۲۴ ساعته|24h Prot|mg/24h|0|150|10
+ua|ua_ph|pH ادرار|U/A pH||4.5|8|.5
+ua|ua_sg|وزن مخصوص ادرار|U/A SG||1.005|1.03|.005
+ua|ua_pro|پروتئین ادرار (دیپ‌استیک)|U/A Prot|0=neg .5=trace 1-4=+1..+4||0|.5
+ua|ua_glu|گلوکز ادرار|U/A Glu|0=neg .5=trace 1-4=+1..+4||0|.5
+ua|ua_ket|کتون ادرار|U/A Ket|0=neg .5=trace 1-4=+1..+4||0|.5
+ua|ua_bld|خون ادرار (دیپ‌استیک)|U/A Blood|0=neg .5=trace 1-4=+1..+4||0|.5
+ua|ua_bil|بیلی‌روبین ادرار|U/A Bili|0=neg .5=trace 1-4=+1..+4||0|.5
+ua|ua_uro|اوروبیلینوژن|U/A Urobil|mg/dL|0.2|1|.1
+ua|ua_nit|نیتریت|U/A Nitrite|0=neg 1=pos||0|1
+ua|ua_le|لکوسیت استراز|U/A LE|0=neg .5=trace 1-4=+1..+4||0|.5
+ua|ua_wbc|WBC ادرار (در HPF)|U/A WBC|/HPF|0|5|1
+ua|ua_rbc|RBC ادرار (در HPF)|U/A RBC|/HPF|0|3|1
+ua|ua_epi|سلول اپیتلیال|U/A Epi|/HPF|0|5|1
+ua|ua_bac|باکتری ادرار|U/A Bact|0=none 1=few 2=mod 3=many||0|1
+ua|ua_cast|کست ادرار|U/A Cast|/LPF|0|2|1
+ua|ua_cry|کریستال ادرار|U/A Crystal|0=none 1=few 2=mod 3=many||0|1
+liver|ast|آنزیم کبدی AST|AST|U/L|0|40|1
+liver|alt|آنزیم کبدی ALT|ALT|U/L|0|41|1
+liver|alp|آلکالن فسفاتاز|ALP|U/L|44|147|5
+liver|ggt|گاما GT|GGT|U/L|8|61|1|5|36
+liver|bilt|بیلی‌روبین تام|Bili-T|mg/dL|.1|1.2|.1
+liver|bild|بیلی‌روبین مستقیم|Bili-D|mg/dL|0|.3|.1
+liver|alb|آلبومین|Alb|g/dL|3.5|5.2|.1
+liver|tp|پروتئین تام|TP|g/dL|6.4|8.3|.1
+liver|ldh|LDH|LDH|U/L|140|280|10
+cardiac|trop|تروپونین hs (کمّی)|Trop|ng/L|0|14|1
+cardiac|ck|CK|CK|U/L|30|200|10
+cardiac|ckmb|CK-MB|CK-MB|U/L|0|25|1
+cardiac|bnp|BNP|BNP|pg/mL|0|100|10
+cardiac|ntp|NT-proBNP|NT-proBNP|pg/mL|0|125|25
+lipid|chol|کلسترول|Chol|mg/dL|0|200|5
+lipid|tg|تری‌گلیسرید|TG|mg/dL|0|150|5
+lipid|hdl|کلسترول خوب|HDL|mg/dL|40|90|1
+lipid|ldl|کلسترول بد|LDL|mg/dL|0|100|5
+glu|fbs|قند ناشتا|FBS|mg/dL|70|100|1
+glu|2hpp|قند دو ساعته|2hPP|mg/dL|70|140|1
+glu|a1c|هموگلوبین A1c|HbA1c|%|4|5.6|.1
+thy|tsh|هورمون محرک تیروئید|TSH|mIU/L|.4|4|.1
+thy|t4|تیروکسین آزاد|FT4|ng/dL|.8|1.8|.1
+thy|ft3|تری‌یدوتیرونین آزاد|FT3|pg/mL|2.3|4.2|.1
+vit|vitd|ویتامین D|25-OH D|ng/mL|30|100|1
+vit|b12|ویتامین B12|B12|pg/mL|200|900|10
+vit|ferr|فریتین|Ferritin|ng/mL|30|400|5|13|150
+vit|fe|آهن سرم|Fe|µg/dL|60|170|5
+vit|tibc|TIBC|TIBC|µg/dL|250|450|10
+vit|fol|فولات|Folate|ng/mL|3||.5
+inf|crp|پروتئین واکنشی C|CRP|mg/L|0|6|1
+inf|pct|پروکلسی‌تونین|PCT|ng/mL|0|.5|.1
+inf|lac|لاکتات|Lactate|mmol/L|.5|2.2|.1
+abg|ph|pH|pH||7.35|7.45|.01
+abg|pco2|pCO₂|pCO₂|mmHg|35|45|1
+abg|po2|pO₂|pO₂|mmHg|80|100|1
+abg|hco3a|بی‌کربنات|HCO₃ (ABG)|mmol/L|22|26|1
+abg|be|BE|BE|mmol/L|-2|2|1
+abg|sao2|SaO₂|SaO₂|%|95|100|1
+other|amy|آمیلاز|Amylase|U/L|28|100|5
+other|lip|لیپاز|Lipase|U/L|0|160|5
+lipid|nhdl|کلسترول غیر-HDL|Non-HDL|mg/dL|0|130|5
+lipid|vldl|VLDL|VLDL|mg/dL|5|40|1
+lipid|chdl|نسبت کلسترول به HDL|Chol/HDL||0|5|0.1
+lipid|ldlhdl|نسبت LDL به HDL|LDL/HDL||0|3.5|0.1
+lipid|lpa|لیپوپروتئین a|Lp(a)|mg/dL|0|30|1
+lipid|apoa|آپولیپوپروتئین A1|ApoA1|mg/dL|105|205|5
+lipid|apob|آپولیپوپروتئین B|ApoB|mg/dL|55|130|5
+thy|t3|تری‌یدوتیرونین تام|T3 total|ng/dL|80|200|5
+thy|t4tot|تیروکسین تام|T4 total|µg/dL|4.5|12|0.1
+thy|tpo|آنتی‌بادی ضد TPO|Anti-TPO|IU/mL|0|35|1
+thy|atg|آنتی‌بادی ضد تیروگلوبولین|Anti-Tg|IU/mL|0|40|1
+thy|trab|آنتی‌بادی گیرنده TSH|TRAb|IU/L|0|1.75|0.1
+thy|tgl|تیروگلوبولین|Tg|ng/mL|1.4|78|1
+cardiac|tropt|تروپونین T (hs، کمّی)|hs-cTnT|ng/L|0|14|1
+cardiac|tropi|تروپونین I (کمّی، معمولی)|cTnI|ng/mL|0|0.04|0.01
+cardiac|tropq|تروپونین کیفی (کارت سریع)|Trop Qual|||0|1
+hep|hbsag|HBsAg (آنتی‌ژن سطحی B)|HBsAg|||0|1
+hep|ahbs|Anti-HBs (تیتر)|Anti-HBs|mIU/mL|10||1
+hep|ahbsq|Anti-HBs (کیفی)|Anti-HBs Q||||1
+hep|hbcab|Anti-HBc Total|Anti-HBc|||0|1
+hep|hbcm|Anti-HBc IgM|HBc IgM|||0|1
+hep|hbeag|HBeAg|HBeAg|||0|1
+hep|hbeab|Anti-HBe|Anti-HBe||||1
+hep|hbvdna|HBV DNA (بار ویروسی)|HBV DNA|IU/mL||20|1
+hep|hcvab|Anti-HCV|Anti-HCV|||0|1
+hep|hcvrna|HCV RNA (بار ویروسی)|HCV RNA|IU/mL||15|1
+hep|havm|Anti-HAV IgM|HAV IgM|||0|1
+hep|havg|Anti-HAV IgG|HAV IgG||||1
+hep|hdvab|Anti-HDV|Anti-HDV|||0|1
+hep|hevm|Anti-HEV IgM|HEV IgM|||0|1
+hiv|hiv4|HIV Ag/Ab (نسل ۴)|HIV Ag/Ab|||0|1
+hiv|hivrap|HIV Ab (تست سریع)|HIV Rapid|||0|1
+hiv|hivconf|HIV تأییدی (WB / Differentiation)|HIV Confirm|||0|1
+hiv|hivrna|HIV RNA (بار ویروسی)|HIV VL|copies/mL||20|1
+hiv|cd4|CD4 (تعداد مطلق)|CD4|cells/µL|500|1500|10
+hiv|cd4p|CD4 (درصد)|CD4 %|%|30|60|1
+hiv|cd48|نسبت CD4/CD8|CD4/CD8||1|3|0.1`;
+
+/* مقیاس‌های کیفی: مقدار عددی ذخیره می‌شود، برچسب فارسی نمایش داده می‌شود */
+const SC = {
+  g: { v: [0, .5, 1, 2, 3, 4], l: ['منفی', 'اثر', '+۱', '+۲', '+۳', '+۴'], hint: 'منفی · اثر · ۱+ تا ۴+', ai: 'qualitative: 0=neg .5=trace 1-4=+1..+4' },
+  n: { v: [0, 1], l: ['منفی', 'مثبت'], hint: 'منفی / مثبت', ai: 'qualitative: 0=neg/non-reactive 1=pos/reactive' },
+  b: { v: [0, .5, 1], l: ['منفی', 'مرزی', 'مثبت'], hint: 'منفی / مرزی / مثبت', ai: 'qualitative: 0=neg/non-reactive .5=borderline/equivocal 1=pos/reactive' },
+  c: { v: [0, 1, 2, 3], l: ['ندارد', 'کم', 'متوسط', 'زیاد'], hint: 'ندارد · کم · متوسط · زیاد', ai: 'qualitative: 0=none 1=few 2=moderate 3=many' }
+};
+const QSC = {
+  ua_pro: 'g', ua_glu: 'g', ua_ket: 'g', ua_bld: 'g', ua_bil: 'g', ua_le: 'g', ua_nit: 'n', ua_bac: 'c', ua_cry: 'c',
+  hbsag: 'b', ahbsq: 'b', hbcab: 'b', hbcm: 'b', hbeag: 'b', hbeab: 'b', hcvab: 'b', havm: 'b', havg: 'b', hdvab: 'b', hevm: 'b',
+  hiv4: 'b', hivconf: 'b', hivrap: 'n', tropq: 'n'
+};
+const num = x => x === '' || x == null ? null : +x;
+const BT = BASE.split('\n').map(l => {
+  const a = l.split('|');
+  const sc = QSC[a[1]];
+  return { cat: a[0], id: a[1], name: a[2], code: a[3], unit: sc ? SC[sc].hint : a[4], sc, lo: num(a[5]), hi: num(a[6]), st: +a[7] || 1, loF: num(a[8]), hiF: num(a[9]) };
+});
+const OLD = { chem: 'other', hor: 'vit' };
+const tests = () => [...BT, ...ld('catalog', []).map(t => ({ st: 1, ...t, cat: CATS[t.cat] ? t.cat : (OLD[t.cat] || 'other') }))];
+const rng = (t, sex) => sex === 'f' && (t.loF != null || t.hiF != null) ? { lo: t.loF ?? null, hi: t.hiF ?? null } : { lo: t.lo ?? null, hi: t.hi ?? null };
+const flag = (v, r) => v == null ? '' : r.lo != null && v < r.lo ? 'L' : r.hi != null && v > r.hi ? 'H' : 'N';
+const dec = s => (String(s).split('.')[1] || '').length;
+const fv = v => v == null ? '' : String(+(+v).toFixed(3));
+const sci = t => t && t.sc ? SC[t.sc] : null;
+const qlab = (t, v) => { const q = sci(t); if (!q || v == null) return ''; const i = q.v.findIndex(x => Math.abs(x - v) < 1e-9); return i < 0 ? '' : q.l[i]; };
+const fq = (t, v) => qlab(t, v) || fv(v);
+
+/* فرمت بالینی محدوده مرجع (دوطرفه و یک‌طرفه) */
+function qrange(t, r) {
+  const q = sci(t);
+  if (!q) return fmtRange(r);
+  if (r.hi == null && r.lo == null) return '';
+  if (r.hi != null) return (r.hi === q.v[0] ? 'طبیعی: ' : 'طبیعی: تا ') + qlab(t, r.hi);
+  return 'طبیعی: ' + qlab(t, r.lo) + ' یا بیشتر';
+}
+function qchips(t, v) {
+  const q = sci(t);
+  if (!q) return '';
+  const r = rng(t, M.sex);
+  return `<div class="qk">${q.v.map((x, i) => {
+    const on = v != null && Math.abs(v - x) < 1e-9;
+    return `<button type="button" tabindex="-1" data-qv="${x}" class="${on ? 'on' + (flag(x, r) === 'H' ? ' b' : '') : ''}">${q.l[i]}</button>`;
+  }).join('')}</div>`;
+}
+function fmtRange(r) {
+  if (r.lo != null && r.hi != null) return `${fa(fv(r.lo))}–${fa(fv(r.hi))}`;
+  if (r.lo != null) return `≥ ${fa(fv(r.lo))}`;
+  if (r.hi != null) return `≤ ${fa(fv(r.hi))}`;
+  return '';
+}
+
+/* =========================================================================
+   ۵. وضعیت برنامه و پنل پین‌شده
+   ========================================================================= */
+let idx = ld('idx', []);
+let sel = ld('sel', null);
+let M = null, R = {}, D = today(), TS = tests(), TAB = 'lab';
+let F = { q: '', bad: false, fill: false, pin: !!ld('pinf', false), cmp: !!ld('cmp', false) };
+const PIN0 = ['wbc', 'hb', 'plt', 'pt', 'ptt', 'inr', 'ast', 'alt', 'alp', 'bilt', 'trop', 'k', 'na', 'mg', 'phos', 'urea', 'bun', 'cr', 'egfr'];
+const pins = () => new Set(ld('pins', PIN0));
+
+/* افزودن یک‌باره‌ی آزمایش‌های کلیه به پنل ذخیره‌شده */
+(() => {
+  if (ld('pins_renal', false)) return;
+  const a = ld('pins', null);
+  if (a) {
+    const s = new Set(a);
+    ['urea', 'bun', 'cr', 'egfr'].forEach(x => s.add(x));
+    sv('pins', [...s]);
+  }
+  sv('pins_renal', true);
+})();
+
+let PN = pins();
+if (!idx.includes(sel)) sel = idx[idx.length - 1] || null;
+const meta = id => ld('p/' + id, null);
+
+function openPatient(id) {
+  try { dcFlush(); } catch (e) {}
+  sel = id;
+  sv('sel', id);
+  M = meta(id);
+  R = {};
+  TS = tests();
+  if (M) {
+    TS.forEach(t => {
+      const a = ld('r/' + id + '/' + t.id, []);
+      if (a.length) R[t.id] = a;
+    });
+  }
+  PN = pins();
+  DOCS = ld('doc/' + id, []);
+  DOCS_PID = id;
+  LASTU = [];
+  const ds = uDates();
+  const sd = ld('d/' + id, null);
+  D = sd && isValidIso(sd) && ds.includes(sd) ? sd : (ds.length && isValidIso(ds[ds.length - 1]) ? ds[ds.length - 1] : today());
+  render();
+}
+
+const labDates = () => [...new Set(Object.values(R).flatMap(a => a.map(p => p.d)).filter(isValidIso))].sort();
+const uDates = () => [...new Set([...labDates(), ...Object.keys((M && M.notes) || {}).filter(isValidIso)])].sort();
+const DS = () => TAB === 'hx' ? uDates() : labDates();
+const at = (t, d) => (R[t] || []).find(p => p.d === d)?.v;
+const prev = (t, d) => { const a = (R[t] || []).filter(p => p.d < d); return a[a.length - 1]; };
+
+/* ثبت مقدار در تاریخ دلخواه بدون دستکاری متغیر سراسری D؛ امکان به تعویق انداختن syncMeta در ثبت گروهی */
+function setVal(t, v, targetDate = D, deferSync = false) {
+  if (!sel || !M) return;
+  const dt = isValidIso(targetDate) ? targetDate : today();
+  const k = 'r/' + sel + '/' + t;
+  let a = (R[t] || []).filter(p => p.d !== dt);
+  if (v != null && isFinite(v)) a.push({ id: uid(), d: dt, v });
+  a.sort((x, y) => x.d < y.d ? -1 : 1);
+  if (a.length) R[t] = a; else delete R[t];
+  sv(k, a);
+  if (!deferSync) syncMeta();
+}
+
+function computeMetaStats(patientMeta, resultsMap, catalogTests) {
+  const by = Object.fromEntries(catalogTests.map(t => [t.id, t]));
+  const ids = Object.keys(resultsMap).filter(k => Array.isArray(resultsMap[k]) && resultsMap[k].length);
+  let last = '', fl = 0;
+  ids.forEach(i => {
+    const a = resultsMap[i].slice().sort((x, y) => x.d < y.d ? -1 : 1);
+    const p = a[a.length - 1];
+    if (p && p.d > last) last = p.d;
+    const f = flag(p?.v, rng(by[i] || {}, patientMeta.sex));
+    if (f === 'H' || f === 'L') fl++;
+  });
+  return { ...patientMeta, tests: ids, last, flags: fl };
+}
+
+function syncMeta() {
+  if (!M || !sel) return;
+  M = computeMetaStats(M, R, TS);
+  sv('p/' + sel, M);
+  side();
+  sum();
+}
+
+/* =========================================================================
+   ۶. رسم رابط کاربری
+   ========================================================================= */
+function side() {
+  Q('#pl').innerHTML = idx.map(meta).filter(Boolean).reverse().map(p => `
+    <button type="button" class="pi ${p.id === sel ? 'on' : ''}" data-id="${p.id}">
+      <span class="av">${esc((p.name || '؟').trim()[0] || '؟')}</span>
+      <span><b>${esc(p.name)}</b><small>${p.last ? fd(p.last, 1) : 'بدون جواب'}${p.file ? ' · ' + esc(p.file) : ''}</small></span>
+      ${p.flags > 0 ? `<span class="bd">${fa(p.flags)}</span>` : ''}
+    </button>`).join('') || '<small style="color:var(--mut);padding:8px">هنوز بیماری نداری</small>';
+}
+
+function dateBar() {
+  if (!isValidIso(D)) D = today();
+  const ds = DS(), hx = TAB === 'hx';
+  const [y, m, d] = i2j(D), cy = i2j(today())[0];
+  const maxDay = jalaliMonthDays(y, m);
+  const ys = [];
+  for (let i = Math.min(y, cy - 8); i <= Math.max(y, cy + 1); i++) ys.push(i);
+  const i = ds.indexOf(D);
+  return `<div class="row">
+    <button type="button" class="btn" data-a="prev" ${(i > 0 || (i < 0 && ds.some(x => x < D))) ? '' : 'disabled'}>→ ${hx ? 'قبلی' : 'نمونه قبلی'}</button>
+    <select id="dd">${Array.from({ length: maxDay }, (_, k) => `<option value="${k + 1}" ${k + 1 === Math.min(d, maxDay) ? 'selected' : ''}>${fa(k + 1)}</option>`).join('')}</select>
+    <select id="dm">${MN.map((n, k) => `<option value="${k + 1}" ${k + 1 === m ? 'selected' : ''}>${n}</option>`).join('')}</select>
+    <select id="dy">${ys.map(v => `<option value="${v}" ${v === y ? 'selected' : ''}>${fa(v)}</option>`).join('')}</select>
+    <button type="button" class="btn" data-a="next" ${(i >= 0 && i < ds.length - 1) || (i < 0 && ds.some(x => x > D)) ? '' : 'disabled'}>${hx ? 'بعدی' : 'نمونه بعدی'} ←</button>
+    <button type="button" class="btn" data-a="today">امروز</button>
+    ${ds.length ? `<select id="dl"><option value="">${hx ? 'روزهای ثبت‌شده…' : 'نمونه‌های ثبت‌شده…'}</option>${ds.slice().reverse().map(x => `<option value="${x}">${fd(x)}</option>`).join('')}</select>` : ''}
+  </div>`;
+}
+
+function render() {
+  const m = Q('#main');
+  if (!M) {
+    m.innerHTML = `<div class="empty">
+      <h1>جواب هر آزمایش، سر جای خودش.</h1>
+      <p>یک بیمار بساز و همه‌ی آزمایش‌ها را یک‌جا و دسته‌بندی‌شده وارد کن.</p>
+      <button type="button" class="btn p" id="n2">+ اولین بیمار</button>
+      <button type="button" class="btn" id="smp">پرونده نمونه</button>
+    </div>`;
+    side();
+    return;
+  }
+  if (sel && isValidIso(D)) sv('d/' + sel, D);
+  const age = M.by ? i2j(today())[0] - M.by : null;
+  const head = `<div class="meta">
+    ${M.file ? `<b style="color:var(--pk)">#${esc(M.file)}</b>` : ''}
+    ${age != null ? `<span>${fa(age)} ساله</span>` : ''}
+    <span>${M.sex === 'm' ? 'مرد' : 'زن'}</span>
+    ${M.blood ? `<span dir="ltr">${esc(M.blood)}</span>` : ''}
+    <span style="margin-inline-start:auto;display:flex;gap:6px;flex-wrap:wrap">
+      <button type="button" class="btn" data-a="edit">ویرایش</button>
+      <button type="button" class="btn" data-a="print">چاپ</button>
+      <button type="button" class="btn" data-a="del" style="color:var(--bad)">حذف</button>
+    </span>
+  </div>
+  <h1>${esc(M.name)}</h1>
+  ${M.note ? `<div class="meta">${esc(M.note)}</div>` : ''}
+  <div class="tabs">
+    <button type="button" class="tab ${TAB === 'lab' ? 'on' : ''}" data-a="tab" data-tab="lab">🧪 آزمایش‌ها</button>
+    <button type="button" class="tab ${TAB === 'tr' ? 'on' : ''}" data-a="tab" data-tab="tr">📈 سیر آزمایشات</button>
+    <button type="button" class="tab ${TAB === 'hx' ? 'on' : ''}" data-a="tab" data-tab="hx">📋 شرح حال</button>
+    <button type="button" class="tab ${TAB === 'doc' ? 'on' : ''}" data-a="tab" data-tab="doc">🗂️ اسناد و تصاویر</button>
+    <button type="button" class="tab ${TAB === 'ai' ? 'on' : ''}" data-a="tab" data-tab="ai">🧠 تحلیل هوشمند</button>
+  </div>`;
+  m.innerHTML = head + (TAB === 'hx' ? hxView() : TAB === 'tr' ? trView() : TAB === 'doc' ? docView() : TAB === 'ai' ? aiView() : labView());
+  if (TAB === 'lab') { grid(); sum(); }
+  if (TAB === 'doc') dcRefresh();
+  side();
+}
+
+function labView() {
+  return `<div class="bar">
+    ${dateBar()}
+    <div class="sum" id="sum"></div>
+    <div class="row">
+      <input type="search" id="q" placeholder="جستجو؛ Enter = پرش به اولین نتیجه" value="${esc(F.q)}" autocomplete="off">
+      <button type="button" class="btn ${F.pin ? 'p' : ''}" data-a="pinf">⭐ پنل من</button>
+      <button type="button" class="btn ${F.cmp ? 'p' : ''}" data-a="cmp">▦ فشرده</button>
+      <label class="btn p" id="qcamBtn" for="qimgTop" style="margin:0">📷 عکس آزمایش</label>
+      <button type="button" class="btn" data-a="qopen">⚡ ورود متنی</button>
+      <button type="button" class="btn" data-a="qkey">🔑 کلید API</button>
+      <label><input type="checkbox" id="fb" ${F.bad ? 'checked' : ''}> فقط غیرطبیعی</label>
+      <label><input type="checkbox" id="ff" ${F.fill ? 'checked' : ''}> فقط پرشده‌ها</label>
+    </div>
+    <div class="nav" id="nav"></div>
+  </div>
+  <div id="grid" class="${F.cmp ? 'cmp' : ''}"></div>`;
+}
+
+function cell(t) {
+  const v = at(t.id, D), r = rng(t, M.sex), f = flag(v, r), p = prev(t.id, D);
+  const rg = qrange(t, r);
+  const dl = p && v != null ? v - p.v : null;
+  return `<div class="c ${v != null ? 'f' : ''} ${f === 'H' || f === 'L' ? 'bad' : ''}" data-t="${t.id}">
+    <div class="n">
+      <b class="nm">${esc(t.name)}</b><i>${esc(t.code)}</i>
+      <button type="button" class="st ${PN.has(t.id) ? 'on' : ''}" data-a="pin" data-t="${t.id}" tabindex="-1" title="افزودن/حذف از پنل من">★</button>
+    </div>
+    <div class="in">
+      <button type="button" data-s="-1" tabindex="-1">−</button>
+      <input inputmode="decimal" autocomplete="off" value="${v != null ? fv(v) : ''}" aria-label="${esc(t.name)}">
+      <button type="button" data-s="1" tabindex="-1">+</button>
+      <button type="button" class="x" data-s="x" tabindex="-1">✕</button>
+    </div>
+    ${qchips(t, v)}
+    <div class="m">
+      <span class="fl" ${f === 'H' || f === 'L' ? '' : 'hidden'}>${t.sc ? '⚠ غیرطبیعی' : f === 'H' ? '↑ بالا' : '↓ پایین'}</span>
+      <span class="un">${esc(t.unit)}</span>
+      <span class="un">${rg}</span>
+      <span class="pv">${p ? `قبلی: ${fa(fq(t, p.v))} (${fd(p.d, 1)})${dl != null && dl ? ` ${dl > 0 ? '▲' : '▼'}` : ''}` : ''}</span>
+    </div>
+  </div>`;
+}
+
+function grid() {
+  const q = F.q.trim().toLowerCase();
+  let h = '', nav = '';
+  Object.keys(CATS).forEach(c => {
+    let L = TS.filter(t => t.cat === c);
+    const all = L.length;
+    L = L.filter(t => {
+      const v = at(t.id, D);
+      return (!q || (t.name + ' ' + t.code + ' ' + (CATS[t.cat] ? CATS[t.cat][0] : '') + (t.cat === 'ua' ? ' urine urinalysis' : '')).toLowerCase().includes(q)) &&
+        (!F.pin || PN.has(t.id)) && (!F.fill || v != null) &&
+        (!F.bad || ['H', 'L'].includes(flag(v, rng(t, M.sex))));
+    });
+    if (!L.length && c !== 'other') return;
+    const n = TS.filter(t => t.cat === c && at(t.id, D) != null).length;
+    nav += `<a href="#s-${c}">${CATS[c][0]}</a>`;
+    h += `<section class="sec" id="s-${c}">
+      <div class="sh"><span class="dot" style="background:${CATS[c][1]}"></span>${CATS[c][0]} <small>${fa(n)}/${fa(all)}</small></div>
+      <div class="g">${L.map(cell).join('')}</div>
+      ${c === 'other' ? `<div class="row" style="margin-top:9px"><button type="button" class="btn" data-a="newT">+ تعریف آزمایش جدید</button></div>` : ''}
+    </section>`;
+  });
+  Q('#grid').innerHTML = h || '<div class="empty">موردی پیدا نشد.</div>';
+  Q('#nav').innerHTML = nav;
+}
+
+function sum() {
+  const b = [];
+  let n = 0;
+  TS.forEach(t => {
+    const v = at(t.id, D);
+    if (v == null) return;
+    n++;
+    const f = flag(v, rng(t, M.sex));
+    if (f === 'H' || f === 'L') b.push(`<span class="t">${esc(t.code)} ${f === 'H' ? '↑' : '↓'}</span>`);
+  });
+  const e = Q('#sum');
+  if (e) e.innerHTML = `<b>${fd(D)}</b><span>${fa(n)} آزمایش وارد شده</span>${b.length ? `<b style="color:#ff9a7e">${fa(b.length)} مورد خارج از محدوده</b>${b.join('')}` : (n ? '<b style="color:#6fe0bd">همه در محدوده نرمال</b>' : '')}<span style="margin-inline-start:auto;font-size:12px;opacity:.75">ذخیره خودکار فعال است</span>`;
+}
+
+function upCell(id) {
+  const t = TS.find(x => x.id === id), el = Q(`.c[data-t="${id}"]`);
+  if (!t || !el) return;
+  const inp = el.querySelector('input'), keep = document.activeElement === inp;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = cell(t);
+  const n = tmp.firstChild;
+  el.className = n.className;
+  el.querySelector('.m').innerHTML = n.querySelector('.m').innerHTML;
+  const oq = el.querySelector('.qk'), nq = n.querySelector('.qk');
+  if (oq && nq) oq.innerHTML = nq.innerHTML;
+  if (!keep) inp.value = n.querySelector('input').value;
+}
+
+/* =========================================================================
+   ۷. ورود مقدار با +/- و کیبورد (با حفظ دقیق ارقام اعشار)
+   ========================================================================= */
+function step(id, dir) {
+  const t = TS.find(x => x.id === id), c = Q(`.c[data-t="${id}"]`);
+  if (!t || !c) return;
+  const inp = c.querySelector('input');
+  if (dir === 'x') {
+    inp.value = '';
+    setVal(id, null);
+    upCell(id);
+    inp.value = '';
+    sum();
+    return;
+  }
+  const sq = sci(t);
+  if (sq) {
+    const cur = num(en(inp.value)), ok = cur != null && !isNaN(cur);
+    const i = ok ? sq.v.findIndex(x => Math.abs(x - cur) < 1e-9) : -1;
+    let nv;
+    if (!ok) nv = sq.v[0];
+    else if (i >= 0) nv = sq.v[Math.min(sq.v.length - 1, Math.max(0, i + dir))];
+    else nv = dir > 0 ? (sq.v.find(x => x > cur) ?? sq.v[sq.v.length - 1]) : ([...sq.v].reverse().find(x => x < cur) ?? sq.v[0]);
+    inp.value = fv(nv);
+    setVal(id, nv);
+    upCell(id);
+    c.classList.remove('err');
+    sum();
+    return;
+  }
+  const rawStr = en(inp.value);
+  let v = num(rawStr);
+  let prec = dec(t.st);
+  if (v == null || isNaN(v)) {
+    const p = prev(id, D), r = rng(t, M.sex);
+    v = p ? p.v : (r.lo != null && r.hi != null ? (r.lo + r.hi) / 2 : r.lo ?? r.hi ?? 0);
+    v = Math.round(v / t.st) * t.st;
+  } else {
+    prec = Math.max(dec(t.st), Math.min(dec(rawStr), 3));
+    v += dir * t.st;
+  }
+  v = +v.toFixed(prec);
+  if (v < 0 && !(t.lo != null && t.lo < 0)) v = 0;
+  inp.value = fv(v);
+  setVal(id, v);
+  upCell(id);
+  c.classList.remove('err');
+  sum();
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('button[data-qv]');
+  if (!b || !M) return;
+  const c = b.closest('.c'), id = c.dataset.t, v = +b.dataset.qv, cur = at(id, D);
+  const nv = cur != null && Math.abs(cur - v) < 1e-9 ? null : v;
+  c.querySelector('input').value = nv == null ? '' : fv(nv);
+  setVal(id, nv);
+  upCell(id);
+  c.classList.remove('err');
+  sum();
+});
+
+let hold;
+const stopHold = () => { clearTimeout(hold); clearInterval(hold); };
+document.addEventListener('pointerdown', e => {
+  const b = e.target.closest('button[data-s]');
+  if (!b) return;
+  e.preventDefault();
+  const id = b.closest('.c').dataset.t, d = b.dataset.s === 'x' ? 'x' : +b.dataset.s;
+  step(id, d);
+  if (d !== 'x') hold = setTimeout(() => { hold = setInterval(() => step(id, d), 80); }, 420);
+});
+['pointerup', 'pointercancel', 'pointerleave'].forEach(n => document.addEventListener(n, stopHold));
+
+document.addEventListener('input', e => {
+  const inp = e.target;
+  if (inp.closest('#grid') && inp.tagName === 'INPUT') {
+    const c = inp.closest('.c'), id = c.dataset.t, s = en(inp.value), v = num(s);
+    if (s === '' || (v != null && isFinite(v))) {
+      c.classList.remove('err');
+      setVal(id, s === '' ? null : v);
+      upCell(id);
+      sum();
+    } else {
+      c.classList.add('err');
+    }
+  } else if (inp.id === 'q') { F.q = inp.value; grid(); }
+  else if (inp.id === 'qt') qprev();
+  else if (inp.id === 'kk') updateKeyBadge();
+  else if (inp.id === 'km') syncModelDropdown(inp.value);
+  else if (inp.dataset.h != null || inp.dataset.n != null) hxSave(inp);
+});
+
+document.addEventListener('focusin', e => {
+  const i = e.target;
+  if (i.tagName === 'INPUT' && i.closest('#grid')) setTimeout(() => i.select(), 0);
+});
+
+const jump = n => { n.focus({ preventScroll: true }); n.closest('.c').scrollIntoView({ block: 'center' }); };
+document.addEventListener('keydown', e => {
+  if (e.target.closest('#grid') && e.target.tagName === 'INPUT' && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+    e.preventDefault();
+    step(e.target.closest('.c').dataset.t, e.key === 'ArrowUp' ? 1 : -1);
+  }
+  if (e.key === 'Enter' && e.target.closest('#grid')) {
+    e.preventDefault();
+    const a = [...document.querySelectorAll('#grid input')], i = a.indexOf(e.target);
+    jump(a[i + (e.shiftKey ? -1 : 1)] || e.target);
+  } else if (e.key === 'Enter' && e.target.id === 'q') {
+    e.preventDefault();
+    const n = document.querySelector('#grid input');
+    if (n) jump(n);
+  }
+});
+
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.id === 'fb') { F.bad = t.checked; grid(); }
+  else if (t.id === 'ff') { F.fill = t.checked; grid(); }
+  else if (t.id === 'qauto') { sv('qauto', t.checked); }
+  else if (t.id === 'qdate') { sv('qdate', t.checked); }
+  else if (['dd', 'dm', 'dy'].includes(t.id)) {
+    const y = +Q('#dy').value, m = +Q('#dm').value;
+    const maxD = jalaliMonthDays(y, m);
+    const day = Math.min(+Q('#dd').value, maxD);
+    D = j2i(y, m, day) || D;
+    render();
+  } else if (t.id === 'dl' && t.value) { D = t.value; render(); }
+  else if (t.id === 'qimgTop' || t.id === 'qimgDrop' || t.id === 'qimgCam') {
+    const fs = [...(t.files || [])];
+    t.value = '';
+    if (fs.length) qimgs(fs);
+  } else if (t.id === 'kauto') {
+    sv('autoswitch', t.checked);
+    toast(t.checked ? 'تعویض خودکار مدل روشن شد' : 'تعویض خودکار مدل خاموش شد');
+  } else if (t.id === 'kmSel' && t.value) {
+    Q('#km').value = t.value;
+    sv('model', t.value);
+  }
+});
+
+const goto = dir => {
+  const ds = DS().filter(x => dir < 0 ? x < D : x > D);
+  if (ds.length) { D = dir < 0 ? ds[ds.length - 1] : ds[0]; render(); }
+};
+
+/* =========================================================================
+   ۸. مدیریت بیمار و آزمایش جدید (بدون prompt و confirm)
+   ========================================================================= */
+const pf = Q('#pf'), pd = Q('#pd');
+let editing = null;
+
+function pdlg(p) {
+  editing = p;
+  Q('#pt').textContent = p ? 'ویرایش پرونده' : 'بیمار جدید';
+  ['name', 'file', 'by', 'sex', 'blood', 'note'].forEach(k => {
+    pf.elements[k].value = p ? (p[k] ?? '') : (k === 'sex' ? 'f' : '');
+  });
+  openDlg(pd);
+  setTimeout(() => pf.elements.name.focus(), 20);
+}
+
+Q('#pCancel').addEventListener('click', () => closeDlg(pd));
+pf.addEventListener('submit', e => {
+  e.preventDefault();
+  const f = Object.fromEntries(new FormData(pf));
+  const name = (f.name || '').trim();
+  if (!name) { toast('لطفاً نام بیمار را وارد کنید'); pf.elements.name.focus(); return; }
+  const by = en(f.by || '').replace(/\D/g, '');
+  const d = { name, file: en(f.file || ''), by: by ? +by : '', sex: f.sex || 'f', blood: f.blood || '', note: (f.note || '').trim(), phone: editing?.phone || '' };
+  if (editing) {
+    M = { ...M, ...d };
+    sv('p/' + sel, M);
+    closeDlg(pd);
+    side();
+    render();
+    toast('پرونده ویرایش شد');
+  } else {
+    const id = uid();
+    sv('p/' + id, { ...d, id, created: Date.now(), tests: [], last: '', flags: 0 });
+    idx = [...idx, id];
+    sv('idx', idx);
+    closeDlg(pd);
+    openPatient(id);
+    toast('پرونده ساخته شد');
+  }
+});
+
+const cd = Q('#cd');
+function askDeletePatient() {
+  if (!M) return;
+  Q('#cdMsg').textContent = `پرونده «${M.name}» و همه‌ی جواب‌هایش حذف شود؟ قابل برگشت نیست.`;
+  openDlg(cd);
+}
+Q('#cdCancel').addEventListener('click', () => closeDlg(cd));
+Q('#cdOk').addEventListener('click', () => {
+  if (!M) { closeDlg(cd); return; }
+  TS.forEach(t => rm('r/' + sel + '/' + t.id));
+  (M.tests || []).forEach(t => rm('r/' + sel + '/' + t));
+  clearTimeout(dcT); dcT = null;
+  rm('doc/' + sel);
+  rm('ai/' + sel);
+  DOCS = []; DOCS_PID = null;
+  rm('p/' + sel);
+  idx = idx.filter(x => x !== sel);
+  sv('idx', idx);
+  sel = idx[idx.length - 1] || null;
+  sv('sel', sel);
+  closeDlg(cd);
+  if (sel) openPatient(sel); else { M = null; render(); }
+  toast('پرونده حذف شد');
+});
+
+/* دیالوگ تعریف آزمایش جدید با انتخابگر دسته */
+const td = Q('#td'), tf = Q('#tf');
+function populateCatSelect() {
+  const s = Q('#tCat');
+  if (!s) return;
+  s.innerHTML = Object.entries(CATS).map(([k, v]) => `<option value="${k}" ${k === 'other' ? 'selected' : ''}>${esc(v[0])}</option>`).join('');
+}
+function newTest() {
+  populateCatSelect();
+  tf.reset();
+  Q('#tCat').value = 'other';
+  openDlg(td);
+  setTimeout(() => tf.elements.name.focus(), 20);
+}
+Q('#tCancel').addEventListener('click', () => closeDlg(td));
+tf.addEventListener('submit', e => {
+  e.preventDefault();
+  const f = Object.fromEntries(new FormData(tf));
+  const name = (f.name || '').trim();
+  if (!name) { toast('نام آزمایش را وارد کنید'); tf.elements.name.focus(); return; }
+  const code = (f.code || '').trim() || name.slice(0, 6);
+  const catKey = CATS[f.cat] ? f.cat : 'other';
+  const unit = (f.unit || '').trim();
+  const lo = num(en(f.lo || '')), hi = num(en(f.hi || ''));
+  if ((f.lo && isNaN(lo)) || (f.hi && isNaN(hi))) return toast('محدوده باید عدد باشد');
+  if (lo != null && hi != null && lo > hi) return toast('حد پایین نمی‌تواند بزرگ‌تر از حد بالا باشد');
+  const cat = ld('catalog', []);
+  cat.push({ id: 'c' + uid(), cat: catKey, name, code, unit, lo, hi, custom: true });
+  sv('catalog', cat);
+  TS = tests();
+  closeDlg(td);
+  grid();
+  toast('آزمایش جدید اضافه شد');
+});
+
+/* رویداد کلیک سراسری (به‌همراه اسکرول نرم لینک‌های دسته‌بندی و محافظ دکمه عکس) */
+document.addEventListener('click', e => {
+  const navLink = e.target.closest('.nav a');
+  if (navLink) {
+    e.preventDefault();
+    const target = Q(navLink.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  const camLbl = e.target.closest('#qcamBtn');
+  if (camLbl) {
+    if (!M) { e.preventDefault(); toast('اول یک بیمار انتخاب کن'); }
+    return;
+  }
+
+  const b = e.target.closest('[data-a],[data-id],#newP,#n2,#smp,#exp');
+  if (!b) return;
+  if (b.dataset.id) return openPatient(b.dataset.id);
+  if (b.id === 'newP' || b.id === 'n2') return pdlg(null);
+  if (b.id === 'smp') return sample();
+  if (b.id === 'exp') return exportJ();
+
+  const a = b.dataset.a;
+  if (a === 'prev') goto(-1);
+  else if (a === 'next') goto(1);
+  else if (a === 'today') { D = today(); render(); }
+  else if (a === 'edit') pdlg(M);
+  else if (a === 'print') window.print();
+  else if (a === 'newT') newTest();
+  else if (a === 'tab') { TAB = b.dataset.tab; render(); window.scrollTo(0, 0); }
+  else if (a === 'pinf') { F.pin = !F.pin; sv('pinf', F.pin); render(); }
+  else if (a === 'cmp') { F.cmp = !F.cmp; sv('cmp', F.cmp); render(); }
+  else if (a === 'pin') pinT(b.dataset.t);
+  else if (a === 'qopen') qopen();
+  else if (a === 'qclose') closeDlg(Q('#qd'));
+  else if (a === 'qapply') qapply();
+  else if (a === 'god') { D = b.dataset.d; render(); }
+  else if (a === 'copy') copyS();
+  else if (a === 'qpaste') qpasteFromBtn();
+  else if (a === 'dlhtml') downloadHtml();
+  else if (a === 'qkey') kopen();
+  else if (a === 'ktog') ktoggle();
+  else if (a === 'klist') klistModels();
+  else if (a === 'ktest') ktest();
+  else if (a === 'ksave') ksave();
+  else if (a === 'kreset') kresetDefault();
+  else if (a === 'kdel') kdelete();
+  else if (a === 'kclose') closeDlg(Q('#kd'));
+  else if (a === 'qundo') qundo();
+  else if (a === 'del') askDeletePatient();
+});
+
+/* =========================================================================
+   ۹. پنل من، نگاشت نام‌های اختصاری آزمایشگاه‌های ایران و ورود متنی سریع
+   ========================================================================= */
+function pinT(id) {
+  const s = pins();
+  s.has(id) ? s.delete(id) : s.add(id);
+  sv('pins', [...s]);
+  PN = s;
+  grid();
+}
+
+const AL = {
+  hgb: 'hb', hemoglobin: 'hb', tlc: 'wbc', leukocytes: 'wbc',
+  plt: 'plt', plts: 'plt', platelet: 'plt', platelets: 'plt',
+  pmn: 'neut', seg: 'neut', segs: 'neut', poly: 'neut', neut: 'neut', neutrophil: 'neut', neutrophils: 'neut',
+  lym: 'lymph', lymph: 'lymph', lymphocyte: 'lymph', lymphocytes: 'lymph',
+  retic: 'ret', reticulocyte: 'ret',
+  aptt: 'ptt', fibrinogen: 'fib', ddimer: 'dd',
+  sgot: 'ast', sgpt: 'alt', alkp: 'alp', alkphos: 'alp', alkalinephosphatase: 'alp',
+  tbili: 'bilt', tbil: 'bilt', bili: 'bilt', bilirubin: 'bilt', totalbilirubin: 'bilt',
+  dbili: 'bild', dbil: 'bild', directbilirubin: 'bild',
+  albumin: 'alb', totalprotein: 'tp',
+  creat: 'cr', creatinine: 'cr', scr: 'cr', uricacid: 'ua', gfr: 'egfr',
+  buncreatinine: 'bcr', buncr: 'bcr', cystatinc: 'cysc',
+  bs: 'fbs', fbs: 'fbs', glu: 'fbs', glucose: 'fbs', fastingbloodsugar: 'fbs',
+  bs2hpp: '2hpp', hba1c: 'a1c', a1c: 'a1c',
+  troponin: 'trop', hstrop: 'trop', hstroponin: 'trop', troponini: 'trop', troponint: 'trop', tn: 'trop', tni: 'trop', tnt: 'trop',
+  probnp: 'ntp', ntprobnp: 'ntp',
+  hbsag: 'hbsag', hepatitisbsurfaceantigen: 'hbsag', antihbs: 'ahbs', hbsab: 'ahbs', antihbctotal: 'hbcab', antihbc: 'hbcab', hbcab: 'hbcab', antihbcigm: 'hbcm', hbcigm: 'hbcm',
+  hbeag: 'hbeag', antihbe: 'hbeab', hbvdna: 'hbvdna', antihcv: 'hcvab', hcvab: 'hcvab', hcv: 'hcvab', hcvrna: 'hcvrna', hcvpcr: 'hcvrna',
+  antihavigm: 'havm', havigm: 'havm', antihavigg: 'havg', havigg: 'havg', antihdv: 'hdvab', antihevigm: 'hevm',
+  hiv: 'hiv4', hivagab: 'hiv4', hivag: 'hiv4', hivab: 'hivrap', hivrna: 'hivrna', hivviralload: 'hivrna', cd4: 'cd4', cd4count: 'cd4', cd4percent: 'cd4p',
+  nonhdl: 'nhdl', nonhdlcholesterol: 'nhdl', vldl: 'vldl', lpa: 'lpa', lipoproteina: 'lpa', apoa1: 'apoa', apolipoproteina1: 'apoa', apob: 'apob', apolipoproteinb: 'apob',
+  t3: 't3', totalt3: 't3', t4total: 't4tot', totalt4: 't4tot', antitpo: 'tpo', tpoab: 'tpo', antithyroglobulin: 'atg', trab: 'trab', thyroglobulin: 'tgl',
+  hstnt: 'tropt', hscTnt: 'tropt', ctni: 'tropi', troponinqualitative: 'tropq', troponinrapid: 'tropq',
+  cholesterol: 'chol', totalcholesterol: 'chol', triglyceride: 'tg', triglycerides: 'tg',
+  'na+': 'na', sodium: 'na', 'k+': 'k', potassium: 'k', chloride: 'cl',
+  bicarb: 'bic', hco3: 'bic', 'ca++': 'ca', 'ca2+': 'ca', calcium: 'ca',
+  'mg++': 'mg', magnesium: 'mg', phosphorus: 'phos', po4: 'phos', p: 'phos', aniongap: 'ag',
+  '25ohd': 'vitd', '25ohvitd': 'vitd', vitd: 'vitd', vitamind: 'vitd', vitamind3: 'vitd',
+  vitb12: 'b12', vitaminb12: 'b12', ferritin: 'ferr', iron: 'fe', folate: 'fol', folicacid: 'fol',
+  ft4: 't4', freet4: 't4', freet3: 'ft3',
+  ua: 'ua', uricacid: 'ua', serumuricacid: 'ua',
+  urineph: 'ua_ph', phurine: 'ua_ph', uph: 'ua_ph', sg: 'ua_sg', usg: 'ua_sg', specificgravity: 'ua_sg', urinesg: 'ua_sg',
+  uapro: 'ua_pro', uaprotein: 'ua_pro', urineprotein: 'ua_pro', dipstickprotein: 'ua_pro',
+  uaglu: 'ua_glu', uaglucose: 'ua_glu', urineglucose: 'ua_glu', uglu: 'ua_glu',
+  ketone: 'ua_ket', ketones: 'ua_ket', uaket: 'ua_ket', urineketone: 'ua_ket',
+  uablood: 'ua_bld', urineblood: 'ua_bld', uabili: 'ua_bil', urinebilirubin: 'ua_bil',
+  urobilinogen: 'ua_uro', uro: 'ua_uro', nitrite: 'ua_nit', nit: 'ua_nit',
+  le: 'ua_le', leukocyteesterase: 'ua_le', leu: 'ua_le', leuk: 'ua_le',
+  uwbc: 'ua_wbc', urinewbc: 'ua_wbc', urbc: 'ua_rbc', urinerbc: 'ua_rbc',
+  epithelial: 'ua_epi', epi: 'ua_epi', bacteria: 'ua_bac', bact: 'ua_bac', cast: 'ua_cast', casts: 'ua_cast', crystal: 'ua_cry', crystals: 'ua_cry',
+  lactate: 'lac', procalcitonin: 'pct', amylase: 'amy', lipase: 'lip'
+};
+
+const nk = s => String(s ?? '').toLowerCase().replace(/[₀-₉]/g, c => '₀₁₂₃₄₅₆₇₈₉'.indexOf(c)).replace(/[^a-z0-9\u0600-\u06ff]/g, '');
+const nrm = s => String(s ?? '')
+  .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+  .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+  .replace(/٫/g, '.')
+  .replace(/[،,;؛\n\r\t]+/g, ' ');
+
+function buildTestLookup() {
+  const m = new Map();
+  TS.forEach(t => [t.id, t.code, t.name].forEach(x => {
+    const y = nk(x);
+    if (y && !m.has(y)) m.set(y, t.id);
+  }));
+  Object.entries(AL).forEach(([a, id]) => {
+    const k = nk(a);
+    if (k && TS.some(t => t.id === id) && !m.has(k)) m.set(k, id);
+  });
+  return m;
+}
+
+function resolveTestId(item, lookup) {
+  if (!item) return null;
+  const map = lookup || buildTestLookup();
+  for (const raw of [item.id, item.code, item.name]) {
+    if (raw == null) continue;
+    const s = String(raw).trim();
+    if (!s) continue;
+    if (TS.some(t => t.id === s)) return s;
+    const low = s.toLowerCase();
+    if (TS.some(t => t.id === low)) return low;
+    const hit = map.get(nk(s));
+    if (hit) return hit;
+  }
+  return null;
+}
+
+function parseLabNumber(val) {
+  if (typeof val === 'number') return isFinite(val) ? val : null;
+  if (val == null) return null;
+  const cleaned = en(String(val));
+  if (!cleaned) return null;
+  const direct = num(cleaned);
+  if (direct != null && isFinite(direct)) return direct;
+  const m = cleaned.match(/-?\d+(?:\.\d+)?/);
+  return m ? +m[0] : null;
+}
+
+function qparse() {
+  const m = buildTestLookup();
+  const re = /([A-Za-z\u0600-\u06FF][A-Za-z\u0600-\u06FF0-9\-_.+₂₃]*?)(?:\s*[:=]\s*|\s+)(-?\d+(?:\.\d+)?)/g;
+  const ok = new Map(), bad = [], s = nrm(Q('#qt').value);
+  let x;
+  while ((x = re.exec(s))) {
+    const id = m.get(nk(x[1]));
+    if (id) ok.set(id, +x[2]);
+    else bad.push(x[1]);
+  }
+  return { ok, bad };
+}
+
+function qprev() {
+  const { ok, bad } = qparse(), by = Object.fromEntries(TS.map(t => [t.id, t]));
+  Q('#qp').innerHTML = [...ok].map(([id, v]) => {
+    const t = by[id], f = flag(v, rng(t, M.sex)), o = at(id, D);
+    return `<span class="${f === 'H' || f === 'L' ? 'w' : ''}">${esc(t.code)} ${fq(t, v)}${f === 'H' ? ' ↑' : f === 'L' ? ' ↓' : ''}${o != null && o !== v ? ` (قبلاً ${fq(t, o)})` : ''}</span>`;
+  }).join('') + bad.map(b => `<span class="nx">؟ ${esc(b)}</span>`).join('');
+  Q('#qa').disabled = !ok.size;
+}
+
+function qopen(forPhotos) {
+  if (!M) return toast('اول یک بیمار انتخاب کن');
+  if (!forPhotos) {
+    Q('#qt').value = '';
+    Q('#qp').innerHTML = '';
+    Q('#qthumbs').innerHTML = '';
+    Q('#qst').textContent = '';
+    Q('#qa').disabled = true;
+  }
+  Q('#qauto').checked = ld('qauto', true);
+  Q('#qdate').checked = ld('qdate', true);
+  Q('#qun').hidden = !LASTU.length;
+  Q('#qdt').textContent = fd(D, 1);
+  openDlg(Q('#qd'));
+  if (!forPhotos) setTimeout(() => Q('#qt').focus(), 20);
+}
+
+/* ثبت متنی سریع به‌صورت یکپارچه همراه با ذخیره سابقه Undo */
+function qapply() {
+  const { ok } = qparse();
+  if (!ok.size) return;
+  const undo = [];
+  ok.forEach((v, id) => {
+    undo.push({ id, d: D, prev: at(id, D) });
+    setVal(id, v, D, true);
+  });
+  LASTU = undo;
+  syncMeta();
+  closeDlg(Q('#qd'));
+  render();
+  toast(fa(ok.size) + ' آزمایش ثبت شد (امکان برگرداندن در پنجره ورود سریع فعال است)');
+}
+
+/* =========================================================================
+   ۱۰. موتور Gemini API (پشتیبانی از AQ. و AIza + مهلت ۴۵ ثانیه + کشف خودکار)
+   ========================================================================= */
+const DEFAULT_KEY = 'AQ.Ab8RN6K95q6qLvoUvOMY22zKeBv4tpHFHQxCpugKylVFCA0tVA';
+const DEFAULT_MODEL = 'gemini-3-flash-preview';
+const INITIAL_MODEL_OPTIONS = [
+  'gemini-3-flash-preview',
+  'gemini-3.1-flash-lite-preview',
+  'gemini-3.1-pro-preview',
+  'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
+  'gemini-2.0-flash'
+];
+const FALLBACK_MODELS = [
+  'gemini-3-flash-preview',
+  'gemini-3.1-flash-lite-preview',
+  'gemini-3.1-pro-preview',
+  'gemini-2.5-flash',
+  'gemini-2.5-flash-lite'
+];
+const LEGACY_MODELS = new Set(['gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-2.0-flash']);
+const FETCH_TIMEOUT_MS = 90000;
+
+function cleanKey(raw) {
+  let s = String(raw ?? '').replace(/[\s\u200B-\u200F\u202A-\u202E\uFEFF]+/g, '');
+  let fixedPrefix = false;
+  if (/^(?:aiza|alza)(?=aq\.)/i.test(s)) {
+    s = s.replace(/^(?:aiza|alza)(?=aq\.)/i, '');
+    fixedPrefix = true;
+  }
+  return { key: s, fixedPrefix };
+}
+
+function cleanModel(m) {
+  const s = String(m ?? '').trim().replace(/^models\//i, '');
+  if (!s || s.toLowerCase().startsWith('claude')) return DEFAULT_MODEL;
+  return s;
+}
+
+const isAqKey = k => String(k || '').startsWith('AQ.');
+const isAiStudioKey = k => String(k || '').startsWith('AIza');
+
+function initDefaultApiConfig() {
+  const cleared = !!ld('key_cleared', false);
+  const rawStored = ld('apikey', null);
+  const { key: cleaned, fixedPrefix } = cleanKey(rawStored || '');
+  const validStored = cleaned && (isAqKey(cleaned) || isAiStudioKey(cleaned) || cleaned.length >= 20);
+
+  if (fixedPrefix && cleaned) {
+    sv('apikey', cleaned);
+    sv('key_cleared', false);
+  } else if (!validStored && !cleared) {
+    sv('apikey', DEFAULT_KEY);
+    sv('key_cleared', false);
+  }
+
+  const storedModel = ld('model', '');
+  let cm = cleanModel(storedModel);
+  if (!ld('model_verified', false) && (!storedModel || LEGACY_MODELS.has(cm))) {
+    cm = DEFAULT_MODEL;
+    sv('model', cm);
+  } else if (!storedModel || storedModel !== cm) {
+    sv('model', cm);
+  }
+
+  const ep = ld('endpoint_mode', '');
+  if (ep === 'vertex_v1' || ep === 'vertex_v1beta1') {
+    sv('endpoint_mode', ld('model_verified', false) ? 'vertex' : 'aistudio');
+  } else if (ep === 'aistudio_v1beta') {
+    sv('endpoint_mode', 'aistudio');
+  }
+}
+
+function getKey() {
+  const cleared = !!ld('key_cleared', false);
+  const { key, fixedPrefix } = cleanKey(ld('apikey', ''));
+  if (fixedPrefix && key) sv('apikey', key);
+  if (!key && !cleared) {
+    sv('apikey', DEFAULT_KEY);
+    return DEFAULT_KEY;
+  }
+  return key;
+}
+
+function getModel() {
+  return cleanModel(ld('model', DEFAULT_MODEL));
+}
+
+const ENDPOINTS = {
+  aistudio_v1beta: {
+    id: 'aistudio_v1beta',
+    mode: 'aistudio',
+    label: 'Google AI Studio (v1beta)',
+    url: (key, model) => `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`
+  },
+  vertex_v1: {
+    id: 'vertex_v1',
+    mode: 'vertex',
+    label: 'Vertex AI (v1)',
+    url: (key, model) => `https://aiplatform.googleapis.com/v1/publishers/google/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`
+  },
+  vertex_v1beta1: {
+    id: 'vertex_v1beta1',
+    mode: 'vertex',
+    label: 'Vertex AI (v1beta1)',
+    url: (key, model) => `https://aiplatform.googleapis.com/v1beta1/publishers/google/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`
+  }
+};
+
+function getEndpointChain(opts) {
+  if (opts && opts.forceAiStudioFirst) return ['aistudio_v1beta', 'vertex_v1', 'vertex_v1beta1'];
+  return ld('endpoint_mode', 'aistudio') === 'vertex'
+    ? ['vertex_v1', 'vertex_v1beta1', 'aistudio_v1beta']
+    : ['aistudio_v1beta', 'vertex_v1', 'vertex_v1beta1'];
+}
+
+function makeApiError(status, raw, endpointLabel) {
+  const err = new Error(raw || ('HTTP ' + status));
+  err.httpStatus = status || 0;
+  err.rawMessage = raw || '';
+  err.endpointLabel = endpointLabel || '';
+  return err;
+}
+
+async function fetchWithTimeout(url, options, epLabel, timeoutMs = FETCH_TIMEOUT_MS) {
+  const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+  const timer = ctrl ? setTimeout(() => ctrl.abort(), timeoutMs) : null;
+  try {
+    return await fetch(url, ctrl ? { ...options, signal: ctrl.signal } : options);
+  } catch (e) {
+    if (e && (e.name === 'AbortError' || String(e.message || '').toLowerCase().includes('abort'))) {
+      throw makeApiError(408, `Request timed out after ${Math.round(timeoutMs / 1000)}s`, epLabel);
+    }
+    throw makeApiError(0, e?.message || 'Failed to fetch', epLabel);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
+function isModelError(err) {
+  const st = err?.httpStatus || 0;
+  const low = String(err?.rawMessage || err?.message || '').toLowerCase();
+  return st === 404 ||
+    low.includes('no longer available') ||
+    low.includes('is not found') ||
+    low.includes('model not found') ||
+    low.includes('not supported for generatecontent') ||
+    low.includes('deprecated');
+}
+
+function isEndpointAuthError(err) {
+  const st = err?.httpStatus || 0;
+  const low = String(err?.rawMessage || err?.message || '').toLowerCase();
+  return st === 401 || st === 403 ||
+    low.includes('unauthenticated') ||
+    low.includes('permission_denied') ||
+    (st === 400 && (low.includes('api key not valid') || low.includes('api_key_invalid') || low.includes('api key expired')));
+}
+
+function isFatalNetworkOrLocationError(err) {
+  const st = err?.httpStatus || 0;
+  const low = String(err?.rawMessage || err?.message || '').toLowerCase();
+  return st === 408 ||
+    low.includes('failed to fetch') ||
+    low.includes('networkerror') ||
+    low.includes('load failed') ||
+    low.includes('timed out') ||
+    low.includes('user location is not supported');
+}
+
+async function callGeminiDirect(endpointId, key, model, parts, generationConfig) {
+  const ep = ENDPOINTS[endpointId];
+  const m = cleanModel(model);
+  const url = ep.url(key, m);
+  const body = { contents: [{ role: 'user', parts }] };
+  if (generationConfig) body.generationConfig = generationConfig;
+
+  const r = await fetchWithTimeout(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  }, ep.label);
+
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) {
+    throw makeApiError(r.status, j?.error?.message || r.statusText || ('HTTP ' + r.status), ep.label);
+  }
+  return { data: j, endpoint: ep, model: m };
+}
+
+/* =========================================================================
+   مدیریت هوشمند سهمیه: تعویض خودکار مدل
+   - واکنشی: با خطای ۴۲۹ (یا مدل منسوخ) فوراً مدل سبک‌تر بعدی امتحان می‌شود
+   - پیشگیرانه: تعداد درخواست‌های ۶۰ ثانیه‌ی اخیر هر مدل شمرده می‌شود و پیش از
+     رسیدن به سقف، درخواست بعدی به مدل دیگر می‌رود. سقف هر مدل از روی خطاهای
+     ۴۲۹ قبلی «یاد گرفته» و ذخیره می‌شود (گوگل سقف باقی‌مانده را اعلام نمی‌کند).
+   ========================================================================= */
+const LITE_CHAIN = ['gemini-3.1-flash-lite-preview', 'gemini-2.5-flash-lite', 'gemini-2.5-flash'];
+const QS = { hits: {}, cool: {}, learned: ld('rpm_learned', {}), lastNote: '' };
+const qsDefLimit = m => /lite/i.test(m) ? 12 : /pro/i.test(m) ? 4 : 8;
+const qsLimit = m => QS.learned[m] || qsDefLimit(m);
+const qsThreshold = m => Math.max(1, Math.floor(qsLimit(m) * 0.8));
+const qsSleep = ms => new Promise(r => setTimeout(r, ms));
+
+function qsRecent(m) {
+  const t = Date.now() - 60000;
+  QS.hits[m] = (QS.hits[m] || []).filter(x => x > t);
+  return QS.hits[m];
+}
+
+/* مدت انتظار (میلی‌ثانیه) تا این مدل قابل استفاده شود؛ ۰ یعنی آماده */
+function qsWait(m) {
+  const now = Date.now();
+  let w = Math.max(0, (QS.cool[m] || 0) - now);
+  const h = qsRecent(m), th = qsThreshold(m);
+  if (h.length >= th) w = Math.max(w, h[h.length - th] + 60000 - now);
+  return w;
+}
+
+function qsOn429(m, err) {
+  const raw = String(err?.rawMessage || err?.message || '');
+  const daily = /per\s?day|daily/i.test(raw);
+  let wait = 60000;
+  const a = raw.match(/retry in\s+([\d.]+)\s*s/i) || raw.match(/"retryDelay"\s*:\s*"(\d+(?:\.\d+)?)s"/i);
+  if (a) wait = Math.ceil(+a[1] * 1000) + 500;
+  if (daily) wait = 2 * 3600 * 1000;
+  QS.cool[m] = Date.now() + wait;
+  if (!daily) {
+    const used = qsRecent(m).length;
+    if (used >= 2) {
+      QS.learned[m] = Math.max(2, used - 1);
+      sv('rpm_learned', QS.learned);
+    }
+  }
+}
+
+function qsNote(msg) {
+  if (QS.lastNote === msg) return;
+  QS.lastNote = msg;
+  toast(msg);
+}
+
+async function callGeminiChain(key, model, parts, generationConfig, opts) {
+  /* تست اتصال و کشف مدل (forceAiStudioFirst) و حالت خاموش: بدون تعویض خودکار */
+  if ((opts && (opts.forceAiStudioFirst || opts.noAuto)) || !ld('autoswitch', true)) {
+    return callGeminiChainRaw(key, model, parts, generationConfig, opts);
+  }
+  const pref = cleanModel(model);
+  const order = [...new Set([pref, ...LITE_CHAIN, ...FALLBACK_MODELS])];
+  let lastErr = null;
+  for (let attempt = 0; attempt < order.length + 3; attempt++) {
+    const ws = order.map(m => ({ m, w: qsWait(m) }));
+    let pick = ws.find(x => x.w === 0);
+    if (!pick) {
+      pick = ws.slice().sort((a, b) => a.w - b.w)[0];
+      if (pick.w > 30000) {
+        throw lastErr || makeApiError(429, `All models are near their quota; retry in ${Math.ceil(pick.w / 1000)}s`, '');
+      }
+      qsNote(`سهمیه همه‌ی مدل‌ها نزدیک سقف است؛ ${fa(Math.ceil(pick.w / 1000))} ثانیه صبر می‌کنم…`);
+      await qsSleep(pick.w + 200);
+    }
+    const m = pick.m;
+    (QS.hits[m] = QS.hits[m] || []).push(Date.now());
+    try {
+      const res = await callGeminiChainRaw(key, m, parts, generationConfig, opts);
+      if (m !== pref) qsNote(`برای جلوگیری از محدودیت، با مدل سبک‌تر ${m} ادامه می‌دهم`);
+      return res;
+    } catch (err) {
+      lastErr = err;
+      if (err?.httpStatus === 429) { qsOn429(m, err); continue; }
+      if (isModelError(err)) { QS.cool[m] = Date.now() + 6 * 3600 * 1000; continue; }
+      throw err;
+    }
+  }
+  throw lastErr || makeApiError(429, 'No model available', '');
+}
+
+async function callGeminiChainRaw(key, model, parts, generationConfig, opts) {
+  const chain = getEndpointChain(opts);
+  let lastErr = null;
+  for (let i = 0; i < chain.length; i++) {
+    const epId = chain[i];
+    try {
+      const res = await callGeminiDirect(epId, key, model, parts, generationConfig);
+      sv('endpoint_mode', res.endpoint.mode);
+      return res;
+    } catch (err) {
+      lastErr = err;
+      /* خطای مدل روی Google AI Studio به کشف خودکار مدل ارجاع می‌شود، نه Vertex */
+      if (epId === 'aistudio_v1beta' && isModelError(err)) throw err;
+      const shouldFallback = isEndpointAuthError(err) || (epId !== 'aistudio_v1beta' && isModelError(err));
+      if (!shouldFallback || i === chain.length - 1) throw err;
+    }
+  }
+  throw lastErr || makeApiError(0, 'No endpoint succeeded', '');
+}
+
+async function fetchLiveModels(key) {
+  const base = 'https://generativelanguage.googleapis.com/v1beta/models';
+  const epLabel = 'Google AI Studio (v1beta)';
+  let r = await fetchWithTimeout(`${base}?key=${encodeURIComponent(key)}&pageSize=100`, {}, epLabel);
+  let j = await r.json().catch(() => ({}));
+  if (!r.ok) {
+    const r2 = await fetchWithTimeout(`${base}?pageSize=100`, { headers: { 'x-goog-api-key': key } }, epLabel);
+    const j2 = await r2.json().catch(() => ({}));
+    if (r2.ok) { r = r2; j = j2; }
+  }
+  if (!r.ok) {
+    throw makeApiError(r.status, j?.error?.message || r.statusText || 'Failed to list models', epLabel);
+  }
+
+  /* حذف مدل‌های غیرمتنی/غیربینایی (embedding، imagen، veo، tts، audio، aqa، robotics، image-only) */
+  const excludeRe = /(embedding|tts|imagen|veo|audio|aqa|robotics|computer-use|-image(?:-|$)|image-generation)/i;
+  const rawList = Array.isArray(j.models) ? j.models : [];
+  const filtered = rawList
+    .filter(m => {
+      const methods = Array.isArray(m.supportedGenerationMethods) ? m.supportedGenerationMethods : [];
+      const name = String(m.name || '').replace(/^models\//i, '');
+      return methods.includes('generateContent') && /gemini/i.test(name) && !excludeRe.test(name);
+    })
+    .map(m => String(m.name || '').replace(/^models\//i, ''));
+
+  return [...new Set(filtered)];
+}
+
+function scoreModel(name) {
+  const s = String(name || '').toLowerCase();
+  if (s === 'gemini-3-flash-preview') return 10;
+  if (s === 'gemini-3.1-flash-lite-preview') return 12;
+  if (s === 'gemini-3-flash') return 14;
+  if (s === 'gemini-3.1-flash') return 15;
+  if (s === 'gemini-3.1-flash-preview') return 16;
+  if (/^gemini-3[\d.]*-.*flash/.test(s)) return 20;
+  if (s === 'gemini-3.1-pro-preview') return 30;
+  if (s === 'gemini-3-pro-preview') return 32;
+  if (s === 'gemini-3.1-pro' || s === 'gemini-3-pro') return 34;
+  if (/^gemini-3[\d.]*-.*pro/.test(s)) return 38;
+  if (/^gemini-3/.test(s)) return 45;
+  if (s === 'gemini-2.5-flash') return 55;
+  if (s === 'gemini-2.5-flash-lite') return 57;
+  if (s === 'gemini-2.0-flash') return 60;
+  return 80;
+}
+
+function rankGeminiModels(liveModels, includeFallbacks) {
+  const rankedLive = [...new Set(liveModels || [])].sort((a, b) => {
+    const df = scoreModel(a) - scoreModel(b);
+    return df !== 0 ? df : a.localeCompare(b);
+  });
+  return includeFallbacks ? [...new Set([...rankedLive, ...FALLBACK_MODELS])] : rankedLive;
+}
+
+/* استخراج امن متن از پاسخ‌های مدل‌های Gemini 3/3.1 با فیلتر بخش‌های thinking */
+function extractText(data) {
+  const parts = data?.candidates?.[0]?.content?.parts || [];
+  const visible = parts.filter(p => p.thought !== true && typeof p.text === 'string').map(p => p.text).join('').trim();
+  if (visible) return visible;
+  return parts.filter(p => typeof p.text === 'string').map(p => p.text).join('').trim();
+}
+
+function parseJsonSafe(txt) {
+  let s = String(txt || '').trim();
+  s = s.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+  const a = s.indexOf('{'), b = s.lastIndexOf('}');
+  if (a === -1 || b === -1 || b < a) throw new Error('خروجی مدل در قالب JSON معتبر نبود.');
+  return JSON.parse(s.slice(a, b + 1));
+}
+
+function diagnoseErrorFa(err) {
+  const st = err?.httpStatus || 0;
+  const raw = String(err?.rawMessage || err?.message || '');
+  const low = raw.toLowerCase();
+  if (st === 408 || low.includes('timed out')) {
+    return 'زمان انتظار پاسخ سرور تمام شد (۹۰ ثانیه)؛ اتصال اینترنت یا سرعت فیلترشکن را بررسی کرده و دوباره امتحان کنید.';
+  }
+  if (low.includes('failed to fetch') || low.includes('networkerror') || low.includes('load failed')) {
+    return 'اتصال به سرور گوگل برقرار نشد (خطای شبکه یا مسدود بودن IP)؛ فیلترشکن دستگاه را روشن کنید و دوباره تلاش کنید.';
+  }
+  if (low.includes('user location is not supported') || (st === 400 && low.includes('location'))) {
+    return 'موقعیت جغرافیایی (IP) فعلی شما توسط گوگل مسدود است؛ سرور فیلترشکن را روی آمریکا یا اروپا قرار دهید.';
+  }
+  if (st === 429 || low.includes('quota') || low.includes('resource_exhausted') || low.includes('rate limit')) {
+    return 'سهمیه API روی همه‌ی مدل‌های قابل‌استفاده پر شد (429)؛ چند لحظه صبر کنید و دوباره امتحان کنید. (اگر «تعویض خودکار مدل» در پنجره کلید خاموش است، روشنش کنید.)';
+  }
+  if (st === 400 || st === 401 || st === 403 || low.includes('api key') || low.includes('permission') || low.includes('unauthenticated')) {
+    return `کلید API نامعتبر است یا دسترسی آن فعال نیست (${st || 401})؛ کلید را بررسی کنید یا «بازگردانی کلید پیش‌فرض» را بزنید.`;
+  }
+  if (st === 422 || low.includes('finishreason')) {
+    return 'پاسخ مدل ناقص یا توسط فیلتر ایمنی مسدود شد؛ لطفاً عکس واضح‌تری بفرستید و مشخصات فردی بیمار را بپوشانید.';
+  }
+  if (isModelError(err)) {
+    return 'این مدل روی اکانت شما غیرفعال یا قدیمی است (404)؛ روی «🧪 تست و انتخاب خودکار مدل» بزنید تا مدل فعال خودکار انتخاب شود.';
+  }
+  return 'خطایی در ارتباط با سرور Gemini رخ داد؛ متن دقیق خطا در کادر زیر آمده است.';
+}
+
+function formatRawErr(err) {
+  const head = err?.httpStatus ? `HTTP ${err.httpStatus}` : 'Network Error';
+  const ep = err?.endpointLabel ? ` [${err.endpointLabel}]` : '';
+  return `${head}${ep}: ${err?.rawMessage || err?.message || 'Unknown error'}`;
+}
+
+async function discoverWorkingModel(key, excludeModel, onStatus) {
+  let liveModels = [];
+  onStatus?.('در حال دریافت لیست زنده مدل‌های فعال اکانت شما از گوگل…');
+  try {
+    liveModels = await fetchLiveModels(key);
+    if (liveModels.length) {
+      const rankedLive = rankGeminiModels(liveModels, false);
+      populateModelDropdown(rankedLive, Q('#km')?.value || rankedLive[0]);
+      onStatus?.(`${fa(rankedLive.length)} مدل فعال پیدا شد؛ در حال پیدا کردن بهترین مدل پاسخ‌گو…`);
+    }
+  } catch (listErr) {
+    if (isFatalNetworkOrLocationError(listErr)) throw listErr;
+    onStatus?.('لیست زنده مدل‌ها در دسترس نبود؛ در حال تست خودکار مدل‌های جدید Gemini 3 / 3.1…');
+  }
+
+  const candidates = rankGeminiModels(liveModels, true).filter(m => m !== excludeModel);
+  const testParts = [{ text: 'OK' }];
+  const testCfg = { maxOutputTokens: 16 };
+  let lastErr = null;
+
+  for (const cand of candidates) {
+    onStatus?.(`در حال تست خودکار مدل ${cand}…`);
+    try {
+      const res = await callGeminiChain(key, cand, testParts, testCfg, { forceAiStudioFirst: true });
+      sv('apikey', key);
+      sv('model', res.model);
+      sv('model_verified', true);
+      sv('key_cleared', false);
+      sv('endpoint_mode', res.endpoint.mode);
+      if (Q('#km')) Q('#km').value = res.model;
+      syncModelDropdown(res.model);
+      ksync();
+      return res;
+    } catch (err) {
+      lastErr = err;
+      if (isFatalNetworkOrLocationError(err)) throw err;
+    }
+  }
+  throw lastErr || makeApiError(404, 'هیچ مدل فعالی پاسخ نداد.', 'Google AI Studio (v1beta)');
+}
+
+/* =========================================================================
+   ۱۱. رابط پنجره کلید API
+   ========================================================================= */
+function updateKeyBadge(valOverride) {
+  const badge = Q('#kbadge');
+  if (!badge) return;
+  const raw = String(valOverride !== undefined ? valOverride : (Q('#kk')?.value || '')).trim();
+  if (!raw) {
+    badge.hidden = true;
+    badge.textContent = '';
+    badge.className = 'kbadge';
+    return;
+  }
+  badge.hidden = false;
+  if (/^(?:aiza|alza)(?=aq\.)/i.test(raw)) {
+    badge.className = 'kbadge warn';
+    badge.textContent = '⚠ پیشوند اشتباه Alza/AIza ابتدای کلید AQ. دیده شد — به‌صورت خودکار حذف می‌شود';
+  } else if (isAqKey(raw)) {
+    badge.className = 'kbadge vx';
+    badge.textContent = 'نوع کلید: Google Gemini / Vertex Express (AQ.)';
+  } else if (isAiStudioKey(raw)) {
+    badge.className = 'kbadge ai';
+    badge.textContent = 'نوع کلید: Google AI Studio (AIza)';
+  } else {
+    badge.className = 'kbadge unk';
+    badge.textContent = 'نوع کلید: ناشناس (معمولاً با AQ. یا AIza شروع می‌شود)';
+  }
+}
+
+function populateModelDropdown(models, preferredVal) {
+  const selEl = Q('#kmSel');
+  if (!selEl) return;
+  const list = [...new Set((models && models.length ? models : INITIAL_MODEL_OPTIONS).map(cleanModel))];
+  const pref = preferredVal ? cleanModel(preferredVal) : '';
+  if (pref && !list.includes(pref)) list.unshift(pref);
+  selEl.innerHTML = list.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('');
+  if (pref && list.includes(pref)) selEl.value = pref;
+}
+
+function syncModelDropdown(modelVal) {
+  const selEl = Q('#kmSel');
+  if (!selEl) return;
+  const m = cleanModel(modelVal);
+  if (![...selEl.options].some(o => o.value === m)) {
+    const opt = document.createElement('option');
+    opt.value = m;
+    opt.textContent = m;
+    selEl.insertBefore(opt, selEl.firstChild);
+  }
+  selEl.value = m;
+}
+
+function showKeyBox(type, mainText, rawText) {
+  const box = Q('#ks'), raw = Q('#kraw');
+  if (!box || !raw) return;
+  if (!mainText) {
+    box.className = '';
+    box.textContent = '';
+    raw.hidden = true;
+    raw.textContent = '';
+    return;
+  }
+  box.className = 'show ' + type;
+  box.textContent = mainText;
+  if (rawText) {
+    raw.textContent = rawText;
+    raw.hidden = false;
+  } else {
+    raw.textContent = '';
+    raw.hidden = true;
+  }
+}
+
+function ktoggle() {
+  const inp = Q('#kk'), btn = Q('#ktog');
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.textContent = show ? '🙈' : '👁️';
+}
+
+function kopen() {
+  const k = getKey(), m = getModel();
+  Q('#kk').value = k;
+  Q('#kk').type = 'password';
+  Q('#ktog').textContent = '👁️';
+  Q('#km').value = m;
+  syncModelDropdown(m);
+  updateKeyBadge(k);
+  Q('#kauto').checked = ld('autoswitch', true);
+  if (k) {
+    const epTxt = ld('endpoint_mode', 'aistudio') === 'vertex' ? 'Vertex AI' : 'Google AI Studio (v1beta)';
+    showKeyBox('ok', `کلید آماده و ذخیره شده است ✓ (مدل: ${m} · مسیر: ${epTxt})`);
+  } else {
+    showKeyBox('', '');
+  }
+  openDlg(Q('#kd'));
+}
+
+function ksave() {
+  const { key, fixedPrefix } = cleanKey(Q('#kk').value);
+  const m = cleanModel(Q('#km').value);
+  Q('#kk').value = key;
+  Q('#km').value = m;
+  syncModelDropdown(m);
+  updateKeyBadge(key);
+  sv('apikey', key);
+  sv('model', m);
+  sv('model_verified', true);
+  sv('key_cleared', !key);
+  closeDlg(Q('#kd'));
+  ksync();
+  toast(fixedPrefix ? 'پیشوند اضافی حذف و کلید ذخیره شد ✓' : (key ? 'کلید API ذخیره شد ✓' : 'کلید API پاک شد'));
+}
+
+function kdelete() {
+  Q('#kk').value = '';
+  updateKeyBadge('');
+  sv('apikey', '');
+  sv('key_cleared', true);
+  sv('model_verified', false);
+  rm('endpoint_mode');
+  ksync();
+  showKeyBox('info', 'کلید پاک شد. هر زمان خواستید می‌توانید «🔄 بازگردانی کلید پیش‌فرض» را بزنید.');
+  toast('کلید API پاک شد');
+}
+
+function kresetDefault() {
+  Q('#kk').value = DEFAULT_KEY;
+  Q('#km').value = DEFAULT_MODEL;
+  populateModelDropdown(INITIAL_MODEL_OPTIONS, DEFAULT_MODEL);
+  updateKeyBadge(DEFAULT_KEY);
+  sv('apikey', DEFAULT_KEY);
+  sv('model', DEFAULT_MODEL);
+  sv('model_verified', false);
+  sv('key_cleared', false);
+  sv('endpoint_mode', 'aistudio');
+  ksync();
+  showKeyBox('ok', `کلید پیش‌فرض (AQ.) و مدل ${DEFAULT_MODEL} بازگردانی و ذخیره شد ✓`);
+  toast('کلید پیش‌فرض بازگردانی شد ✓');
+}
+
+function ksync() {
+  const b = Q('#kb');
+  if (b) b.textContent = getKey() ? '🔑 کلید API ✓' : '🔑 افزودن کلید API';
+}
+
+async function klistModels() {
+  const { key, fixedPrefix } = cleanKey(Q('#kk').value);
+  Q('#kk').value = key;
+  updateKeyBadge(key);
+  if (!key) {
+    showKeyBox('err', 'ابتدا کلید API را وارد کنید یا «🔄 بازگردانی کلید پیش‌فرض» را بزنید.');
+    return;
+  }
+
+  const btn = Q('#klistBtn');
+  btn.disabled = true;
+  showKeyBox('info', (fixedPrefix ? 'پیشوند اضافی حذف شد. ' : '') + 'در حال دریافت لیست مدل‌های فعال اکانت شما از گوگل…');
+
+  try {
+    const live = await fetchLiveModels(key);
+    const ranked = rankGeminiModels(live, false);
+    if (!ranked.length) {
+      showKeyBox('err', 'لیست مدل‌ها دریافت شد اما هیچ مدل Gemini فعالی در پاسخ نبود.');
+      return;
+    }
+    const current = cleanModel(Q('#km').value);
+    const chosen = ranked.includes(current) ? current : ranked[0];
+    populateModelDropdown(ranked, chosen);
+    Q('#km').value = chosen;
+    sv('model', chosen);
+    showKeyBox('ok', `✅ تعداد ${fa(ranked.length)} مدل فعال Gemini روی اکانت شما پیدا شد و در لیست بالا قرار گرفت.\nمدل پیشنهادی انتخاب‌شده: ${chosen}`);
+    toast(fa(ranked.length) + ' مدل فعال دریافت شد ✓');
+  } catch (err) {
+    showKeyBox('err', diagnoseErrorFa(err), formatRawErr(err));
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function ktest() {
+  const { key, fixedPrefix } = cleanKey(Q('#kk').value);
+  Q('#kk').value = key;
+  updateKeyBadge(key);
+  if (!key) {
+    showKeyBox('err', 'لطفاً کلید API را وارد کنید یا «🔄 بازگردانی کلید پیش‌فرض» را بزنید.');
+    return;
+  }
+
+  const startModel = cleanModel(Q('#km').value);
+  const btn = Q('#ktestBtn'), listBtn = Q('#klistBtn');
+  btn.disabled = true;
+  if (listBtn) listBtn.disabled = true;
+  showKeyBox('info', (fixedPrefix ? 'پیشوند اشتباه حذف شد. ' : '') + `در حال تست اتصال مدل ${startModel} روی Google AI Studio (v1beta)…`);
+
+  const testParts = [{ text: 'OK' }];
+  const testCfg = { maxOutputTokens: 16 };
+
+  try {
+    let result = null;
+    try {
+      result = await callGeminiChain(key, startModel, testParts, testCfg, { forceAiStudioFirst: true });
+    } catch (firstErr) {
+      if (isModelError(firstErr) || firstErr.httpStatus === 429) {
+        result = await discoverWorkingModel(key, startModel, msg => showKeyBox('info', msg));
+      } else {
+        throw firstErr;
+      }
+    }
+
+    Q('#km').value = result.model;
+    syncModelDropdown(result.model);
+    sv('apikey', key);
+    sv('model', result.model);
+    sv('model_verified', true);
+    sv('key_cleared', false);
+    sv('endpoint_mode', result.endpoint.mode);
+    ksync();
+
+    showKeyBox('ok', `✅ اتصال با موفقیت برقرار شد! مدل فعال انتخاب‌شده: ${result.model}\nمسیر فعال: ${result.endpoint.label}`);
+    toast('اتصال Gemini API برقرار شد ✓');
+  } catch (err) {
+    showKeyBox('err', diagnoseErrorFa(err), formatRawErr(err));
+  } finally {
+    btn.disabled = false;
+    if (listBtn) listBtn.disabled = false;
+  }
+}
+
+/* =========================================================================
+   ۱۲. خواندن عکس آزمایش با Gemini (فشرده‌سازی بدون نشت حافظه، پارس تاریخ و Undo)
+   ========================================================================= */
+const fmtSize = b => !b ? '' : (b < 1048576 ? fa(Math.max(1, Math.round(b / 1024))) + ' KB' : fa((b / 1048576).toFixed(1)) + ' MB');
+
+function fileToDataUrl(f) {
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onerror = () => reject(new Error('فایل عکس خوانده نشد'));
+    fr.onload = () => resolve(String(fr.result || ''));
+    fr.readAsDataURL(f);
+  });
+}
+
+function drawImageToJpeg(im, fallbackSize, maxPx = 1600) {
+  const w0 = im.naturalWidth || im.width || 0;
+  const h0 = im.naturalHeight || im.height || 0;
+  const maxDim = Math.max(w0, h0);
+  const s = maxDim > 0 ? Math.min(1, maxPx / maxDim) : 1;
+  const c = document.createElement('canvas');
+  c.width = Math.max(1, Math.round(w0 * s));
+  c.height = Math.max(1, Math.round(h0 * s));
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.drawImage(im, 0, 0, c.width, c.height);
+  const outUrl = c.toDataURL('image/jpeg', 0.85);
+  const outBase64 = outUrl.split(',')[1];
+  if (!outBase64) throw new Error('canvas empty');
+  return { data: outBase64, mimeType: 'image/jpeg', previewUrl: outUrl, width: w0, height: h0, size: fallbackSize || 0 };
+}
+
+/* فشرده‌سازی عکس با آزادسازی فوری ObjectURL در هر دو حالت onload/onerror و پشتیبان FileReader */
+async function shrink(f, maxPx = 1600) {
+  const rawMime = (f.type && f.type.startsWith('image/')) ? f.type : 'image/jpeg';
+  try {
+    if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
+      return await new Promise((resolve, reject) => {
+        const u = URL.createObjectURL(f);
+        const im = new Image();
+        im.onload = () => {
+          URL.revokeObjectURL(u);
+          try { resolve(drawImageToJpeg(im, f.size, maxPx)); }
+          catch (err) { reject(err); }
+        };
+        im.onerror = () => {
+          URL.revokeObjectURL(u);
+          reject(new Error('objectURL decode failed'));
+        };
+        im.src = u;
+      });
+    }
+  } catch (e) { /* افت خودکار به FileReader */ }
+
+  const dataUrl = await fileToDataUrl(f);
+  const rawBase64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : '';
+  if (!rawBase64) throw new Error('محتوای عکس خالی است');
+  return await new Promise(resolve => {
+    const im = new Image();
+    im.onload = () => {
+      try { resolve(drawImageToJpeg(im, f.size, maxPx)); }
+      catch (err) { resolve({ data: rawBase64, mimeType: rawMime, previewUrl: dataUrl, width: im.width || 0, height: im.height || 0, size: f.size || 0 }); }
+    };
+    im.onerror = () => resolve({ data: rawBase64, mimeType: rawMime, previewUrl: dataUrl, width: 0, height: 0, size: f.size || 0 });
+    im.src = dataUrl;
+  });
+}
+
+let LASTU = [];
+
+function gValid(y, mo, d) {
+  const dt = new Date(Date.UTC(y, mo - 1, d));
+  if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== mo - 1 || dt.getUTCDate() !== d) return null;
+  return y + '-' + String(mo).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+}
+
+/* پارس تاریخ در هر دو قالب YYYY/MM/DD و DD/MM/YYYY برای تاریخ شمسی (1300-1499) و میلادی (1900-2199) */
+function pdate(x) {
+  const s = nrm(x || '');
+  const m1 = s.match(/(\d{4})\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(\d{1,2})/);
+  if (m1) {
+    const y = +m1[1], mo = +m1[2], d = +m1[3];
+    if (mo >= 1 && mo <= 12 && d >= 1 && d <= 31) {
+      if (y >= 1300 && y <= 1499) return j2iExact(y, mo, d);
+      if (y >= 1900 && y <= 2199) return gValid(y, mo, d);
+    }
+  }
+  const m2 = s.match(/(\d{1,2})\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(\d{4})/);
+  if (m2) {
+    const d = +m2[1], mo = +m2[2], y = +m2[3];
+    if (mo >= 1 && mo <= 12 && d >= 1 && d <= 31) {
+      if (y >= 1300 && y <= 1499) return j2iExact(y, mo, d);
+      if (y >= 1900 && y <= 2199) return gValid(y, mo, d);
+    }
+  }
+  return null;
+}
+
+function isJsonMimeError(err) {
+  const low = String(err?.rawMessage || err?.message || '').toLowerCase();
+  return err?.httpStatus === 400 && (low.includes('responsemimetype') || low.includes('response_mime_type') || low.includes('json mode'));
+}
+
+async function sendOcrRequest(key, model, parts, maxTok = 4096) {
+  const genCfgJson = { responseMimeType: 'application/json', temperature: 0.1, maxOutputTokens: maxTok };
+  const genCfgPlain = { temperature: 0.1, maxOutputTokens: maxTok };
+  try {
+    return await callGeminiChain(key, model, parts, genCfgJson);
+  } catch (err) {
+    if (isJsonMimeError(err)) {
+      return await callGeminiChain(key, model, parts, genCfgPlain);
+    }
+    throw err;
+  }
+}
+
+async function readImg(imgInfo, key, model, onStatus) {
+  const list = TS.map(t => `${t.id} | ${t.code} | ${t.unit || '-'}`).join('\n');
+  const prompt = `You read photos of lab result sheets. Extract every numeric lab value you can read confidently. Map each one to an id from the list below (id | code | expected unit). If the sheet uses a different unit, convert to the expected unit; if you cannot convert reliably, put it in "unmatched". Tests that are not in the list also go to "unmatched". Never guess a value that is unreadable. URINALYSIS (U/A, ادرار) sheets: map to ids starting with ua_ (NOT to serum uric acid id \"ua\"). Convert qualitative dipstick results to numbers: negative/nil/normal=0, trace=0.5, 1+ (or small)=1, 2+ (moderate)=2, 3+ (large)=3, 4+=4; nitrite negative=0 positive=1; bacteria/crystals none=0, few=1, moderate=2, many=3. For WBC/RBC/epithelial per HPF or casts per LPF give one number (for a range like 3-5 use the upper number; for \">100\" use 100; for \"0-1\" use 1; \"occasional\"=1). pH and specific gravity stay numeric. Read every urinalysis line (including microscopy section). Reply with ONLY this JSON: {"date":string|null,"results":[{"id":string,"value":number}],"unmatched":[{"name":string,"value":number|null,"unit":string}]}. "date" is the sample/report date exactly as printed on the sheet (digits, e.g. 1405/07/20 or 2026-10-12), or null.\n\nTests:\n${list}`;
+
+  const parts = [
+    { inlineData: { mimeType: imgInfo.mimeType || 'image/jpeg', data: imgInfo.data } },
+    { text: prompt }
+  ];
+
+  let res;
+  try {
+    res = await sendOcrRequest(key, model, parts);
+  } catch (err) {
+    if (isModelError(err)) {
+      onStatus?.('در حال یافتن مدل فعال…');
+      const discovered = await discoverWorkingModel(key, cleanModel(model), onStatus);
+      onStatus?.(`ارسال با ${discovered.model}…`);
+      res = await sendOcrRequest(key, discovered.model, parts);
+    } else {
+      throw err;
+    }
+  }
+
+  const cand = res.data?.candidates?.[0];
+  const finish = cand?.finishReason || '';
+  const txt = extractText(res.data);
+
+  if (finish && !['STOP', 'FINISH_REASON_UNSPECIFIED'].includes(finish)) {
+    if (['SAFETY', 'PROHIBITED_CONTENT', 'BLOCKLIST', 'RECITATION'].includes(finish)) {
+      throw makeApiError(422, `Blocked by model filter (finishReason: ${finish})`, res.endpoint.label);
+    }
+    if (!txt) {
+      throw makeApiError(422, `Empty output (finishReason: ${finish})`, res.endpoint.label);
+    }
+    try {
+      return parseJsonSafe(txt);
+    } catch (pe) {
+      throw makeApiError(422, `Incomplete JSON (finishReason: ${finish}): ${pe.message}`, res.endpoint.label);
+    }
+  }
+
+  return parseJsonSafe(txt);
+}
+
+function setThumbStatus(idxPhoto, text, cls) {
+  const card = Q(`.qthumb[data-idx="${idxPhoto}"]`);
+  if (!card) return;
+  const pill = card.querySelector('.qthumb-st');
+  if (pill) {
+    pill.textContent = text;
+    pill.className = 'qthumb-st ' + (cls || 'busy');
+  }
+}
+
+async function qimgs(files) {
+  if (!M) return toast('اول یک بیمار بسازید یا انتخاب کنید');
+  const key = getKey();
+  if (!key) { closeDlg(Q('#qd')); kopen(); toast('ابتدا کلید API را وارد کنید'); return; }
+
+  const list = [...files].filter(f => f && (!f.type || f.type.startsWith('image/')));
+  if (!list.length) return toast('لطفاً فایل عکس انتخاب کنید');
+
+  qopen(true);
+  const st = Q('#qst'), thumbsEl = Q('#qthumbs');
+  const auto = Q('#qauto').checked, rd = Q('#qdate').checked;
+
+  sv('qauto', auto);
+  sv('qdate', rd);
+  Q('#qa').disabled = true;
+  Q('#qun').hidden = true;
+  Q('#qp').innerHTML = '';
+  Q('#qt').value = '';
+
+  thumbsEl.innerHTML = list.map((f, i) => `
+    <div class="qthumb" data-idx="${i}">
+      <img alt="${esc(f.name || 'lab-photo')}">
+      <div class="qthumb-name" title="${esc(f.name || '')}">${esc(f.name || ('عکس ' + fa(i + 1)))}</div>
+      <div class="qthumb-meta">${fmtSize(f.size) || '—'}</div>
+      <div class="qthumb-st busy">در صف بررسی…</div>
+    </div>`).join('');
+
+  const lookup = buildTestLookup();
+  const by = Object.fromEntries(TS.map(t => [t.id, t]));
+  const lines = [], chips = [], undo = [], seenUndo = new Set();
+  let n = 0, lastD = null;
+
+  for (let i = 0; i < list.length; i++) {
+    st.textContent = `در حال پردازش عکس ${fa(i + 1)} از ${fa(list.length)}…`;
+    setThumbStatus(i, 'در حال فشرده‌سازی…', 'busy');
+    try {
+      const imgInfo = await shrink(list[i]);
+      const card = Q(`.qthumb[data-idx="${i}"]`);
+      if (card) {
+        const imgEl = card.querySelector('img');
+        if (imgEl && imgInfo.previewUrl) imgEl.src = imgInfo.previewUrl;
+        const metaEl = card.querySelector('.qthumb-meta');
+        if (metaEl) {
+          const dims = imgInfo.width && imgInfo.height ? `${fa(imgInfo.width)}×${fa(imgInfo.height)}` : '';
+          const sz = fmtSize(imgInfo.size);
+          metaEl.textContent = [dims, sz].filter(Boolean).join(' · ') || 'تصویر آماده';
+        }
+      }
+
+      setThumbStatus(i, 'در حال ارسال به Gemini…', 'busy');
+      const o = await readImg(imgInfo, key, getModel(), msg => setThumbStatus(i, msg, 'busy'));
+
+      /* یکتاسازی آزمایش‌های استخراج‌شده پیش از نوشتن */
+      const matched = new Map();
+      for (const x of (o.results || [])) {
+        const id = resolveTestId(x, lookup);
+        const v = parseLabNumber(x?.value);
+        if (id && v != null && isFinite(v)) matched.set(id, v);
+      }
+      const res = [...matched.entries()].map(([id, value]) => ({ id, value }));
+      const d = (rd && pdate(o.date)) || D;
+
+      if (auto && res.length) {
+        res.forEach(x => {
+          const uKey = x.id + '@' + d;
+          if (!seenUndo.has(uKey)) {
+            seenUndo.add(uKey);
+            undo.push({ id: x.id, d, prev: at(x.id, d) });
+          }
+          setVal(x.id, x.value, d, true);
+        });
+        lastD = d;
+      } else if (!auto) {
+        res.forEach(x => lines.push(x.id + ' ' + x.value));
+      }
+
+      n += res.length;
+      if (res.length) {
+        setThumbStatus(i, `✅ ${fa(res.length)} آزمایش خوانده شد`, 'done');
+        chips.push(`<span>📷${fa(i + 1)}: ${fa(res.length)} مورد · ${fd(d, 1)}</span>`);
+        res.forEach(x => {
+          const t = by[x.id], f = flag(x.value, rng(t, M.sex));
+          chips.push(`<span class="${f === 'H' || f === 'L' ? 'w' : ''}">${esc(t.code)} ${fq(t, x.value)}${f === 'H' ? ' ↑' : f === 'L' ? ' ↓' : ''}</span>`);
+        });
+      } else {
+        setThumbStatus(i, '⚠ آزمایشی یافت نشد', 'warn');
+        chips.push(`<span class="w">📷${fa(i + 1)}: مورد قابل خواندنی یافت نشد</span>`);
+      }
+
+      (o.unmatched || []).forEach(x => chips.push(`<span class="nx">؟ ${esc((x.name || '') + ' ' + (x.value ?? '') + ' ' + (x.unit || ''))}</span>`));
+    } catch (e) {
+      setThumbStatus(i, '❌ خطا در خواندن عکس', 'err');
+      chips.push(`<span class="nx">📷${fa(i + 1)}: ${esc(diagnoseErrorFa(e))}<pre class="raw-err" dir="ltr">${esc(formatRawErr(e))}</pre></span>`);
+    }
+    Q('#qp').innerHTML = chips.join('');
+  }
+
+  if (auto) {
+    if (undo.length) {
+      LASTU = undo;
+      syncMeta();
+    }
+    if (lastD) D = lastD;
+    render();
+    Q('#qdt').textContent = fd(D, 1);
+    Q('#qun').hidden = !LASTU.length;
+    st.textContent = n
+      ? fa(n) + ' آزمایش خوانده و در جدول ثبت شد. اگر چیزی غلط بود «برگرداندن» را بزن.'
+      : 'چیزی خوانده نشد؛ کیفیت عکس یا خطای زیر را بررسی کن.';
+    if (n) toast(fa(n) + ' آزمایش از عکس ثبت شد ✓');
+  } else {
+    Q('#qt').value = lines.join('\n');
+    qprev();
+    Q('#qp').insertAdjacentHTML('afterbegin', chips.join(''));
+    st.textContent = fa(n) + ' مورد خوانده شد — قبل از ثبت چک کن.';
+  }
+  Q('#qa').disabled = !qparse().ok.size;
+}
+
+function qundo() {
+  if (!LASTU.length) return;
+  LASTU.slice().reverse().forEach(u => {
+    setVal(u.id, u.prev === undefined ? null : u.prev, u.d, true);
+  });
+  LASTU = [];
+  syncMeta();
+  Q('#qun').hidden = true;
+  render();
+  toast('ثبت قبلی برگردانده شد');
+}
+
+/* چسباندن عکس از کلیپ‌بورد (فقط زمانی که تصویر در کلیپ‌بورد باشد تا Paste متن نشکند) */
+async function qpasteFromBtn() {
+  if (!M) return toast('اول یک بیمار انتخاب کن');
+  if (!navigator.clipboard || typeof navigator.clipboard.read !== 'function') {
+    Q('#qst').textContent = 'برای چسباندن عکس از کلیپ‌بورد، کلیدهای Ctrl+V را فشار دهید.';
+    toast('لطفاً Ctrl+V را فشار دهید');
+    return;
+  }
+  try {
+    const clipItems = await navigator.clipboard.read();
+    const files = [];
+    let k = 1;
+    for (const item of clipItems) {
+      const imgType = item.types.find(t => t.startsWith('image/'));
+      if (imgType) {
+        const blob = await item.getType(imgType);
+        const ext = imgType.split('/')[1] || 'png';
+        files.push(new File([blob], `pasted-lab-${k++}.${ext}`, { type: imgType }));
+      }
+    }
+    if (!files.length) {
+      Q('#qst').textContent = 'عکسی در کلیپ‌بورد پیدا نشد؛ ابتدا یک عکس کپی کنید یا Ctrl+V بزنید.';
+      toast('عکسی در کلیپ‌بورد نیست');
+      return;
+    }
+    qimgs(files);
+  } catch (err) {
+    Q('#qst').textContent = 'دسترسی خودکار به کلیپ‌بورد محدود است؛ همین‌جا کلیدهای Ctrl+V را فشار دهید.';
+    toast('مرورگر اجازه خواندن خودکار نداد — Ctrl+V بزنید');
+  }
+}
+
+window.addEventListener('paste', e => {
+  const items = [...(e.clipboardData?.items || [])];
+  const imgFiles = items
+    .filter(it => it.kind === 'file' && (it.type || '').startsWith('image/'))
+    .map(it => it.getAsFile())
+    .filter(Boolean);
+  if (!imgFiles.length) return; /* هرگز جلوی Paste متن را نمی‌گیرد */
+  if (!M) { toast('اول یک بیمار بسازید یا انتخاب کنید'); return; }
+  e.preventDefault();
+  const qdOpen = Q('#qd').open || Q('#qd').classList.contains('dlg-fb');
+  if (TAB === 'doc' && !qdOpen) docImgs(imgFiles); else qimgs(imgFiles);
+});
+
+/* کشیدن و رها کردن (Drag & Drop) روی باکس Dropzone */
+const qdropEl = Q('#qdrop');
+if (qdropEl) {
+  ['dragenter', 'dragover'].forEach(ev => qdropEl.addEventListener(ev, e => {
+    e.preventDefault();
+    e.stopPropagation();
+    qdropEl.classList.add('drag');
+  }));
+  ['dragleave', 'drop'].forEach(ev => qdropEl.addEventListener(ev, e => {
+    e.preventDefault();
+    e.stopPropagation();
+    qdropEl.classList.remove('drag');
+  }));
+  qdropEl.addEventListener('drop', e => {
+    const fs = [...(e.dataTransfer?.files || [])].filter(f => !f.type || f.type.startsWith('image/'));
+    if (!fs.length) return toast('لطفاً فقط فایل عکس رها کنید');
+    qimgs(fs);
+  });
+}
+
+/* دانلود نسخه تمیز و مستقل HTML بدون داده‌ها یا حالت‌های موقت DOM */
+function downloadHtml() {
+  const clone = document.documentElement.cloneNode(true);
+  ['#main', '#pl', '#qthumbs', '#qp'].forEach(s => { const el = clone.querySelector(s); if (el) el.innerHTML = ''; });
+  ['#qst', '#qt', '#toast'].forEach(s => { const el = clone.querySelector(s); if (el) el.textContent = ''; });
+  const cKs = clone.querySelector('#ks'); if (cKs) { cKs.className = ''; cKs.textContent = ''; }
+  const cKraw = clone.querySelector('#kraw'); if (cKraw) { cKraw.hidden = true; cKraw.textContent = ''; }
+  const cBadge = clone.querySelector('#kbadge'); if (cBadge) { cBadge.hidden = true; cBadge.textContent = ''; cBadge.className = 'kbadge'; }
+  const cBd = clone.querySelector('#dlgBackdrop'); if (cBd) cBd.className = '';
+  const cToast = clone.querySelector('#toast'); if (cToast) cToast.className = '';
+  const cQun = clone.querySelector('#qun'); if (cQun) cQun.hidden = true;
+  clone.querySelectorAll('dialog').forEach(d => {
+    d.removeAttribute('open');
+    d.classList.remove('dlg-fb');
+    d.querySelectorAll('input').forEach(inp => {
+      if (inp.type === 'checkbox' || inp.type === 'radio') return;
+      if (inp.id === 'km') inp.setAttribute('value', DEFAULT_MODEL);
+      else inp.removeAttribute('value');
+    });
+    d.querySelectorAll('textarea').forEach(ta => { ta.textContent = ''; });
+  });
+
+  const html = '<!doctype html>\n' + clone.outerHTML;
+  const url = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' }));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'lab-notebook-v4-gemini.html';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+  toast('فایل مستقل HTML دانلود شد ✓');
+}
+
+/* =========================================================================
+   ۱۳. تب شرح حال، علائم حیاتی، سیر بیماری و کپی خلاصه (بدون پرش کیبورد موبایل)
+   ========================================================================= */
+const HX = [['cc', 'شکایت اصلی', 't', 1], ['hpi', 'شرح حال بیماری فعلی', 't', 4], ['pmh', 'سوابق بیماری', 't', 2], ['drug', 'داروهای مصرفی', 't', 2], ['alg', 'حساسیت (دارو/غذا)', 'i'], ['psh', 'سوابق جراحی', 't', 2], ['fh', 'سابقه خانوادگی', 't', 2], ['sh', 'عادات و شغل (سیگار، الکل، مواد…)', 't', 2]];
+const VT = [['bp', 'فشار خون', 'mmHg', '120/80', 'BP'], ['hr', 'نبض', '/min', '', 'HR'], ['rr', 'تنفس', '/min', '', 'RR'], ['t', 'دما', '°C', '', 'T'], ['spo2', 'SpO₂', '%', '', 'SpO2'], ['gcs', 'GCS', '', '', 'GCS']];
+
+function hxView() {
+  const h = M.hx || {}, n = (M.notes || {})[D] || {}, ds = Object.keys(M.notes || {}).filter(isValidIso).sort().reverse();
+  const fld = ([k, l, ty, r]) => ty === 'i'
+    ? `<label>${l}<input data-h="${k}" value="${esc(h[k])}" autocomplete="off"></label>`
+    : `<label class="w">${l}<textarea data-h="${k}" rows="${r}">${esc(h[k])}</textarea></label>`;
+  const vt = VT.map(([k, l, u, ph]) => `<label>${l}${u ? ` <small>${u}</small>` : ''}<input data-n="${k}" dir="ltr" placeholder="${ph}" value="${esc(n[k])}" autocomplete="off"></label>`).join('');
+  const tl = ds.map(d => {
+    const x = M.notes[d];
+    const v = VT.filter(([k]) => (x[k] || '').trim()).map(([k, l, u, p, c]) => c + ' ' + esc(x[k].trim())).join(' · ');
+    const sn = (x.orders || x.plan || x.exam || '').trim().slice(0, 110);
+    return `<button type="button" class="tli ${d === D ? 'on' : ''}" data-a="god" data-d="${d}"><b>${fd(d)}</b>${v ? `<span>${v}</span>` : ''}${sn ? `<small>${esc(sn)}</small>` : ''}</button>`;
+  }).join('');
+  return `<div class="row" style="margin-top:12px"><button type="button" class="btn p" data-a="copy">📋 کپی خلاصه برای پرونده</button><span style="font-size:12px;color:var(--mut)">ذخیره خودکار فعال است</span></div>
+<section class="sec"><div class="sh"><span class="dot" style="background:#b8336a"></span>شرح حال و سوابق</div><div class="card hf">${HX.map(fld).join('')}</div></section>
+<section class="sec"><div class="sh"><span class="dot" style="background:#2a8f9d"></span>سیر بیماری روزانه <small>علائم حیاتی، معاینه و برنامه‌ی همین تاریخ</small></div>${dateBar()}
+<div class="card" style="margin-top:8px"><div class="hf vt">${vt}</div><div class="hf" style="margin-top:10px"><label class="w">معاینه فیزیکی<textarea data-n="exam" rows="3">${esc(n.exam)}</textarea></label><label class="w">اوردرهای پزشکی <small>(با عکس اوردر خودکار جایگزین می‌شود)</small><textarea data-n="orders" rows="5">${esc(n.orders)}</textarea></label><label class="w">سیر بیماری، ارزیابی و برنامه<textarea data-n="plan" rows="3">${esc(n.plan)}</textarea></label></div></div></section>
+${ds.length ? `<section class="sec"><div class="sh"><span class="dot" style="background:#7a5cc0"></span>روزهای ثبت‌شده</div><div class="tl">${tl}</div></section>` : ''}`;
+}
+
+function hxSave(inp) {
+  if (!M || !sel) return;
+  if (inp.dataset.h != null) M = { ...M, hx: { ...(M.hx || {}), [inp.dataset.h]: inp.value } };
+  else {
+    const notes = { ...(M.notes || {}) }, n = { ...(notes[D] || {}), [inp.dataset.n]: inp.value };
+    if (Object.values(n).every(x => !String(x).trim())) delete notes[D];
+    else notes[D] = n;
+    M = { ...M, notes };
+  }
+  sv('p/' + sel, M);
+}
+
+function copyS() {
+  const age = M.by ? i2j(today())[0] - M.by : null, h = M.hx || {};
+  const L = [`${M.name}${age != null ? ' · ' + fa(age) + ' ساله' : ''} · ${M.sex === 'm' ? 'مرد' : 'زن'}${M.file ? ' · پرونده ' + M.file : ''}`];
+  HX.forEach(([k, l]) => { const v = (h[k] || '').trim(); if (v) L.push(`${l}: ${v}`); });
+  const n = (M.notes || {})[D];
+  if (n) {
+    L.push('', '— ' + fd(D) + ' —');
+    const v = VT.filter(([k]) => (n[k] || '').trim()).map(([k, l, u, p, c]) => c + ' ' + n[k].trim());
+    if (v.length) L.push('علائم حیاتی: ' + v.join(' | '));
+    if ((n.exam || '').trim()) L.push('معاینه: ' + n.exam.trim());
+    if ((n.orders || '').trim()) L.push('اوردرها:\n' + n.orders.trim());
+    if ((n.plan || '').trim()) L.push('سیر/برنامه: ' + n.plan.trim());
+  }
+  const lab = [];
+  Object.keys(CATS).forEach(c => {
+    const a = TS.filter(t => t.cat === c && at(t.id, D) != null).map(t => {
+      const v = at(t.id, D), f = flag(v, rng(t, M.sex));
+      return t.code + ' ' + fq(t, v) + (f === 'H' ? '↑' : f === 'L' ? '↓' : '');
+    });
+    if (a.length) lab.push(a.join('  '));
+  });
+  if (lab.length) L.push('', 'آزمایش‌ها (' + fd(D) + '):', ...lab);
+  const dd = DOCS.filter(x => x.d === D);
+  if (dd.length) {
+    L.push('', 'اسناد (' + fd(D) + '):');
+    dd.forEach(x => L.push('• ' + (DTN[x.type] || '') + (x.title ? ' — ' + x.title : '') + (x.summary ? ': ' + x.summary.trim() : '')));
+  }
+  const t = L.join('\n'), ok = () => toast('خلاصه کپی شد');
+
+  const a = document.createElement('textarea');
+  a.value = t;
+  a.readOnly = true;
+  a.setAttribute('readonly', '');
+  a.style.cssText = 'position:fixed;opacity:0;top:0;left:-9999px';
+  document.body.appendChild(a);
+  a.select();
+  a.setSelectionRange(0, t.length);
+  try {
+    if (document.execCommand('copy')) ok();
+    else if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(ok, () => toast('کپی نشد'));
+    else toast('کپی نشد');
+  } catch (e) { toast('کپی نشد'); }
+  a.remove();
+}
+
+/* =========================================================================
+   ۱۴. پشتیبان‌گیری، بازیابی (با حفظ شرح حال و بازمحاسبه آمار) و پرونده نمونه
+   ========================================================================= */
+function buildBackup() {
+  return {
+    app: 'lab-notebook', v: 1, at: new Date().toISOString(),
+    catalog: ld('catalog', []),
+    patients: idx.map(meta).filter(Boolean).map(m => ({
+      meta: m,
+      results: Object.fromEntries((m.tests || []).map(t => [t, ld('r/' + m.id + '/' + t, [])])),
+      docs: m.id === sel ? DOCS : ld('doc/' + m.id, []),
+      ai: ld('ai/' + m.id, null)
+    }))
+  };
+}
+
+function exportJ() {
+  if (!idx.length) return toast('پرونده‌ای نیست');
+  const o = buildBackup();
+  const url = URL.createObjectURL(new Blob([JSON.stringify(o, null, 1)], { type: 'application/json' }));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'lab-notebook-' + today() + '.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+  toast('فایل پشتیبان دانلود شد');
+}
+
+Q('#file').addEventListener('change', async e => {
+  const f = e.target.files[0];
+  e.target.value = '';
+  if (!f) return;
+  try {
+    const z = JSON.parse(await f.text());
+    if (z.app !== 'lab-notebook') throw 0;
+    const have = new Set(ld('catalog', []).map(c => c.id));
+    const cat = [...ld('catalog', []), ...(z.catalog || []).filter(c => c && c.id && !have.has(c.id))];
+    sv('catalog', cat);
+    TS = tests();
+    let n = 0;
+    for (const p of z.patients || []) {
+      if (!p || !p.meta) continue;
+      const id = uid();
+      const resMap = {};
+      for (const [t, a] of Object.entries(p.results || {})) {
+        if (Array.isArray(a) && a.length) {
+          sv('r/' + id + '/' + t, a);
+          resMap[t] = a;
+        }
+      }
+      const baseMeta = { ...p.meta, id, hx: p.meta.hx || {}, notes: p.meta.notes || {} };
+      if (Array.isArray(p.docs) && p.docs.length) sv('doc/' + id, p.docs);
+      if (p.ai && p.ai.data) sv('ai/' + id, p.ai);
+      const synced = computeMetaStats(baseMeta, resMap, TS);
+      sv('p/' + id, synced);
+      idx.push(id);
+      n++;
+    }
+    sv('idx', idx);
+    if (idx.length) openPatient(idx[idx.length - 1]);
+    toast(fa(n) + ' پرونده بازیابی شد');
+  } catch (x) {
+    toast('این فایل پشتیبانِ دفتر آزمایش نیست');
+  }
+});
+
+function sample() {
+  const id = uid();
+  const d = [-176, -84, -8].map(n => {
+    const x = new Date();
+    x.setDate(x.getDate() + n);
+    return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
+  });
+  const S = { hb: [11.2, 11.6, 11.4], wbc: [6.8, 7.4, 7.1], plt: [248, 262, 255], fbs: [138, 121, 109], a1c: [7.4, 6.9, 6.5], chol: [236, 214, 198], ldl: [148, 128, 112], cr: [.9, .95, .92], tsh: [5.6, 4.8, 4.2], vitd: [14, 22, 31] };
+  Object.entries(S).forEach(([t, v]) => sv('r/' + id + '/' + t, v.map((x, i) => ({ id: t + i, d: d[i], v: x }))));
+  sv('p/' + id, { name: 'زهرا رحیمی', file: '1402-118', by: 1353, sex: 'f', blood: 'A+', phone: '', note: 'دیابت نوع ۲ · کم‌کاری خفیف تیروئید', id, created: Date.now(), tests: Object.keys(S), last: d[2], flags: 0 });
+  idx.push(id);
+  sv('idx', idx);
+  openPatient(id);
+  syncMeta();
+}
+
+/* =========================================================================
+   ۱۴. تب «سیر آزمایشات»: جدول زمانی + نمودار روند (SVG خالص، بدون کتابخانه)
+   ========================================================================= */
+const TR = { mode: 'table', q: '', cat: '', multi: true, pin: false, abn: false, newest: true, real: false, pick: null, pid: null };
+const C_H = '#b5361c', C_L = '#2f6fd6', C_OK = '#1c9d7c', C_NEU = '#5b5480';
+
+const trSer = t => (R[t.id] || []).filter(p => p && isValidIso(p.d) && isFinite(p.v)).sort((x, y) => x.d < y.d ? -1 : 1);
+const trHasR = r => r.lo != null || r.hi != null;
+const trCol = (f, r) => !trHasR(r) ? C_NEU : f === 'H' ? C_H : f === 'L' ? C_L : C_OK;
+const trDays = s => Date.UTC(+s.slice(0, 4), +s.slice(5, 7) - 1, +s.slice(8, 10)) / 864e5;
+function trLast(t) {
+  const s = trSer(t), p = s[s.length - 1], r = rng(t, M.sex);
+  return { p, r, f: p ? flag(p.v, r) : '' };
+}
+
+function trTests() {
+  const q = TR.q.trim().toLowerCase();
+  return TS.filter(t => {
+    const s = trSer(t);
+    if (!s.length) return false;
+    if (TR.multi && s.length < 2) return false;
+    if (TR.pin && !PN.has(t.id)) return false;
+    if (TR.cat && t.cat !== TR.cat) return false;
+    if (TR.abn && !['H', 'L'].includes(trLast(t).f)) return false;
+    if (q && !(t.name + ' ' + t.code).toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function trAuto(list) {
+  const multi = list.filter(t => trSer(t).length >= 2);
+  const pool = multi.length ? multi : list;
+  const bad = pool.filter(t => ['H', 'L'].includes(trLast(t).f));
+  const rest = pool.filter(t => !bad.includes(t))
+    .sort((a, b) => (PN.has(b.id) - PN.has(a.id)) || (trSer(b).length - trSer(a).length));
+  return new Set([...bad, ...rest].slice(0, 6).map(t => t.id));
+}
+
+function trDelta(s) {
+  if (s.length < 2) return '<small>—</small>';
+  const a = s[0].v, b = s[s.length - 1].v, d = b - a;
+  if (!d) return '<small>بدون تغییر</small>';
+  const pct = a ? Math.abs(d / a * 100) : null;
+  return `<small dir="ltr" title="تغییر از اولین تا آخرین نمونه">${d > 0 ? '▲' : '▼'} ${fa(fv(Math.abs(d)))}${pct != null && isFinite(pct) ? ` (${fa(pct.toFixed(0))}٪)` : ''}</small>`;
+}
+
+function trSpark(t, s) {
+  if (s.length < 2) return '';
+  const W = 78, H = 24, pd = 3, vs = s.map(p => p.v), mn = Math.min(...vs), mx = Math.max(...vs), sp = mx - mn || 1;
+  const X = i => pd + i * (W - 2 * pd) / (s.length - 1), Y = v => H - pd - (v - mn) / sp * (H - 2 * pd);
+  const pts = s.map((p, i) => X(i).toFixed(1) + ',' + Y(p.v).toFixed(1)).join(' ');
+  const l = s[s.length - 1], r = rng(t, M.sex), c = trCol(flag(l.v, r), r);
+  return `<svg class="spk" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="#9a94b8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${X(s.length - 1).toFixed(1)}" cy="${Y(l.v).toFixed(1)}" r="3" fill="${c}"/></svg>`;
+}
+
+function trTable(list) {
+  const set = new Set();
+  list.forEach(t => trSer(t).forEach(p => set.add(p.d)));
+  const ds = [...set].sort();
+  if (TR.newest) ds.reverse();
+  let body = '';
+  Object.keys(CATS).forEach(c => {
+    const L = list.filter(t => t.cat === c);
+    if (!L.length) return;
+    body += `<tr class="cg"><td colspan="${ds.length + 2}"><span class="cgl"><span class="dot" style="background:${CATS[c][1]}"></span>${esc(CATS[c][0])}</span></td></tr>`;
+    L.forEach(t => {
+      const s = trSer(t), r = rng(t, M.sex), rg = fmtRange(r);
+      const cells = ds.map(d => {
+        const v = at(t.id, d);
+        if (v == null) return '<td class="e">·</td>';
+        const f = flag(v, r), p = prev(t.id, d);
+        const ar = p && p.v !== v ? (v > p.v ? '▲' : '▼') : '';
+        const tip = `${t.name} — ${fd(d)}${p ? ` (قبلی: ${fa(fq(t, p.v))})` : ''}`;
+        return `<td class="${f === 'H' ? 'h' : f === 'L' ? 'l' : ''}" title="${esc(tip)}">${fa(fq(t, v))}${ar ? `<i>${ar}</i>` : ''}</td>`;
+      }).join('');
+      body += `<tr><th class="s"><button type="button" class="trn" data-a="trrow" data-t="${t.id}" title="نمایش نمودار این آزمایش"><b>${esc(t.name)}</b><small><bdi dir="ltr">${esc(t.code)}</bdi>${t.unit ? ' · <bdi dir="ltr">' + esc(t.unit) + '</bdi>' : ''}${rg ? ' · <bdi dir="ltr">' + rg + '</bdi>' : ''}</small></button></th><td class="sp">${trSpark(t, s)}${trDelta(s)}</td>${cells}</tr>`;
+    });
+  });
+  const head = ds.map(d => `<th>${fd(d, 1)}</th>`).join('');
+  return `<div class="trw"><table class="trt"><thead><tr><th class="s">آزمایش</th><th>روند</th>${head}</tr></thead><tbody>${body}</tbody></table></div>
+  <div class="trleg"><span><i style="background:#fdebe7;border:1px solid #e9a898"></i>بالاتر از نرمال</span><span><i style="background:#e8f0fd;border:1px solid #a9c2f0"></i>پایین‌تر از نرمال</span><span>▲▼ تغییر نسبت به نمونه‌ی قبلی همان آزمایش</span><span>برای دیدن نمودار روی نام آزمایش بزن</span></div>`;
+}
+
+function trNice(lo, hi, n) {
+  const span = hi - lo || Math.abs(hi) || 1, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const m = raw / mag, step = (m < 1.5 ? 1 : m < 3 ? 2 : m < 7 ? 5 : 10) * mag;
+  const a = Math.floor(lo / step + 1e-9) * step, b = Math.ceil(hi / step - 1e-9) * step, out = [];
+  for (let v = a; v <= b + step / 2; v += step) out.push(+v.toFixed(6));
+  return out;
+}
+
+function trChart(t, big) {
+  const s = trSer(t);
+  if (!s.length) return '';
+  const r = rng(t, M.sex), n = s.length, hasR = trHasR(r);
+  const W = big ? 760 : 400, H = big ? 300 : 210, L = 46, RR = 16, T = 20, B = 42;
+  const pw = W - L - RR, ph = H - T - B;
+  const vals = s.map(p => p.v);
+  let lo = Math.min(...vals), hi = Math.max(...vals);
+  const nonNeg = lo >= 0 && (r.lo == null || r.lo >= 0);
+  if (r.lo != null) lo = Math.min(lo, r.lo);
+  if (r.hi != null) hi = Math.max(hi, r.hi);
+  if (lo === hi) { lo -= 1; hi += 1; }
+  const pad = (hi - lo) * 0.12;
+  lo -= pad; hi += pad;
+  if (nonNeg && lo < 0) lo = 0;
+  const tk = trNice(lo, hi, big ? 5 : 4);
+  lo = tk[0]; hi = tk[tk.length - 1];
+  const Y = v => T + (hi - v) / (hi - lo) * ph;
+
+  let xs;
+  if (n === 1) xs = [L + pw / 2];
+  else if (TR.real) {
+    const d0 = trDays(s[0].d), sp = (trDays(s[n - 1].d) - d0) || 1;
+    xs = s.map(p => L + 14 + (trDays(p.d) - d0) / sp * (pw - 28));
+  } else xs = s.map((p, i) => L + 14 + i * (pw - 28) / (n - 1));
+
+  const grid = tk.map(v => `<line x1="${L}" x2="${W - RR}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="#e3e0ec" stroke-width="1"/><text x="${L - 7}" y="${(Y(v) + 4).toFixed(1)}" text-anchor="end" font-size="11" fill="#6b6787">${fa(fv(v))}</text>`).join('');
+
+  let band = '';
+  if (hasR) {
+    const y1 = r.hi != null ? Y(r.hi) : T, y2 = r.lo != null ? Y(r.lo) : H - B;
+    band = `<rect x="${L}" y="${y1.toFixed(1)}" width="${pw}" height="${Math.max(0, y2 - y1).toFixed(1)}" fill="${C_OK}" opacity=".11"/>`
+      + (r.hi != null ? `<line x1="${L}" x2="${W - RR}" y1="${y1.toFixed(1)}" y2="${y1.toFixed(1)}" stroke="${C_OK}" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>` : '')
+      + (r.lo != null ? `<line x1="${L}" x2="${W - RR}" y1="${y2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${C_OK}" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>` : '');
+  }
+
+  const labs = [];
+  let lx = Infinity;
+  for (let i = n - 1; i >= 0; i--) if (!labs.length || lx - xs[i] >= 50) { labs.unshift(i); lx = xs[i]; }
+  let py = null;
+  const xl = labs.map(i => {
+    const [y, m, d] = i2j(s[i].d), newY = py !== y;
+    py = y;
+    return `<text x="${xs[i].toFixed(1)}" y="${H - B + 15}" text-anchor="middle" font-size="11" fill="#6b6787">${fa(String(m).padStart(2, '0') + '/' + String(d).padStart(2, '0'))}</text>`
+      + (newY ? `<text x="${xs[i].toFixed(1)}" y="${H - B + 28}" text-anchor="middle" font-size="10" fill="#9a94b8">${fa(y)}</text>` : '');
+  }).join('');
+
+  const line = n > 1 ? `<polyline points="${s.map((p, i) => xs[i].toFixed(1) + ',' + Y(p.v).toFixed(1)).join(' ')}" fill="none" stroke="${C_NEU}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" opacity=".85"/>` : '';
+  const showAll = n <= 10;
+  const pts = s.map((p, i) => {
+    const f = flag(p.v, r), c = trCol(f, r), x = xs[i], y = Y(p.v), last = i === n - 1;
+    const ly = y - 9 < T - 2 ? y + 17 : y - 9;
+    const lab = (showAll || f === 'H' || f === 'L' || last)
+      ? `<text x="${x.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" font-size="11" font-weight="700" fill="${c}">${fa(fq(t, p.v))}</text>` : '';
+    const tip = `${fd(p.d)} — ${fa(fq(t, p.v))} ${t.sc ? '' : (t.unit || '')}${f === 'H' ? ' (بالا)' : f === 'L' ? ' (پایین)' : ''}`;
+    return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${last ? 5.5 : 4.5}" fill="${last ? c : '#fff'}" stroke="${c}" stroke-width="2.2"><title>${esc(tip)}</title></circle>${lab}`;
+  }).join('');
+
+  return `<svg class="trsvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc('نمودار روند ' + t.name)}">${band}${grid}${line}${pts}${xl}</svg>`;
+}
+
+function trCard(t, big) {
+  const s = trSer(t), l = s[s.length - 1], p = s[s.length - 2], r = rng(t, M.sex), f = flag(l.v, r), rg = fmtRange(r);
+  const dl = p ? l.v - p.v : null, c = trHasR(r) ? trCol(f, r) : 'var(--ink)';
+  return `<div class="trc ${big ? 'big' : ''} ${f === 'H' || f === 'L' ? 'bad' : ''}">
+    <div class="trh">
+      <div><b>${esc(t.name)}</b><i>${esc(t.code)}</i><small>${t.unit && !t.sc ? '<bdi dir="ltr">' + esc(t.unit) + '</bdi>' : ''}${rg ? ' · نرمال: <bdi dir="ltr">' + rg + '</bdi>' : ''} · ${fa(s.length)} نمونه</small></div>
+      <div class="trv" style="color:${c}">${fa(fq(t, l.v))}${f === 'H' ? ' ↑' : f === 'L' ? ' ↓' : ''}${dl ? `<small>${dl > 0 ? '▲' : '▼'} ${fa(fv(Math.abs(dl)))}</small>` : ''}</div>
+    </div>${trChart(t, big)}</div>`;
+}
+
+function trBody() {
+  if (!Object.keys(R).length) return '<div class="empty">هنوز جوابی برای این بیمار ثبت نشده است.<br>از تب «آزمایش‌ها» مقادیر را وارد کن تا سیر آن‌ها اینجا نمایش داده شود.</div>';
+  const list = trTests();
+  if (!list.length) return '<div class="empty">موردی با این فیلترها پیدا نشد.<br><small>اگر فیلتر «حداقل ۲ نمونه» روشن است، خاموشش کن.</small></div>';
+  if (TR.mode === 'table') return trTable(list);
+  if (!TR.pick) TR.pick = trAuto(list);
+  const shown = list.filter(t => TR.pick.has(t.id));
+  const chips = list.map(t => {
+    const f = trLast(t).f;
+    return `<button type="button" class="chip ${TR.pick.has(t.id) ? 'on' : ''} ${f === 'H' || f === 'L' ? 'bad' : ''}" data-a="trpick" data-t="${t.id}" title="${esc(t.name)}">${esc(t.code || t.name)}</button>`;
+  }).join('');
+  return `<div class="trtools"><b style="font-size:13px">آزمایش‌های نمودار:</b>
+      <button type="button" class="btn" data-a="trauto">پیشنهادی</button>
+      <button type="button" class="btn" data-a="trabn">غیرطبیعی‌ها</button>
+      <button type="button" class="btn" data-a="trall">همه</button>
+      <button type="button" class="btn" data-a="trnone">هیچ‌کدام</button></div>
+    <div class="trchips">${chips}</div>
+    <div class="trleg"><span><i style="background:${C_OK};opacity:.25"></i>محدوده‌ی نرمال</span><span><i style="background:${C_H};border-radius:50%"></i>بالا</span><span><i style="background:${C_L};border-radius:50%"></i>پایین</span><span><i style="background:${C_OK};border-radius:50%"></i>نرمال</span><span>نقطه‌ی پررنگ = آخرین نمونه</span></div>
+    ${shown.length ? `<div class="trg">${shown.map(t => trCard(t, shown.length === 1)).join('')}</div>` : '<div class="empty">هیچ آزمایشی برای نمودار انتخاب نشده است.</div>'}`;
+}
+
+function trView() {
+  if (TR.pid !== sel) { TR.pid = sel; TR.pick = null; }
+  const ds = labDates();
+  const cats = Object.entries(CATS).map(([k, v]) => `<option value="${k}" ${TR.cat === k ? 'selected' : ''}>${esc(v[0])}</option>`).join('');
+  const chk = (id, on, lbl) => `<label class="tck"><input type="checkbox" id="${id}" ${on ? 'checked' : ''}> ${lbl}</label>`;
+  return `<div class="trbar">
+    <div class="row">
+      <div class="seg"><button type="button" class="${TR.mode === 'table' ? 'on' : ''}" data-a="trmode" data-m="table">📊 جدول</button><button type="button" class="${TR.mode === 'chart' ? 'on' : ''}" data-a="trmode" data-m="chart">📈 نمودار</button></div>
+      <input type="search" id="trq" placeholder="جستجوی آزمایش…" value="${esc(TR.q)}" autocomplete="off">
+      <select id="trc"><option value="">همه‌ی دسته‌ها</option>${cats}</select>
+    </div>
+    <div class="row">
+      ${chk('trm', TR.multi, 'حداقل ۲ نمونه')}${chk('trp', TR.pin, '⭐ پنل من')}${chk('tra', TR.abn, 'فقط غیرطبیعی (آخرین نمونه)')}
+      ${TR.mode === 'table' ? chk('trn', TR.newest, 'جدیدترین ستون اول') : chk('trr', TR.real, 'مقیاس زمانی واقعی')}
+      <span class="trs">${ds.length ? `${fa(ds.length)} تاریخ نمونه‌گیری · ${fd(ds[0], 1)} تا ${fd(ds[ds.length - 1], 1)}` : ''}</span>
+    </div>
+  </div>
+  <div id="trBody">${trBody()}</div>`;
+}
+
+function trRefresh() { const b = Q('#trBody'); if (b) b.innerHTML = trBody(); }
+
+document.addEventListener('input', e => {
+  if (e.target.id === 'trq') { TR.q = e.target.value; TR.pick = null; trRefresh(); }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (!t.id || !/^tr[a-z]$/.test(t.id) && t.id !== 'trq' && t.id !== 'trc') return;
+  if (t.id === 'trc') TR.cat = t.value;
+  else if (t.id === 'trm') TR.multi = t.checked;
+  else if (t.id === 'trp') TR.pin = t.checked;
+  else if (t.id === 'tra') TR.abn = t.checked;
+  else if (t.id === 'trn') TR.newest = t.checked;
+  else if (t.id === 'trr') TR.real = t.checked;
+  else return;
+  TR.pick = null;
+  trRefresh();
+});
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a^="tr"]');
+  if (!b || !M) return;
+  const a = b.dataset.a;
+  if (a === 'trmode') { TR.mode = b.dataset.m; render(); }
+  else if (a === 'trrow') { TR.mode = 'chart'; TR.pick = new Set([b.dataset.t]); render(); window.scrollTo(0, 0); }
+  else if (a === 'trpick') {
+    if (!TR.pick) TR.pick = trAuto(trTests());
+    TR.pick.has(b.dataset.t) ? TR.pick.delete(b.dataset.t) : TR.pick.add(b.dataset.t);
+    trRefresh();
+  }
+  else if (a === 'trauto') { TR.pick = null; trRefresh(); }
+  else if (a === 'trall') { TR.pick = new Set(trTests().map(t => t.id)); trRefresh(); }
+  else if (a === 'trabn') { TR.pick = new Set(trTests().filter(t => ['H', 'L'].includes(trLast(t).f)).map(t => t.id)); trRefresh(); }
+  else if (a === 'trnone') { TR.pick = new Set(); trRefresh(); }
+});
+
+/* =========================================================================
+   ۱۵. ذخیره خودکار چندلایه
+   لایه ۱: localStorage (همان قبلی)  ·  لایه ۲: آینه‌ی IndexedDB با بازیابی خودکار
+   لایه ۳: فایل پشتیبانِ خودکار روی دیسک (Chrome/Edge دسکتاپ)
+   کلیدهای API عمداً در هیچ‌کدام از این لایه‌ها کپی نمی‌شوند.
+   ========================================================================= */
+var AS = { on: false, t: null, busy: false, again: false, last: 0, err: '', handle: null, perm: false, dbP: null };
+const AS_SKIP = new Set(['apikey', 'key_cleared', 'model', 'model_verified', 'endpoint_mode']);
+
+function asDb() {
+  if (!AS.dbP) AS.dbP = new Promise((res, rej) => {
+    try {
+      const r = indexedDB.open('lab-notebook-autosave', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('kv');
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
+    } catch (e) { rej(e); }
+  });
+  return AS.dbP;
+}
+async function asGet(k) {
+  const db = await asDb();
+  return new Promise((res, rej) => { const q = db.transaction('kv').objectStore('kv').get(k); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); });
+}
+async function asPut(k, v) {
+  const db = await asDb();
+  return new Promise((res, rej) => { const tx = db.transaction('kv', 'readwrite'); tx.objectStore('kv').put(v, k); tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); tx.onabort = () => rej(tx.error); });
+}
+async function asDel(k) {
+  const db = await asDb();
+  return new Promise((res, rej) => { const tx = db.transaction('kv', 'readwrite'); tx.objectStore('kv').delete(k); tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); });
+}
+
+function asSnapshot() {
+  const o = {};
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith(P)) o[k] = localStorage.getItem(k);
+    }
+  } catch (e) { /* localStorage در دسترس نیست؛ از MEM استفاده می‌شود */ }
+  MEM.forEach((v, k) => { if (k.startsWith(P) && !(k in o)) o[k] = v; });
+  Object.keys(o).forEach(k => { if (AS_SKIP.has(k.slice(P.length))) delete o[k]; });
+  return o;
+}
+
+function asTouch(k) {
+  if (!window.AS || !AS.on) return;
+  if (AS_SKIP.has(k)) return;
+  clearTimeout(AS.t);
+  AS.t = setTimeout(asFlush, 700);
+}
+
+async function asWriteFile() {
+  if (!idx.length) return;
+  const w = await AS.handle.createWritable();
+  await w.write(JSON.stringify(buildBackup(), null, 1));
+  await w.close();
+}
+
+async function asFlush() {
+  clearTimeout(AS.t); AS.t = null;
+  if (AS.busy) { AS.again = true; return; }
+  AS.busy = true;
+  try {
+    try { await asPut('snapshot', { at: Date.now(), data: asSnapshot() }); AS.err = ''; } catch (e) { AS.err = 'idb'; }
+    if (AS.handle && AS.perm) {
+      try { await asWriteFile(); } catch (e) { AS.perm = false; }
+    }
+    AS.last = Date.now();
+    asStatus();
+  } finally {
+    AS.busy = false;
+    if (AS.again) { AS.again = false; asTouch('again'); }
+  }
+}
+
+function asStatus() {
+  const box = Q('#asBox');
+  if (!box) return;
+  const tm = AS.last ? new Date(AS.last).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }) : '';
+  const sup = typeof window.showSaveFilePicker === 'function';
+  let h = `<div><span class="asd ${AS.err ? 'w' : ''}"></span><b>ذخیره خودکار فعال</b>${tm ? ' · ' + tm : ''}</div>`;
+  if (AS.err) h += '<div>⚠ حافظه‌ی پشتیبان مرورگر در دسترس نیست؛ فقط ذخیره‌ی معمولی کار می‌کند.</div>';
+  if (!sup) h += '<div>ذخیره‌ی خودکار در فایل فقط در Chrome/Edge دسکتاپ ممکن است؛ این‌جا از «پشتیبان‌گیری» استفاده کن.</div>';
+  else if (!AS.handle) h += '<button type="button" class="btn" data-a="asfile">📁 ذخیره خودکار در فایل</button>';
+  else if (AS.perm) h += `<div>📁 <span dir="ltr">${esc(AS.handle.name)}</span> ✓</div><button type="button" class="btn" data-a="asoff">قطع ذخیره در فایل</button>`;
+  else h += `<div>📁 <span dir="ltr">${esc(AS.handle.name)}</span> — نیاز به تأیید دوباره</div><button type="button" class="btn" data-a="asperm">🔓 فعال‌سازی مجدد</button>`;
+  box.innerHTML = h;
+}
+
+async function asPickFile() {
+  if (typeof window.showSaveFilePicker !== 'function') return toast('این مرورگر از ذخیره‌ی خودکار در فایل پشتیبانی نمی‌کند');
+  try {
+    const h = await window.showSaveFilePicker({ suggestedName: 'lab-notebook-autosave.json', types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }] });
+    AS.handle = h; AS.perm = true;
+    try { await asPut('handle', h); } catch (e) { /* فقط برای بازگشت پس از بستن صفحه لازم است */ }
+    await asFlush();
+    toast('ذخیره‌ی خودکار در فایل فعال شد ✓');
+  } catch (e) {
+    if (e && e.name !== 'AbortError') toast('انتخاب فایل ممکن نشد؛ احتمالاً صفحه داخل یک قاب محدود باز شده است');
+  }
+}
+async function asResume() {
+  try {
+    AS.perm = (await AS.handle.requestPermission({ mode: 'readwrite' })) === 'granted';
+    if (AS.perm) { await asFlush(); toast('ذخیره در فایل دوباره فعال شد ✓'); } else toast('اجازه‌ی نوشتن داده نشد');
+  } catch (e) { toast('فعال‌سازی ممکن نشد'); }
+  asStatus();
+}
+async function asOff() {
+  AS.handle = null; AS.perm = false;
+  try { await asDel('handle'); } catch (e) {}
+  asStatus();
+  toast('ذخیره در فایل قطع شد');
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a^="as"]');
+  if (!b) return;
+  const a = b.dataset.a;
+  if (a === 'asfile') asPickFile();
+  else if (a === 'asperm') asResume();
+  else if (a === 'asoff') asOff();
+});
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && AS.t) asFlush(); });
+window.addEventListener('pagehide', () => { if (AS.t) asFlush(); });
+
+async function asBoot() {
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}
+  let rec = null;
+  try { rec = await asGet('snapshot'); } catch (e) { AS.err = 'idb'; }
+  let exists = false;
+  try { exists = localStorage.getItem(P + 'idx') != null; } catch (e) { exists = MEM.has(P + 'idx'); }
+  /* اگر حافظه‌ی مرورگر پاک شده ولی آینه‌ی IndexedDB سالم است، خودکار بازیابی کن */
+  if (!exists && rec && rec.data && rec.data[P + 'idx']) {
+    Object.entries(rec.data).forEach(([k, v]) => {
+      if (typeof v !== 'string' || !k.startsWith(P) || AS_SKIP.has(k.slice(P.length))) return;
+      MEM.set(k, v);
+      try { localStorage.setItem(k, v); } catch (e) {}
+    });
+    idx = ld('idx', []); sel = ld('sel', null);
+    if (!idx.includes(sel)) sel = idx[idx.length - 1] || null;
+    PN = pins(); TS = tests();
+    if (sel) openPatient(sel); else { M = null; render(); }
+    side();
+    toast('اطلاعات از ذخیره‌ی خودکار مرورگر بازیابی شد ✓');
+  }
+  try {
+    const h = await asGet('handle');
+    if (h && typeof h.queryPermission === 'function') {
+      AS.handle = h;
+      AS.perm = (await h.queryPermission({ mode: 'readwrite' })) === 'granted';
+    }
+  } catch (e) {}
+  AS.on = true;
+  asStatus();
+  asTouch('boot');
+}
+
+/* =========================================================================
+   ۱۶. تب «اسناد و تصاویر»: شرح حال، اوردر، سونو، سی‌تی، مشاوره و…
+   عکس → Gemini → متن قابل ویرایش + خلاصه + نوع و تاریخ سند (ذخیره‌ی خودکار برای هر بیمار)
+   ========================================================================= */
+const DT = [['hist', 'شرح حال'], ['order', 'اوردر پزشکی'], ['sono', 'سونوگرافی'], ['ct', 'سی‌تی‌اسکن'], ['mri', 'MRI'], ['xray', 'رادیوگرافی'], ['ecg', 'نوار قلب'], ['consult', 'مشاوره'], ['dc', 'ترخیص / خلاصه پرونده'], ['rx', 'نسخه'], ['other', 'سایر']];
+const DTN = Object.fromEntries(DT);
+const DX = { f: 'all', q: '', merge: false, rd: true, ord: ld('autoord', true) };
+let DOCS = [], DQ = [], dcT = null, DOCS_PID = null;
+
+function dcSaveNow() {
+  clearTimeout(dcT); dcT = null;
+  if (DOCS_PID) sv('doc/' + DOCS_PID, DOCS);
+}
+function dcSaveSoon() { clearTimeout(dcT); dcT = setTimeout(dcSaveNow, 400); }
+function dcFlush() { try { if (dcT) dcSaveNow(); } catch (e) {} }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') dcFlush(); });
+window.addEventListener('pagehide', dcFlush);
+
+function dcCopyText(t, okMsg) {
+  const a = document.createElement('textarea');
+  a.value = t; a.readOnly = true;
+  a.style.cssText = 'position:fixed;opacity:0;top:0;left:-9999px';
+  document.body.appendChild(a);
+  a.select(); a.setSelectionRange(0, t.length);
+  try {
+    if (document.execCommand('copy')) toast(okMsg || 'کپی شد');
+    else if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(() => toast(okMsg || 'کپی شد'), () => toast('کپی نشد'));
+    else toast('کپی نشد');
+  } catch (e) { toast('کپی نشد'); }
+  a.remove();
+}
+
+function makeThumb(url) {
+  return new Promise(res => {
+    const im = new Image();
+    im.onload = () => {
+      try {
+        const s = Math.min(1, 420 / Math.max(im.width, im.height, 1));
+        const c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(im.width * s));
+        c.height = Math.max(1, Math.round(im.height * s));
+        const x = c.getContext('2d');
+        x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+        x.drawImage(im, 0, 0, c.width, c.height);
+        res(c.toDataURL('image/jpeg', 0.55));
+      } catch (e) { res(''); }
+    };
+    im.onerror = () => res('');
+    im.src = url;
+  });
+}
+
+function docView() {
+  const opts = DT.map(([k, l]) => `<option value="${k}">${l}</option>`).join('');
+  const fopts = DT.map(([k, l]) => `<option value="${k}" ${DX.f === k ? 'selected' : ''}>${l}</option>`).join('');
+  return `<section class="sec" style="margin-top:12px">
+  <div class="sh"><span class="dot" style="background:#b8336a"></span>افزودن سند از روی عکس <small>شرح حال، اوردر، سونو، سی‌تی، مشاوره، نوار قلب، ترخیص…</small></div>
+  <div class="card">
+    <label class="dropzone" id="dcDrop" for="dcIn" style="margin-top:0">
+      <b>📷 برای انتخاب عکس از گالری یا فایل اینجا کلیک کنید</b>
+      <small>یا بکشید و رها کنید · یا Ctrl+V بزنید · چند عکس هم می‌شود</small>
+    </label>
+    <div class="row" style="margin-top:10px">
+      <label class="btn" for="dcCam" style="margin:0">📸 گرفتن عکس با دوربین</label>
+      <button type="button" class="btn" data-a="dcpaste">📋 چسباندن عکس</button>
+      <select id="dcType" aria-label="نوع سند"><option value="auto">نوع سند: تشخیص خودکار</option>${opts}</select>
+    </div>
+    <div style="margin-top:8px;font-size:13px;display:flex;flex-wrap:wrap;gap:4px 14px">
+      <label class="tck"><input type="checkbox" id="dcMerge" ${DX.merge ? 'checked' : ''}> همه‌ی عکس‌ها = یک سند چندصفحه‌ای</label>
+      <label class="tck"><input type="checkbox" id="dcDateChk" ${DX.rd ? 'checked' : ''}> تاریخ را از روی سند بخوان</label>
+      <label class="tck"><input type="checkbox" id="dcAutoOrd" ${DX.ord ? 'checked' : ''}> اوردرها را خودکار جایگزین اوردرهای همان تاریخ کن</label>
+    </div>
+    <div class="dcq" id="dcQueue">${dcQHtml()}</div>
+    <div style="font-size:12px;color:var(--mut);margin-top:8px">عکس مستقیم به API گوگل فرستاده می‌شود. نام، کد ملی، تلفن و آدرس بیمار از متن استخراج‌شده حذف می‌شود، ولی بهتر است در خود عکس هم پوشانده شود. متن خوانده‌شده را حتماً با عکس مقایسه کن؛ دست‌خط ممکن است اشتباه خوانده شود.</div>
+  </div>
+  </section>
+  <section class="sec">
+    <div class="sh"><span class="dot" style="background:#2a8f9d"></span>اسناد ثبت‌شده <small id="dcCount"></small></div>
+    <div class="row" style="margin-bottom:8px">
+      <input type="search" id="dcSearch" placeholder="جستجو در عنوان و متن اسناد…" value="${esc(DX.q)}" autocomplete="off">
+      <select id="dcFilter"><option value="all">همه‌ی انواع</option>${fopts}</select>
+    </div>
+    <div id="dcList">${docList()}</div>
+  </section>`;
+}
+
+function docList() {
+  const q = DX.q.trim().toLowerCase();
+  const L = DOCS.filter(x => (DX.f === 'all' || x.type === DX.f) && (!q || (x.title + ' ' + x.summary + ' ' + x.text).toLowerCase().includes(q)))
+    .sort((a, b) => a.d < b.d ? 1 : a.d > b.d ? -1 : (b.at || 0) - (a.at || 0));
+  const c = Q('#dcCount');
+  if (c) c.textContent = DOCS.length ? fa(L.length) + ' از ' + fa(DOCS.length) : '';
+  if (!DOCS.length) return '<div class="empty">هنوز سندی برای این بیمار ثبت نشده است.<br>عکس شرح حال، اوردر، سونوگرافی، سی‌تی یا مشاوره را بالا اضافه کن.</div>';
+  if (!L.length) return '<div class="empty">موردی پیدا نشد.</div>';
+  return L.map(docCard).join('');
+}
+
+function docCard(x) {
+  const typeSel = DT.map(([k, l]) => `<option value="${k}" ${k === x.type ? 'selected' : ''}>${l}</option>`).join('');
+  const act = x.type === 'order'
+    ? `<button type="button" class="btn" data-a="dcord" data-did="${x.id}">${x.ordApplied ? '🔁 جایگزینی دوباره اوردرهای ' + fd(x.d, 1) : '🔁 جایگزینی اوردرهای همان تاریخ'}</button>`
+    : x.type === 'hist'
+    ? `<button type="button" class="btn" data-a="dchx" data-did="${x.id}" ${x.hxApplied ? 'disabled' : ''}>${x.hxApplied ? '✓ در فرم شرح حال ثبت شد' : '📋 ریختن در فرم شرح حال'}</button>`
+    : `<button type="button" class="btn" data-a="dcnote" data-did="${x.id}" ${x.noteApplied ? 'disabled' : ''}>${x.noteApplied ? '✓ به سیر بیماری اضافه شد' : '➕ افزودن به سیر بیماری همان تاریخ'}</button>`;
+  return `<div class="dcc" data-did="${x.id}">
+    <div class="dch">
+      ${x.thumb ? `<img class="dcimg" src="${x.thumb}" alt="" data-a="dczoom" title="بزرگ‌نمایی">` : ''}
+      <div class="dcf">
+        <div class="row" style="margin:0">
+          <select data-dk="type" aria-label="نوع سند">${typeSel}</select>
+          <input data-dk="d" dir="ltr" value="${fd(x.d, 1)}" style="max-width:120px" aria-label="تاریخ سند" autocomplete="off">
+          ${x.pages > 1 ? `<small style="color:var(--mut)">${fa(x.pages)} صفحه</small>` : ''}
+        </div>
+        <input data-dk="title" value="${esc(x.title)}" placeholder="عنوان" aria-label="عنوان" autocomplete="off">
+      </div>
+    </div>
+    <label>خلاصه<textarea data-dk="summary" rows="2">${esc(x.summary)}</textarea></label>
+    <label>متن کامل (قابل ویرایش)<textarea data-dk="text" rows="6">${esc(x.text)}</textarea></label>
+    <div class="row" style="margin:0">
+      ${act}
+      <button type="button" class="btn" data-a="dccopy" data-did="${x.id}">کپی متن</button>
+      <button type="button" class="btn" data-a="dcdel" data-did="${x.id}" style="color:var(--bad);margin-inline-start:auto">حذف</button>
+    </div>
+  </div>`;
+}
+
+function dcRefresh() { const b = Q('#dcList'); if (b) b.innerHTML = docList(); }
+
+/* صف پردازش */
+function dcQHtml() {
+  return DQ.map(q => `<div class="dcqi ${q.cls || ''}"><div style="flex:1;min-width:0"><b>${esc(q.name)}</b> — ${esc(q.msg)}${q.raw ? `<pre class="raw-err" dir="ltr">${esc(q.raw)}</pre>` : ''}</div>${q.cls === 'err' ? `<button type="button" class="btn" data-a="dcqx" data-did="${q.id}" style="padding:2px 9px">✕</button>` : ''}</div>`).join('');
+}
+function dcQ(id, name, msg, cls, raw) {
+  const i = DQ.findIndex(q => q.id === id);
+  const o = { id, name, msg, cls, raw };
+  if (i < 0) DQ.push(o); else DQ[i] = o;
+  const el = Q('#dcQueue');
+  if (el) el.innerHTML = dcQHtml();
+}
+function dcQDrop(id, delay) {
+  setTimeout(() => { DQ = DQ.filter(q => q.id !== id); const el = Q('#dcQueue'); if (el) el.innerHTML = dcQHtml(); }, delay || 0);
+}
+
+/* خواندن سند با Gemini */
+function dcPrompt(force) {
+  const types = DT.map(x => x[0]).join(' | ');
+  const forced = force && force !== 'auto' && DTN[force] ? `The user says this document is of type "${force}" (${DTN[force]}); use that type.` : `Choose the best "type" from: ${types}.`;
+  return `You are a careful medical-records transcriber. The image(s) show a clinical document (printed or handwritten, Persian and/or English): admission history / patient history, physician orders, ultrasound / CT / MRI / X-ray report, consultation note, ECG report, discharge summary, prescription, etc. If there are several images they are consecutive pages of ONE document.
+
+Rules:
+- Transcribe faithfully into "text": keep the original language (Persian stays Persian; English terms, drug names, abbreviations and doses stay exactly as written), keep line structure, numbers, units and dates. Write [؟] for any word you cannot read. NEVER guess, correct clinically, or add anything that is not on the page.
+- Omit the patient's name, national ID / file number, phone and address from "text" (replace with [حذف شد]). Keep age and sex.
+- ${forced}
+- "date": the document / report / order date exactly as printed (digits, e.g. 1405/09/02 or 2026-11-23), or null.
+- "title": short Persian title (e.g. «سونوگرافی شکم و لگن»، «اوردرهای روز دوم بستری»).
+- "summary": 1-3 short Persian sentences: for imaging the key findings and impression; for orders the main plan/changes; for consults the consultant's opinion and recommendations; for history the chief complaint and key points.
+- "hx": ONLY when type is "hist": object with any of these keys (Persian text, omit keys that are empty): cc (chief complaint), hpi (history of present illness), pmh (past medical history), drug (current drugs), alg (allergies), psh (past surgeries), fh (family history), sh (habits / occupation).
+
+Reply with ONLY this JSON: {"type":string,"date":string|null,"title":string,"summary":string,"text":string,"hx":object|null}`;
+}
+
+async function dcRead(infos, key, force, onStatus) {
+  const parts = infos.map(i => ({ inlineData: { mimeType: i.mimeType || 'image/jpeg', data: i.data } }));
+  parts.push({ text: dcPrompt(force) });
+  let res;
+  try {
+    res = await sendOcrRequest(key, getModel(), parts, 12000);
+  } catch (err) {
+    if (isModelError(err)) {
+      onStatus?.('در حال یافتن مدل فعال…');
+      const dd = await discoverWorkingModel(key, cleanModel(getModel()), onStatus);
+      onStatus?.(`ارسال با ${dd.model}…`);
+      res = await sendOcrRequest(key, dd.model, parts, 12000);
+    } else throw err;
+  }
+  const fin = res.data?.candidates?.[0]?.finishReason || '';
+  const txt = extractText(res.data);
+  if (['SAFETY', 'PROHIBITED_CONTENT', 'BLOCKLIST', 'RECITATION'].includes(fin)) throw makeApiError(422, `Blocked by model filter (finishReason: ${fin})`, res.endpoint.label);
+  if (!txt) throw makeApiError(422, `Empty output (finishReason: ${fin || '?'})`, res.endpoint.label);
+  try { return parseJsonSafe(txt); }
+  catch (pe) { throw makeApiError(422, `Incomplete JSON (finishReason: ${fin || '?'}): ${pe.message}`, res.endpoint.label); }
+}
+
+const dcS = v => Array.isArray(v) ? v.map(dcS).join('\n') : (v && typeof v === 'object') ? Object.values(v).map(dcS).join('\n') : String(v ?? '');
+
+function dcAdd(pid, doc) {
+  if (pid === sel) {
+    DOCS.unshift(doc);
+    sv('doc/' + pid, DOCS);
+    const list = Q('#dcList');
+    if (list) {
+      if (DX.f === 'all' && !DX.q.trim() && !list.querySelector('.empty')) list.insertAdjacentHTML('afterbegin', docCard(doc));
+      else list.innerHTML = docList();
+      const c = Q('#dcCount'); if (c) c.textContent = fa(DOCS.length) + ' از ' + fa(DOCS.length);
+    }
+  } else {
+    const a = ld('doc/' + pid, []);
+    a.unshift(doc);
+    sv('doc/' + pid, a);
+  }
+}
+
+async function docImgs(files) {
+  if (!M || !sel) return toast('اول یک بیمار انتخاب کن');
+  const key = getKey();
+  if (!key) { kopen(); toast('ابتدا کلید API را وارد کنید'); return; }
+  const list = [...files].filter(f => f && (!f.type || f.type.startsWith('image/')));
+  if (!list.length) return toast('لطفاً فایل عکس انتخاب کنید');
+  const pid = sel, force = Q('#dcType')?.value || 'auto', rd = DX.rd, d0 = today();
+  const groups = DX.merge && list.length > 1 ? [list] : list.map(f => [f]);
+  for (let gi = 0; gi < groups.length; gi++) {
+    const g = groups[gi], qid = uid();
+    const name = g.length > 1 ? `${fa(g.length)} صفحه` : (g[0].name || 'عکس ' + fa(gi + 1));
+    dcQ(qid, name, 'در حال فشرده‌سازی…', 'busy');
+    try {
+      const infos = [];
+      for (const f of g) infos.push(await shrink(f, 2000));
+      dcQ(qid, name, 'در حال خواندن با Gemini…', 'busy');
+      const o = await dcRead(infos, key, force, m => dcQ(qid, name, m, 'busy'));
+      const thumb = await makeThumb(infos[0].previewUrl);
+      const type = DTN[force] ? force : (DTN[o.type] ? o.type : 'other');
+      const d = (rd && pdate(o.date)) || d0;
+      let hx = null;
+      if (type === 'hist' && o.hx && typeof o.hx === 'object') {
+        hx = {};
+        HX.forEach(([k]) => { const v = dcS(o.hx[k]).trim(); if (v) hx[k] = v; });
+      }
+      const text = dcS(o.text).trim();
+      if (!text) throw makeApiError(422, 'Empty transcription', '');
+      const docObj = {
+        id: uid(), d, type, title: dcS(o.title || DTN[type]).trim(), summary: dcS(o.summary).trim(),
+        text, thumb, pages: g.length, at: Date.now(), hx
+      };
+      let ordDone = false;
+      if (type === 'order' && DX.ord) ordDone = dcApplyOrders(docObj, pid);
+      dcAdd(pid, docObj);
+      dcQ(qid, name, `✅ ${DTN[type]} · ${fd(d, 1)} ثبت شد` + (ordDone ? ' و اوردرهای آن روز جایگزین شد' : ''), 'ok');
+      dcQDrop(qid, 4000);
+    } catch (e) {
+      dcQ(qid, name, diagnoseErrorFa(e), 'err', formatRawErr(e));
+    }
+  }
+}
+
+function dcApplyHx(x) {
+  const h = x.hx || {}, nh = { ...(M.hx || {}) };
+  let n = 0;
+  HX.forEach(([k]) => {
+    const v = String(h[k] || '').trim();
+    if (!v) return;
+    const old = String(nh[k] || '').trim();
+    nh[k] = old ? (old.includes(v) ? old : old + '\n' + v) : v;
+    n++;
+  });
+  if (!n) {
+    const old = String(nh.hpi || '').trim();
+    nh.hpi = old ? old + '\n' + x.text : x.text;
+  }
+  M = { ...M, hx: nh };
+  sv('p/' + sel, M);
+  x.hxApplied = true;
+  dcSaveNow(); dcRefresh();
+  toast(n ? 'در فرم شرح حال ثبت شد' : 'ساختار مشخصی پیدا نشد؛ متن در «شرح حال بیماری فعلی» اضافه شد');
+}
+
+function dcApplyOrders(x, pid) {
+  pid = pid || sel;
+  const txt = String(x.text || '').trim();
+  if (!txt) return false;
+  const cur = pid === sel;
+  const base = cur ? M : meta(pid);
+  if (!base) return false;
+  const notes = { ...(base.notes || {}) }, n = { ...(notes[x.d] || {}) };
+  n.orders = txt;
+  notes[x.d] = n;
+  const nm = { ...base, notes };
+  if (cur) M = nm;
+  sv('p/' + pid, nm);
+  x.ordApplied = true;
+  return true;
+}
+
+function dcApplyNote(x) {
+  const notes = { ...(M.notes || {}) }, n = { ...(notes[x.d] || {}) };
+  const ttl = x.title && x.title !== DTN[x.type] ? ' — ' + x.title : '';
+  const add = x.type === 'order' ? 'اوردر: ' + x.text.trim() : DTN[x.type] + ttl + ': ' + (x.summary || x.text).trim();
+  const old = String(n.plan || '').trim();
+  n.plan = old ? old + '\n' + add : add;
+  notes[x.d] = n;
+  M = { ...M, notes };
+  sv('p/' + sel, M);
+  x.noteApplied = true;
+  dcSaveNow(); dcRefresh();
+  toast('به سیر بیماری ' + fd(x.d) + ' اضافه شد');
+}
+
+async function dcPasteBtn() {
+  if (!M) return toast('اول یک بیمار انتخاب کن');
+  if (!navigator.clipboard || typeof navigator.clipboard.read !== 'function') return toast('لطفاً Ctrl+V را فشار دهید');
+  try {
+    const items = await navigator.clipboard.read();
+    const files = [];
+    let k = 1;
+    for (const it of items) {
+      const t = it.types.find(x => x.startsWith('image/'));
+      if (t) files.push(new File([await it.getType(t)], `pasted-doc-${k++}.${t.split('/')[1] || 'png'}`, { type: t }));
+    }
+    if (!files.length) return toast('عکسی در کلیپ‌بورد نیست');
+    docImgs(files);
+  } catch (e) { toast('مرورگر اجازه خواندن خودکار نداد — Ctrl+V بزنید'); }
+}
+
+/* رویدادها */
+document.addEventListener('input', e => {
+  const el = e.target;
+  if (el.id === 'dcSearch') { DX.q = el.value; dcRefresh(); return; }
+  const k = el.dataset && el.dataset.dk, card = el.closest && el.closest('.dcc');
+  if (!k || !card || !['title', 'summary', 'text'].includes(k)) return;
+  const x = DOCS.find(v => v.id === card.dataset.did);
+  if (!x) return;
+  x[k] = el.value;
+  dcSaveSoon();
+});
+
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.id === 'dcIn' || t.id === 'dcCam') {
+    const fs = [...(t.files || [])];
+    t.value = '';
+    if (fs.length) docImgs(fs);
+  } else if (t.id === 'dcFilter') { DX.f = t.value; dcRefresh(); }
+  else if (t.id === 'dcMerge') DX.merge = t.checked;
+  else if (t.id === 'dcDateChk') DX.rd = t.checked;
+  else if (t.id === 'dcAutoOrd') { DX.ord = t.checked; sv('autoord', t.checked); }
+  else if (t.dataset && (t.dataset.dk === 'type' || t.dataset.dk === 'd')) {
+    const card = t.closest('.dcc'), x = card && DOCS.find(v => v.id === card.dataset.did);
+    if (!x) return;
+    if (t.dataset.dk === 'type') {
+      x.type = DTN[t.value] ? t.value : 'other';
+      dcSaveNow(); dcRefresh();
+    } else {
+      const iso = pdate(t.value);
+      if (iso) { x.d = iso; dcSaveNow(); dcRefresh(); }
+      else { toast('تاریخ نامعتبر است (مثال: ۱۴۰۵/۰۹/۰۲)'); t.value = fd(x.d, 1); }
+    }
+  }
+});
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a^="dc"]');
+  if (!b || !M) return;
+  const a = b.dataset.a, id = b.dataset.did, x = id ? DOCS.find(v => v.id === id) : null;
+  if (a === 'dcpaste') dcPasteBtn();
+  else if (a === 'dczoom') b.classList.toggle('big');
+  else if (a === 'dcqx') { DQ = DQ.filter(q => q.id !== id); const el = Q('#dcQueue'); if (el) el.innerHTML = dcQHtml(); }
+  else if (!x) return;
+  else if (a === 'dccopy') dcCopyText(`${DTN[x.type]} · ${fd(x.d)}${x.title ? ' · ' + x.title : ''}\n${x.text}`, 'متن سند کپی شد');
+  else if (a === 'dchx') dcApplyHx(x);
+  else if (a === 'dcnote') dcApplyNote(x);
+  else if (a === 'dcord') { if (dcApplyOrders(x)) { dcSaveNow(); dcRefresh(); toast('اوردرهای ' + fd(x.d) + ' جایگزین شد (تب شرح حال)'); } }
+  else if (a === 'dcdel') {
+    if (b.dataset.sure) {
+      DOCS = DOCS.filter(v => v.id !== id);
+      dcSaveNow(); dcRefresh();
+      toast('سند حذف شد');
+    } else {
+      b.dataset.sure = '1';
+      b.textContent = 'تأیید حذف؟';
+      setTimeout(() => { if (b.isConnected) { delete b.dataset.sure; b.textContent = 'حذف'; } }, 3000);
+    }
+  }
+});
+
+['dragover', 'drop'].forEach(ev => window.addEventListener(ev, e => {
+  if (!e.dataTransfer || ![...(e.dataTransfer.types || [])].includes('Files')) return;
+  if (e.target.closest && e.target.closest('#dcDrop,#qdrop')) return;
+  e.preventDefault();
+}));
+
+const dcZone = e => e.target && e.target.closest ? e.target.closest('#dcDrop') : null;
+['dragenter', 'dragover'].forEach(ev => document.addEventListener(ev, e => {
+  const z = dcZone(e); if (!z) return;
+  e.preventDefault(); z.classList.add('drag');
+}));
+['dragleave', 'drop'].forEach(ev => document.addEventListener(ev, e => {
+  const z = dcZone(e); if (!z) return;
+  e.preventDefault(); z.classList.remove('drag');
+  if (ev === 'drop') {
+    const fs = [...(e.dataTransfer?.files || [])].filter(f => !f.type || f.type.startsWith('image/'));
+    if (fs.length) docImgs(fs); else toast('لطفاً فقط فایل عکس رها کنید');
+  }
+}));
+
+
+/* =========================================================================
+   ۱۷. تب «تحلیل هوشمند»: Gemini کل پرونده (شرح حال، سیر، آزمایش‌ها، اسناد) را می‌خواند
+   و خلاصه بالینی، مشکلات، یافته‌های مهم، موارد نیازمند توجه و ملاحظات پیگیری می‌نویسد.
+   نام و شماره پرونده بیمار ارسال نمی‌شود.
+   ========================================================================= */
+const AX = { busy: false, focus: '', full: true };
+const AI_SEC = [['summary', 'خلاصه بالینی', 'p'], ['problems', 'فهرست مشکلات', 'l'], ['findings', 'یافته‌های مهم و روند‌ها', 'l'], ['attention', 'نیازمند توجه · ناسازگاری‌ها · داده‌های ناقص', 'l'], ['suggestions', 'ملاحظات پیشنهادی برای پیگیری', 'l']];
+const jdate = iso => { const [y, m, d] = i2j(iso); return y + '/' + String(m).padStart(2, '0') + '/' + String(d).padStart(2, '0'); };
+
+function aiContext(full) {
+  const age = M.by ? i2j(today())[0] - M.by : null;
+  const L = [`PATIENT: ${age != null ? age + ' years old' : 'age unknown'}, ${M.sex === 'm' ? 'male' : 'female'}${M.blood ? ', blood group ' + M.blood : ''}. Today (Jalali): ${jdate(today())}.`];
+  const st = { labs: 0, docs: 0, notes: 0, hx: 0 };
+  if (M.note) { L.push('DIAGNOSIS / NOTE: ' + M.note); st.hx++; }
+  const hxL = [];
+  HX.forEach(([k, l]) => { const v = String((M.hx || {})[k] || '').trim(); if (v) { hxL.push(`${l}: ${v}`); st.hx++; } });
+  if (hxL.length) L.push('\nHISTORY:\n' + hxL.join('\n'));
+  const nd = Object.keys(M.notes || {}).filter(isValidIso).sort();
+  const nL = [];
+  nd.forEach(d => {
+    const n = M.notes[d], v = VT.filter(([k]) => String(n[k] || '').trim()).map(([k, l, u, p, c]) => c + ' ' + String(n[k]).trim()).join(' | ');
+    const parts = [];
+    if (v) parts.push('Vitals: ' + v);
+    if (String(n.exam || '').trim()) parts.push('Exam: ' + n.exam.trim());
+    if (String(n.orders || '').trim()) parts.push('Physician orders: ' + n.orders.trim());
+    if (String(n.plan || '').trim()) parts.push('Course/Plan: ' + n.plan.trim());
+    if (parts.length) { nL.push(`[${jdate(d)}] ` + parts.join(' ; ')); st.notes++; }
+  });
+  if (nL.length) L.push('\nDAILY COURSE NOTES:\n' + nL.join('\n'));
+  const lL = [];
+  TS.forEach(t => {
+    const s = trSer(t);
+    if (!s.length) return;
+    const r = rng(t, M.sex);
+    const ref = r.lo != null || r.hi != null ? `${r.lo ?? ''}-${r.hi ?? ''}` : 'no ref';
+    const pts = s.slice(-12).map(p => { const f = flag(p.v, r); return `${jdate(p.d)}=${fq(t, p.v)}${f === 'H' ? '(H)' : f === 'L' ? '(L)' : ''}`; }).join(', ');
+    lL.push(`${t.code} (${t.name}, ${t.unit || '-'}, ref ${ref}): ${pts}`);
+    st.labs++;
+  });
+  if (lL.length) L.push('\nLAB RESULTS (oldest to newest, H/L = outside reference):\n' + lL.join('\n'));
+  const dL = DOCS.slice().sort((a, b) => a.d < b.d ? -1 : 1).map(x => {
+    st.docs++;
+    return `[${DTN[x.type] || x.type} ${jdate(x.d)}] ${x.title || ''}\nSummary: ${x.summary || '-'}${full ? '\nFull text:\n' + String(x.text || '').slice(0, 3500) : ''}`;
+  });
+  if (dL.length) L.push('\nDOCUMENTS (orders, imaging, consults, ...):\n' + dL.join('\n\n'));
+  let text = L.join('\n');
+  if (text.length > 90000) text = text.slice(0, 90000) + '\n[...truncated]';
+  return { text, st, count: st.labs + st.docs + st.notes + st.hx };
+}
+
+function aiPrompt(ctx, focus) {
+  return `You are a clinical decision-support assistant helping a physician review a patient's chart. Below is the chart (history, daily notes, lab trends, imaging/consult/order documents). Write in clear Persian (Farsi); keep drug names, lab codes and standard abbreviations in English.
+
+Rules:
+- Use ONLY the data given. Never invent values, dates, or findings. Cite dates (Jalali, as given) when you mention a finding or trend.
+- Do not state a definitive diagnosis; phrase as considerations ("در نظر گرفتن...", "احتمال...") for the physician to judge.
+- Prioritize safety: critical or worsening lab values, drug-lab or drug-drug concerns, contradictions between documents, results that were ordered but have no follow-up, and important missing information.
+- Be concise and specific. No generic advice.
+${focus ? `\nThe physician's focus / question: ${focus}\n` : ''}
+Reply with ONLY this JSON:
+{"summary": string (3-6 sentences clinical summary),
+ "problems": [string] (active problem list, most important first),
+ "findings": [string] (key lab/imaging/exam findings and trends, with dates),
+ "attention": [string] (urgent items, inconsistencies, missing data, possible interactions),
+ "suggestions": [string] (considerations for follow-up / next steps / tests to consider; answer the focus question here if given)}
+
+CHART:
+${ctx}`;
+}
+
+async function aiAsk(key, ctxText, focus) {
+  const parts = [{ text: aiPrompt(ctxText, focus) }];
+  let res;
+  try {
+    res = await sendOcrRequest(key, getModel(), parts, 12000);
+  } catch (err) {
+    if (isModelError(err)) {
+      const dd = await discoverWorkingModel(key, cleanModel(getModel()), m => aiStat(m, 'busy'));
+      res = await sendOcrRequest(key, dd.model, parts, 12000);
+    } else throw err;
+  }
+  const fin = res.data?.candidates?.[0]?.finishReason || '';
+  const txt = extractText(res.data);
+  if (['SAFETY', 'PROHIBITED_CONTENT', 'BLOCKLIST', 'RECITATION'].includes(fin)) throw makeApiError(422, `Blocked by model filter (finishReason: ${fin})`, res.endpoint.label);
+  if (!txt) throw makeApiError(422, `Empty output (finishReason: ${fin || '?'})`, res.endpoint.label);
+  try { return parseJsonSafe(txt); }
+  catch (pe) { throw makeApiError(422, `Incomplete JSON (finishReason: ${fin || '?'}): ${pe.message}`, res.endpoint.label); }
+}
+
+function aiNorm(o) {
+  const lst = v => (Array.isArray(v) ? v : String(v ?? '').split('\n')).map(x => dcS(x).trim()).filter(Boolean);
+  return { summary: dcS(o.summary).trim(), problems: lst(o.problems), findings: lst(o.findings), attention: lst(o.attention), suggestions: lst(o.suggestions) };
+}
+
+function aiStat(msg, cls, raw) {
+  const el = Q('#aiStatus');
+  if (!el) return;
+  el.innerHTML = msg ? `<div class="dcqi ${cls || ''}"><div style="flex:1;min-width:0">${esc(msg)}${raw ? `<pre class="raw-err" dir="ltr">${esc(raw)}</pre>` : ''}</div></div>` : '';
+}
+
+function aiOut(r) {
+  if (!r || !r.data) return '<div class="empty">هنوز تحلیلی انجام نشده است.<br>دکمه‌ی «تحلیل پرونده» را بزن.</div>';
+  const d = r.data, tm = new Date(r.at).toLocaleString('fa-IR', { dateStyle: 'medium', timeStyle: 'short' });
+  const s = r.n || {};
+  const body = AI_SEC.map(([k, l, ty]) => {
+    const v = d[k];
+    if (ty === 'p' ? !v : !(v && v.length)) return '';
+    return `<div class="aic"><b>${l}</b>${ty === 'p' ? `<p>${esc(v)}</p>` : `<ul>${v.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`}</div>`;
+  }).join('');
+  return `<div class="meta" style="margin:8px 0"><span>آخرین تحلیل: ${esc(tm)}</span><span>بر پایه‌ی ${fa(s.labs || 0)} آزمایش · ${fa(s.docs || 0)} سند · ${fa(s.notes || 0)} روز سیر بیماری</span><button type="button" class="btn" data-a="aicopy" style="margin-inline-start:auto">📋 کپی تحلیل</button></div>${body}
+  <div style="font-size:12px;color:var(--mut);margin-top:10px">⚠ این متن را هوش مصنوعی از روی داده‌های ثبت‌شده نوشته و ممکن است ناقص یا اشتباه باشد. فقط برای کمک به مرور پرونده است و تصمیم نهایی با پزشک.</div>`;
+}
+
+function aiView() {
+  const r = ld('ai/' + sel, null);
+  const nL = new Set(Object.values(R).flat().map(p => p.d)).size;
+  return `<section class="sec" style="margin-top:12px">
+  <div class="sh"><span class="dot" style="background:#7a5cc0"></span>تحلیل هوشمند پرونده <small>خلاصه بالینی، مشکلات، روندها و موارد نیازمند توجه</small></div>
+  <div class="card">
+    <label class="tck" style="flex-direction:column;align-items:stretch;gap:4px">تمرکز یا سؤال (اختیاری)
+      <textarea id="aiFocus" rows="2" placeholder="مثلاً: آیا برای ترخیص آماده است؟ / روند کلیه و داروهای نفروتوکسیک" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:7px 10px;background:#fff;resize:vertical">${esc(AX.focus)}</textarea></label>
+    <div style="margin-top:8px;font-size:13px"><label class="tck"><input type="checkbox" id="aiFull" ${AX.full ? 'checked' : ''}> متن کامل اسناد هم در تحلیل بیاید (دقیق‌تر، ولی کندتر)</label></div>
+    <div class="row" style="margin-top:10px"><button type="button" class="btn p" data-a="airun" ${AX.busy ? 'disabled' : ''}>🧠 تحلیل پرونده</button><span style="font-size:12px;color:var(--mut)">${fa(Object.keys(R).length)} آزمایش در ${fa(nL)} نمونه · ${fa(DOCS.length)} سند</span></div>
+    <div class="dcq" id="aiStatus"></div>
+    <div style="font-size:12px;color:var(--mut);margin-top:8px">داده‌های پرونده (بدون نام و شماره پرونده) برای تحلیل به API گوگل فرستاده می‌شود.</div>
+  </div></section>
+  <section class="sec"><div id="aiOut">${aiOut(r)}</div></section>`;
+}
+
+async function aiRun() {
+  if (!M || !sel || AX.busy) return;
+  const key = getKey();
+  if (!key) { kopen(); toast('ابتدا کلید API را وارد کنید'); return; }
+  const ctx = aiContext(AX.full);
+  if (!ctx.count) return toast('هنوز اطلاعاتی برای تحلیل ثبت نشده است');
+  const pid = sel;
+  AX.busy = true;
+  const btn = Q('[data-a="airun"]'); if (btn) btn.disabled = true;
+  aiStat('در حال تحلیل پرونده با Gemini… (ممکن است تا یک دقیقه طول بکشد)', 'busy');
+  try {
+    const o = await aiAsk(key, ctx.text, AX.focus.trim());
+    const rec = { at: Date.now(), data: aiNorm(o), n: ctx.st };
+    sv('ai/' + pid, rec);
+    if (TAB === 'ai' && sel === pid) { const out = Q('#aiOut'); if (out) out.innerHTML = aiOut(rec); }
+    aiStat('✅ تحلیل آماده شد', 'ok');
+    setTimeout(() => { if (!AX.busy) aiStat(''); }, 3500);
+  } catch (e) {
+    aiStat(diagnoseErrorFa(e), 'err', formatRawErr(e));
+  } finally {
+    AX.busy = false;
+    const b2 = Q('[data-a="airun"]'); if (b2) b2.disabled = false;
+  }
+}
+
+function aiCopy() {
+  const r = ld('ai/' + sel, null);
+  if (!r || !r.data) return;
+  const L = [`تحلیل پرونده — ${new Date(r.at).toLocaleDateString('fa-IR')}`];
+  AI_SEC.forEach(([k, l, ty]) => {
+    const v = r.data[k];
+    if (ty === 'p' ? !v : !(v && v.length)) return;
+    L.push('', l + ':');
+    if (ty === 'p') L.push(v); else v.forEach(x => L.push('- ' + x));
+  });
+  dcCopyText(L.join('\n'), 'تحلیل کپی شد');
+}
+
+document.addEventListener('input', e => { if (e.target.id === 'aiFocus') AX.focus = e.target.value; });
+document.addEventListener('change', e => { if (e.target.id === 'aiFull') AX.full = e.target.checked; });
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a="airun"],[data-a="aicopy"]');
+  if (!b || !M) return;
+  if (b.dataset.a === 'airun') aiRun(); else aiCopy();
+});
+
+/* شروع برنامه */
+initDefaultApiConfig();
+if (sel) openPatient(sel); else { M = null; render(); }
+side();
+ksync();
+asBoot();
+</script>
+</body>
+</html>
